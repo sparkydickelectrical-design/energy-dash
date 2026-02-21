@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <title>Energy Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="app-icon.png">
+</head>
+<body class="light-theme">
+    <div class="radial-dashboard">
+        <svg class="connections-layer" viewBox="0 0 400 400">
+            <line x1="200" y1="200" x2="200" y2="60" class="dash-line solar-flow" />
+            <line x1="200" y1="200" x2="330" y2="130" class="dash-line battery-flow" />
+            <line x1="200" y1="200" x2="330" y2="270" class="dash-line home-flow" />
+            <line x1="200" y1="200" x2="200" y2="340" class="dash-line charger-flow" />
+            <line x1="200" y1="200" x2="70" y2="270" class="dash-line hp-flow" />
+            <line x1="200" y1="200" x2="70" y2="130" class="dash-line grid-flow" />
+        </svg>
+
+        <div class="node center-node">
+            <div class="node-icon"><i data-lucide="zap"></i></div>
+            <div class="node-label">Energy</div>
+        </div>
+
+        <div class="node solar-node green-border">
+            <div class="node-label-ext">Solar</div>
+            <div class="node-icon"><i data-lucide="sun"></i></div>
+            <div class="node-value" id="solar-val">0.2 kW</div>
+        </div>
+
+        <div class="node battery-node grey-border">
+            <div class="node-label-ext">Battery</div>
+            <div class="node-icon"><i data-lucide="battery"></i></div>
+            <div class="node-value" id="batt-val">0 kW<br><span>82%</span></div>
+        </div>
+
+        <div class="node home-node blue-border">
+            <div class="node-icon"><i data-lucide="home"></i></div>
+            <div class="node-value" id="home-val">0.2 kW</div>
+            <div class="node-label-ext bottom">Home</div>
+        </div>
+
+        <div class="node charger-node green-border">
+            <div class="node-icon"><i data-lucide="car"></i></div>
+            <div class="node-value" id="charger-val">0 kW</div>
+            <div class="node-label-ext bottom">Charger</div>
+        </div>
+
+        <div class="node heatpump-node grey-border">
+            <div class="node-icon"><i data-lucide="fan"></i></div>
+            <div class="node-value" id="hp-val">0 kW</div>
+            <div class="node-label-ext bottom">Heat Pump</div>
+        </div>
+
+        <div class="node grid-node green-border">
+            <div class="node-label-ext">Grid</div>
+            <div class="node-icon"><i data-lucide="tower-control"></i></div>
+            <div class="node-value" id="grid-val">0 kW</div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+
+        function updateDashboard() {
+            // Simulated Data
+            const s = (0.1 + Math.random() * 0.3).toFixed(1);
+            const h = (0.2 + Math.random() * 0.1).toFixed(1);
+            
+            document.getElementById('solar-val').innerText = `${s} kW`;
+            document.getElementById('home-val').innerText = `${h} kW`;
+        }
+
+        setInterval(updateDashboard, 3000);
+        updateDashboard();
+    </script>
+</body>
+</html>

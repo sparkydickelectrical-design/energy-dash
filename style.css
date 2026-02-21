@@ -1,0 +1,86 @@
+:root {
+    --text-color: #333;
+    --border-grey: #e0e0e0;
+    --hub-green: #4caf50;
+    --hub-blue: #2196f3;
+}
+
+body {
+    background: #ffffff;
+    color: var(--text-color);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.radial-dashboard {
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+
+.node {
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    background: white;
+    border: 2px solid var(--border-grey);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.center-node {
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 105px; height: 105px;
+    border-color: #333;
+}
+
+/* Position satellite nodes around the hub */
+.solar-node { top: 0; left: 50%; transform: translateX(-50%); }
+.battery-node { top: 70px; right: 10px; }
+.home-node { bottom: 70px; right: 10px; }
+.charger-node { bottom: 0; left: 50%; transform: translateX(-50%); }
+.heatpump-node { bottom: 70px; left: 10px; }
+.grid-node { top: 70px; left: 10px; }
+
+.green-border { border-color: var(--hub-green); }
+.blue-border { border-color: var(--hub-blue); }
+
+.node-icon svg { width: 26px; height: 26px; color: #555; margin-bottom: 2px; }
+.node-label { font-size: 0.8rem; font-weight: 500; }
+.node-value { font-size: 0.85rem; font-weight: bold; }
+.node-value span { font-size: 0.7rem; color: #999; }
+
+.node-label-ext {
+    position: absolute;
+    top: -25px;
+    font-size: 0.8rem;
+    color: #777;
+}
+.node-label-ext.bottom { top: auto; bottom: -25px; }
+
+/* Animated Connection Lines */
+.connections-layer {
+    position: absolute;
+    width: 100%; height: 100%;
+}
+
+.dash-line {
+    stroke: #ddd;
+    stroke-width: 2;
+    stroke-dasharray: 6;
+    animation: flow 20s linear infinite;
+}
+
+@keyframes flow {
+    from { stroke-dashoffset: 200; }
+    to { stroke-dashoffset: 0; }
+}
