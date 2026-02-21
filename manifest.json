@@ -1,0 +1,16 @@
+{
+  "short_name": "EnergyHub",
+  "name": "Energy Hub Home Monitor",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html",
+  "background_color": "#0d0d0d",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#00e676"
+}
