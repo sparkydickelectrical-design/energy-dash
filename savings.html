@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings - PeakShaving</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="header-left">
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div id="weather-widget" class="weather-widget" onclick="toggleForecast()">
+                <i data-lucide="map-pin" class="weather-icon"></i>
+                <span id="weather-summary">Locating...</span>
+                <div id="forecast-drawer" class="forecast-drawer">
+                    <div id="forecast-content">Loading forecast...</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="savings.html" class="nav-item active">Energy Savings</a>
+        </div>
+    </nav>
+    <div style="padding: 50px; text-align: center; color: white;">
+        <i data-lucide="bar-chart-3" style="width: 48px; height: 48px; color: var(--hub-green);"></i>
+        <h2>Savings Reports</h2>
+        <p>Historical data tracking will appear here.</p>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function toggleForecast() { document.getElementById('forecast-drawer').classList.toggle('active'); }
+
+        async function fetchWeather(lat, lon) {
+            try {
+                const [wRes, gRes] = await Promise.all([
+                    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto&hourly=precipitation_probability`),
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                ]);
+                const wData = await wRes.json();
+                const gData = await gRes.json();
+                const temp = Math.round(wData.current_weather.temperature);
+                const wind = Math.round(wData.current_weather.windspeed);
+                const precip = wData.hourly.precipitation_probability[0];
+                const city = gData.address.city || gData.address.town || "Local Area";
+                const summary = `${city} | ${temp}°C | ${precip}% Rain | ${wind} km/h Wind`;
+                
+                let forecastHtml = '';
+                for(let i=1; i<=3; i++) {
+                    const date = new Date(wData.daily.time[i]).toLocaleDateString('en', {weekday: 'short'});
+                    const max = Math.round(wData.daily.temperature_2m_max[i]);
+                    const min = Math.round(wData.daily.temperature_2m_min[i]);
+                    forecastHtml += `<div class="forecast-day"><strong>${date}:</strong> ${max}° / ${min}°</div>`;
+                }
+
+                sessionStorage.setItem('peakWeatherSummary', summary);
+                sessionStorage.setItem('peakWeatherForecast', forecastHtml);
+                sessionStorage.setItem('peakWeatherTime', Date.now());
+                document.getElementById('weather-summary').innerText = summary;
+                document.getElementById('forecast-content').innerHTML = forecastHtml;
+            } catch (e) { document.getElementById('weather-summary').innerText = "Weather Unavailable"; }
+        }
+
+        function initWeather() {
+            const lastFetch = sessionStorage.getItem('peakWeatherTime');
+            const isExpired = lastFetch && (Date.now() - lastFetch > 1800000);
+            if(sessionStorage.getItem('peakWeatherSummary') && !isExpired) {
+                document.getElementById('weather-summary').innerText = sessionStorage.getItem('peakWeatherSummary');
+                document.getElementById('forecast-content').innerHTML = sessionStorage.getItem('peakWeatherForecast');
+            } else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => fetchWeather(pos.coords.latitude, pos.coords.longitude));
+            }
+        }
+        initWeather();
+    </script>
+</body>
+</html>

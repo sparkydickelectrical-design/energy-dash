@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PeakShaving Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="app-icon.png">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="header-left">
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div id="weather-widget" class="weather-widget" onclick="toggleForecast()">
+                <i data-lucide="map-pin" class="weather-icon"></i>
+                <span id="weather-summary">Locating...</span>
+                <div id="forecast-drawer" class="forecast-drawer">
+                    <div id="forecast-content">Loading forecast...</div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item active">Home</a>
+            <a href="savings.html" class="nav-item">Energy Savings</a>
+        </div>
+    </nav>
+
+    <header class="data-header">
+        <div class="data-box grid-box">
+            <span class="box-label">Energy Used from Grid</span>
+            <span class="box-value" id="top-grid">0.0 kW</span>
+        </div>
+        <div class="data-box renewable-box">
+            <span class="box-label">Energy Generated</span>
+            <span class="box-value" id="top-renew">0.0 kW</span>
+        </div>
+    </header>
+
+    <div class="radial-dashboard">
+        <svg class="connections-layer" viewBox="0 0 400 400">
+            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" id="line-solar" />
+            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" id="line-wind" />
+            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" id="line-battery" />
+            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" id="line-home" />
+            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" id="line-charger" />
+            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" id="line-hp" />
+            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" id="line-grid" />
+        </svg>
+
+        <div class="node center-node"><div class="node-icon"><i data-lucide="zap"></i></div><div class="node-label-inside">Energy Hub</div></div>
+        <div class="node solar-node"><div class="node-icon"><i data-lucide="sun"></i></div><div class="node-value" id="solar-val">0.0 kW</div><div class="node-label-bottom">Solar</div></div>
+        <div class="node wind-node"><div class="node-icon"><i data-lucide="wind"></i></div><div class="node-value" id="wind-val">0.0 kW</div><div class="node-label-bottom">Wind</div></div>
+        <div class="node battery-node"><div class="node-icon"><i data-lucide="battery"></i></div><div class="node-value" id="batt-val">0.0 kW</div><div class="node-label-bottom">Battery</div></div>
+        <div class="node home-node blue-border"><div class="node-icon"><i data-lucide="home"></i></div><div class="node-value" id="home-val">0.0 kW</div><div class="node-label-bottom">Home</div></div>
+        <div class="node charger-node green-border"><div class="node-icon"><i data-lucide="car"></i></div><div class="node-value" id="ev-val">0.0 kW</div><div class="node-label-bottom">Charger</div></div>
+        <div class="node heatpump-node"><div class="node-icon"><i data-lucide="thermometer"></i></div><div class="node-value" id="hp-val">0.0 kW</div><div class="node-label-bottom">Heat Pump</div></div>
+        <div class="node grid-node green-border"><div class="node-icon"><i data-lucide="tower-control"></i></div><div class="node-value" id="grid-val">0.0 kW</div><div class="node-label-bottom">Grid</div></div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleForecast() { document.getElementById('forecast-drawer').classList.toggle('active'); }
+
+        async function fetchWeather(lat, lon) {
+            try {
+                const [wRes, gRes] = await Promise.all([
+                    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto&hourly=precipitation_probability`),
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                ]);
+                const wData = await wRes.json();
+                const gData = await gRes.json();
+                
+                const temp = Math.round(wData.current_weather.temperature);
+                const wind = Math.round(wData.current_weather.windspeed);
+                const precip = wData.hourly.precipitation_probability[0];
+                const city = gData.address.city || gData.address.town || "Local Area";
+                const summary = `${city} | ${temp}°C | ${precip}% Rain | ${wind} km/h Wind`;
+
+                let forecastHtml = '';
+                for(let i=1; i<=3; i++) {
+                    const date = new Date(wData.daily.time[i]).toLocaleDateString('en', {weekday: 'short'});
+                    const max = Math.round(wData.daily.temperature_2m_max[i]);
+                    const min = Math.round(wData.daily.temperature_2m_min[i]);
+                    forecastHtml += `<div class="forecast-day"><strong>${date}:</strong> ${max}° / ${min}°</div>`;
+                }
+
+                sessionStorage.setItem('peakWeatherSummary', summary);
+                sessionStorage.setItem('peakWeatherForecast', forecastHtml);
+                sessionStorage.setItem('peakWeatherTime', Date.now());
+
+                document.getElementById('weather-summary').innerText = summary;
+                document.getElementById('forecast-content').innerHTML = forecastHtml;
+            } catch (e) { document.getElementById('weather-summary').innerText = "Weather Unavailable"; }
+        }
+
+        function initWeather() {
+            const lastFetch = sessionStorage.getItem('peakWeatherTime');
+            const isExpired = lastFetch && (Date.now() - lastFetch > 1800000); // 30 mins
+
+            if(sessionStorage.getItem('peakWeatherSummary') && !isExpired) {
+                document.getElementById('weather-summary').innerText = sessionStorage.getItem('peakWeatherSummary');
+                document.getElementById('forecast-content').innerHTML = sessionStorage.getItem('peakWeatherForecast');
+            } else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => fetchWeather(pos.coords.latitude, pos.coords.longitude));
+            }
+        }
+
+        function updateDashboard() {
+            const solar = Math.random() * 4.5;
+            const wind = Math.random() * 2.0;
+            const home = 0.6 + Math.random() * 0.4;
+            const ev = Math.random() > 0.7 ? 7.2 : 0.0;
+            const hp = 0.8 + Math.random() * 1.5;
+            const battery = Math.random() * 2.0;
+            const generated = solar + wind;
+            const totalLoad = home + ev + hp;
+            const grid = Math.max(0, totalLoad - (generated + battery));
+
+            document.getElementById('solar-val').innerText = `${solar.toFixed(1)} kW`;
+            document.getElementById('wind-val').innerText = `${wind.toFixed(1)} kW`;
+            document.getElementById('home-val').innerText = `${home.toFixed(1)} kW`;
+            document.getElementById('ev-val').innerText = `${ev.toFixed(1)} kW`;
+            document.getElementById('hp-val').innerText = `${hp.toFixed(1)} kW`;
+            document.getElementById('grid-val').innerText = `${grid.toFixed(1)} kW`;
+            document.getElementById('batt-val').innerText = `${battery.toFixed(1)} kW`;
+            document.getElementById('top-grid').innerText = `${grid.toFixed(1)} kW`;
+            document.getElementById('top-renew').innerText = `${generated.toFixed(1)} kW`;
+
+            updateLine('line-solar', solar);
+            updateLine('line-wind', wind);
+            updateLine('line-home', home);
+            updateLine('line-charger', ev);
+            updateLine('line-grid', grid);
+        }
+
+        function updateLine(id, val) {
+            const el = document.getElementById(id);
+            if(!el) return;
+            el.style.opacity = val > 0 ? "1" : "0.1";
+            el.style.animationDuration = val > 0 ? (12/val).toFixed(1) + "s" : "0s";
+        }
+
+        initWeather();
+        setInterval(initWeather, 600000); // Check for refresh every 10 mins
+        setInterval(updateDashboard, 3000);
+        updateDashboard();
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+    </script>
+</body>
+</html>
