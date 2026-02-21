@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PeakShave Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="app-icon.png">
+</head>
+<body>
+    <div class="radial-dashboard">
+        <svg class="connections-layer" viewBox="0 0 380 380">
+            <line x1="190" y1="190" x2="190" y2="40" class="dash-line" id="line-solar" />
+            <line x1="190" y1="190" x2="330" y2="100" class="dash-line" id="line-battery" />
+            <line x1="190" y1="190" x2="330" y2="280" class="dash-line" id="line-home" />
+            <line x1="190" y1="190" x2="190" y2="340" class="dash-line" id="line-charger" />
+            <line x1="190" y1="190" x2="50" y2="280" class="dash-line" id="line-hp" />
+            <line x1="190" y1="190" x2="50" y2="100" class="dash-line" id="line-grid" />
+        </svg>
+
+        <div class="node center-node">
+            <div class="node-icon"><i data-lucide="zap"></i></div>
+            <div class="node-label">Energy</div>
+        </div>
+
+        <div class="node solar-node">
+            <div class="node-label">Solar</div>
+            <div class="node-icon"><i data-lucide="sun"></i></div>
+            <div class="node-value" id="solar-val">0.0 kW</div>
+        </div>
+
+        <div class="node battery-node">
+            <div class="node-label">Battery</div>
+            <div class="node-icon"><i data-lucide="battery"></i></div>
+            <div class="node-value" id="batt-val">0 kW<br><span id="batt-perc">82%</span></div>
+        </div>
+
+        <div class="node home-node blue-border">
+            <div class="node-label">Home</div>
+            <div class="node-icon"><i data-lucide="home"></i></div>
+            <div class="node-value" id="home-val">0.0 kW</div>
+        </div>
+
+        <div class="node charger-node green-border">
+            <div class="node-label">Charger</div>
+            <div class="node-icon"><i data-lucide="car"></i></div>
+            <div class="node-value" id="ev-val">0.0 kW</div>
+        </div>
+
+        <div class="node heatpump-node">
+            <div class="node-label">Heat Pump</div>
+            <div class="node-icon"><i data-lucide="fan"></i></div>
+            <div class="node-value" id="hp-val">0.0 kW</div>
+        </div>
+
+        <div class="node grid-node green-border">
+            <div class="node-label">Grid</div>
+            <div class="node-icon"><i data-lucide="tower-control"></i></div>
+            <div class="node-value" id="grid-val">0.0 kW</div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function updateDashboard() {
+            const solar = (Math.random() * 5.0).toFixed(1);
+            const home = (0.3 + Math.random() * 0.5).toFixed(1);
+            const ev = (Math.random() > 0.7 ? 7.2 : 0.0).toFixed(1);
+            const hp = (0.5 + Math.random() * 1.2).toFixed(1);
+            const battery = (Math.random() * 2.5).toFixed(1);
+            const batteryPerc = (75 + Math.random() * 10).toFixed(0);
+
+            const totalLoad = parseFloat(home) + parseFloat(ev) + parseFloat(hp);
+            const totalGen = parseFloat(solar) + parseFloat(battery);
+            const grid = (totalLoad - totalGen).toFixed(1);
+
+            document.getElementById('solar-val').innerText = `${solar} kW`;
+            document.getElementById('batt-val').innerHTML = `${battery} kW<br><span>${batteryPerc}%</span>`;
+            document.getElementById('home-val').innerText = `${home} kW`;
+            document.getElementById('ev-val').innerText = `${ev} kW`;
+            document.getElementById('hp-val').innerText = `${hp} kW`;
+            document.getElementById('grid-val').innerText = `${grid} kW`;
+
+            updateLine('line-solar', solar);
+            updateLine('line-home', home);
+            updateLine('line-charger', ev);
+            updateLine('line-hp', hp);
+        }
+
+        function updateLine(id, value) {
+            const line = document.getElementById(id);
+            const speed = value > 0 ? (15 / value).toFixed(1) : 0;
+            line.style.animationDuration = speed > 0 ? `${speed}s` : '0s';
+            line.style.opacity = value > 0 ? '1' : '0.2';
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        setInterval(updateDashboard, 3000);
+        updateDashboard();
+    </script>
+</body>
+</html>
