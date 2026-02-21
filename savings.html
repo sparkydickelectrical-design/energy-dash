@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Savings - PeakShaving</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="savings.html" class="nav-item active">Energy Savings</a>
+            </div>
+        </div>
+        <div id="weather-widget" class="weather-bar" onclick="toggleForecast()">
+            <i data-lucide="map-pin" class="weather-icon"></i>
+            <span id="weather-summary">Locating...</span>
+            <div id="forecast-drawer" class="forecast-drawer">
+                <div id="forecast-content">Loading forecast...</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="savings-container">
+        <h2 class="section-title">Financial Impact</h2>
+        
+        <div class="savings-grid">
+            <div class="savings-card gold-border">
+                <i data-lucide="pound-sterling" class="card-icon"></i>
+                <span class="card-label">Estimated Savings</span>
+                <span class="card-value" id="money-saved">£0.00</span>
+                <span class="card-subtext">Based on £0.28/kWh</span>
+            </div>
+
+            <div class="savings-card green-border">
+                <i data-lucide="leaf" class="card-icon"></i>
+                <span class="card-label">CO2 Avoided</span>
+                <span class="card-value" id="co2-saved">0.00 kg</span>
+                <span class="card-subtext">Clean energy offset</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Efficiency Analytics</h2>
+        <div class="analytics-card">
+            <div class="stat-row">
+                <span>Self-Sufficiency</span>
+                <span id="sufficiency-val" class="stat-highlight">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div id="sufficiency-bar" class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <p class="analytics-hint">Covering <strong><span id="hint-percent">0%</span></strong> of load with renewables.</p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleForecast() { document.getElementById('forecast-drawer').classList.toggle('active'); }
+
+        function initWeather() {
+            const summary = sessionStorage.getItem('peakWeatherSummary');
+            if(summary) {
+                document.getElementById('weather-summary').innerText = summary;
+                document.getElementById('forecast-content').innerHTML = sessionStorage.getItem('peakWeatherForecast');
+            }
+        }
+
+        function updateSavings() {
+            // Retrieve values from hub or simulate if not present
+            const gen = parseFloat(sessionStorage.getItem('liveGen')) || (Math.random() * 5);
+            const load = parseFloat(sessionStorage.getItem('liveLoad')) || (Math.random() * 2);
+            
+            // 1. Financial Conversion
+            const pricePerKwh = 0.28;
+            document.getElementById('money-saved').innerText = `£${(gen * pricePerKwh).toFixed(2)}`;
+            
+            // 2. Environmental Conversion
+            document.getElementById('co2-saved').innerText = `${(gen * 0.193).toFixed(2)} kg`;
+
+            // 3. Self-Sufficiency Calculation
+            // Ratio of generated energy to home load
+            const pct = Math.min(100, Math.round((gen / (gen + load)) * 100));
+            document.getElementById('sufficiency-val').innerText = `${pct}%`;
+            document.getElementById('sufficiency-bar').style.width = `${pct}%`;
+            document.getElementById('hint-percent').innerText = `${pct}%`;
+        }
+
+        initWeather();
+        updateSavings();
+        setInterval(updateSavings, 3000);
+    </script>
+</body>
+</html>
