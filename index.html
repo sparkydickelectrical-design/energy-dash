@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Energy Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <div class="status-group">
+                <span class="status-dot"></span>
+                <h1>Energy Hub</h1>
+            </div>
+            <div class="time" id="clock">00:00</div>
+        </header>
+
+        <div class="energy-flow-container">
+            <svg viewBox="0 0 200 200" class="flow-svg">
+                <circle cx="100" cy="100" r="25" fill="#1a1a1a" stroke="#444" stroke-width="2" />
+                <text x="100" y="105" font-family="Arial" font-size="20" text-anchor="middle" fill="white">🏠</text>
+                
+                <path d="M 100 20 L 100 75" stroke="#00e676" stroke-width="2" fill="none" class="flow-line" />
+                <circle r="3" fill="#00e676" class="particle">
+                    <animateMotion dur="2s" repeatCount="indefinite" path="M 100 20 L 100 75" />
+                </circle>
+
+                <path d="M 30 140 L 80 115" stroke="#00e676" stroke-width="2" fill="none" class="flow-line" />
+                <circle r="3" fill="#00e676" class="particle">
+                    <animateMotion dur="3s" repeatCount="indefinite" path="M 30 140 L 80 115" />
+                </circle>
+
+                <path d="M 120 115 L 170 140" stroke="#29b6f6" stroke-width="2" fill="none" class="flow-line" />
+                <circle r="3" fill="#29b6f6" class="particle">
+                    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 120 115 L 170 140" />
+                </circle>
+            </svg>
+        </div>
+
+        <main class="grid-container">
+            <div class="card solar">
+                <h3><i data-lucide="sun"></i> SOLAR PRODUCTION</h3>
+                <div class="value" id="solar-val">5.4 <span>kW</span></div>
+                <div class="subtext">Peak: 6.8 kW</div>
+            </div>
+
+            <div class="card wind">
+                <h3><i data-lucide="wind"></i> WIND GENERATION</h3>
+                <div class="value" id="wind-val">3.3 <span>kW</span></div>
+                <div class="subtext">Turbine Active</div>
+            </div>
+
+            <div class="card battery">
+                <h3><i data-lucide="battery-charging"></i> PV BATTERY</h3>
+                <div class="battery-visual">
+                    <div class="fill" id="batt-fill" style="width: 82%;"></div>
+                </div>
+                <div class="value" id="batt-val">82%</div>
+            </div>
+
+            <div class="card ev">
+                <h3><i data-lucide="car"></i> EV CHARGING</h3>
+                <div class="value" id="ev-val">7.2 <span>kW</span></div>
+                <div class="subtext">Left: <span id="ev-time">2h 15m</span></div>
+            </div>
+
+            <div class="card heatpump">
+                <h3><i data-lucide="thermometer"></i> HEAT PUMP</h3>
+                <div class="value" id="hp-val">55<span>°C</span></div>
+                <div class="subtext">Storage: 80%</div>
+            </div>
+
+            <div class="card grid">
+                <h3><i data-lucide="zap"></i> GRID STATUS</h3>
+                <div class="value export" id="grid-val">-1.2 <span>kW</span></div>
+                <div class="subtext">Exporting Energy</div>
+            </div>
+
+            <div class="card savings full-width">
+                <h3><i data-lucide="piggy-bank"></i> TOTAL SAVINGS</h3>
+                <div class="value">£<span id="savings-val">12.45</span></div>
+                <div class="subtext">Estimated Daily Savings</div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        function updateDashboard() {
+            // Update Clock
+            const now = new Date();
+            document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+
+            // Fluctuate Data
+            const s = (5 + Math.random() * 0.4).toFixed(1);
+            const w = (3 + Math.random() * 0.8).toFixed(1);
+            document.getElementById('solar-val').innerHTML = `${s} <span>kW</span>`;
+            document.getElementById('wind-val').innerHTML = `${w} <span>kW</span>`;
+            
+            // Increment Savings
+            const currentSavings = parseFloat(document.getElementById('savings-val').innerText);
+            document.getElementById('savings-val').innerText = (currentSavings + 0.01).toFixed(2);
+        }
+
+        setInterval(updateDashboard, 3000);
+        updateDashboard();
+    </script>
+</body>
+</html>
