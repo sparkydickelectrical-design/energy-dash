@@ -1,0 +1,110 @@
+:root {
+    --text-color: #ffffff;
+    --bg-dark: #2c2c2c;
+    --border-grey: #555555;
+    --hub-green: #76c757;
+    --hub-blue: #4db8ff;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: -apple-system, system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Updated Nav for Side-to-Side Weather */
+.main-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0 10px 0;
+    box-sizing: border-box;
+}
+
+.nav-top {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.brand-logo { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
+.brand-logo span { color: var(--hub-green); font-weight: 400; }
+
+.weather-bar {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.weather-icon { width: 14px !important; color: var(--hub-blue); }
+
+.forecast-drawer {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(44, 44, 44, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-grey);
+    padding: 12px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    z-index: 200;
+}
+.forecast-drawer.active { display: block; }
+.forecast-day { font-size: 0.8rem; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.nav-links { display: flex; gap: 15px; }
+.nav-item { text-decoration: none; color: #999; font-size: 0.9rem; font-weight: 600; }
+.nav-item.active { color: var(--hub-blue); border-bottom: 2px solid var(--hub-blue); }
+
+/* Data Header Formatting Fix */
+.data-header { display: flex; gap: 12px; margin-top: 20px; margin-bottom: 30px; width: 90%; max-width: 450px; }
+.data-box { flex: 1; background: #ffffff; padding: 15px; border-radius: 12px; color: #333; display: flex; flex-direction: column; }
+.box-label { font-size: 0.7rem; color: #666; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+.box-value { font-size: 1.4rem; font-weight: 800; }
+
+.grid-box { border: 3px solid #ff5252; }
+.renewable-box { border: 3px solid var(--hub-green); }
+
+/* Enlarged Center Hub */
+.radial-dashboard { position: relative; width: 380px; height: 380px; }
+.node { position: absolute; width: 75px; height: 75px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #333; z-index: 2; }
+.large-hub { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 105px; height: 105px; border: 4px solid #444; }
+
+.node-label-bottom { position: absolute; bottom: -22px; width: 100px; text-align: center; font-size: 0.75rem; color: #ddd; font-weight: 600; }
+.node-label-inside { font-size: 0.85rem; font-weight: 700; margin-top: 4px; text-align: center; line-height: 1; }
+.node-value { font-size: 0.8rem; font-weight: 800; }
+
+.solar-node { top: 10px; left: 50%; transform: translateX(-50%); }
+.wind-node { top: 55px; right: 30px; }
+.battery-node { top: 175px; right: 10px; }
+.home-node { bottom: 25px; right: 80px; }
+.charger-node { bottom: 25px; left: 80px; }
+.heatpump-node { top: 175px; left: 10px; }
+.grid-node { top: 55px; left: 30px; }
+
+.blue-border { border: 3px solid var(--hub-blue); }
+.green-border { border: 3px solid var(--hub-green); }
+
+.connections-layer { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+.dash-line { stroke: #fff; stroke-width: 1.5; stroke-dasharray: 5; opacity: 0.2; animation: flow 10s linear infinite; }
+@keyframes flow { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
