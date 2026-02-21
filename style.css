@@ -1,0 +1,78 @@
+:root {
+    --text-color: #333;
+    --border-grey: #e0e0e0;
+    --hub-green: #4caf50;
+    --hub-blue: #2196f3;
+}
+
+body {
+    background: #ffffff;
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.radial-dashboard {
+    position: relative;
+    width: 380px;
+    height: 380px;
+}
+
+.node {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border: 2px solid var(--border-grey);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.center-node {
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; height: 100px;
+    border-color: #333;
+}
+
+/* Positions around the circle */
+.solar-node { top: 0; left: 50%; transform: translateX(-50%); }
+.battery-node { top: 60px; right: 10px; }
+.home-node { bottom: 60px; right: 10px; }
+.charger-node { bottom: 0; left: 50%; transform: translateX(-50%); }
+.heatpump-node { bottom: 60px; left: 10px; }
+.grid-node { top: 60px; left: 10px; }
+
+.green-border { border-color: var(--hub-green); }
+.blue-border { border-color: var(--hub-blue); }
+
+.node-icon svg { width: 24px; height: 24px; color: #555; }
+.node-label { font-size: 0.75rem; font-weight: 500; }
+.node-value { font-size: 0.8rem; font-weight: bold; text-align: center; }
+.node-value span { font-size: 0.7rem; color: #999; }
+
+.connections-layer {
+    position: absolute;
+    width: 100%; height: 100%;
+}
+
+.dash-line {
+    stroke: #ddd;
+    stroke-width: 1.5;
+    stroke-dasharray: 6;
+    animation: flow 15s linear infinite;
+}
+
+@keyframes flow {
+    from { stroke-dashoffset: 100; }
+    to { stroke-dashoffset: 0; }
+}
