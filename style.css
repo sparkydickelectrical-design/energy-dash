@@ -1,0 +1,105 @@
+:root {
+    --text-color: #ffffff;
+    --bg-dark: #2c2c2c;
+    --border-grey: #555555;
+    --hub-green: #76c757;
+    --hub-blue: #4db8ff;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-color);
+    font-family: -apple-system, system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.main-nav { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 15px 0 10px 0; box-sizing: border-box; }
+.nav-top { width: 90%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.brand-logo { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; }
+.brand-logo span { color: var(--hub-green); font-weight: 400; }
+.weather-bar { width: 90%; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: #ccc; background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 8px; cursor: pointer; position: relative; box-sizing: border-box; }
+.nav-links { display: flex; gap: 15px; }
+.nav-item { text-decoration: none; color: #999; font-size: 0.9rem; font-weight: 600; }
+.nav-item.active { color: var(--hub-blue); border-bottom: 2px solid var(--hub-blue); }
+
+.data-header { display: flex; gap: 12px; margin-top: 20px; margin-bottom: 30px; width: 90%; max-width: 450px; }
+.data-box { flex: 1; background: #ffffff; padding: 15px; border-radius: 12px; color: #333; display: flex; flex-direction: column; }
+.box-label { font-size: 0.7rem; color: #666; font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+.box-value { font-size: 1.4rem; font-weight: 800; }
+.grid-box { border: 3px solid #ff5252; }
+.renewable-box { border: 3px solid var(--hub-green); }
+
+.radial-dashboard { position: relative; width: 380px; height: 380px; }
+.node { position: absolute; width: 75px; height: 75px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #333; z-index: 2; }
+.large-hub { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 110px; height: 110px; border: 4px solid #444; }
+.node-label-bottom { position: absolute; bottom: -22px; width: 100px; text-align: center; font-size: 0.75rem; color: #ddd; font-weight: 600; }
+.node-label-inside { font-size: 0.9rem; font-weight: 700; margin-top: 4px; text-align: center; line-height: 1; }
+.node-value { font-size: 0.8rem; font-weight: 800; }
+
+.solar-node { top: 10px; left: 50%; transform: translateX(-50%); }
+.wind-node { top: 55px; right: 30px; }
+.battery-node { top: 175px; right: 10px; }
+.home-node { bottom: 25px; right: 80px; }
+.charger-node { bottom: 25px; left: 80px; }
+.heatpump-node { top: 175px; left: 10px; }
+.grid-node { top: 55px; left: 30px; }
+
+.blue-border { border: 3px solid var(--hub-blue); }
+.green-border { border: 3px solid var(--hub-green); }
+
+.connections-layer { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+.dash-line { stroke: #fff; stroke-width: 1.5; stroke-dasharray: 5; opacity: 0.2; animation: flow 10s linear infinite; }
+@keyframes flow { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
+
+.forecast-drawer { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(44,44,44,0.98); border: 1px solid var(--border-grey); padding: 12px; border-radius: 0 0 10px 10px; z-index: 200; box-sizing: border-box; }
+.forecast-drawer.active { display: block; }
+.forecast-day { font-size: 0.8rem; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+/* --- AMENDMENT: DAILY ENERGY SECTION STYLING --- */
+.daily-energy-container { width: 90%; max-width: 450px; margin: 40px 0; padding-bottom: 40px; }
+.daily-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.daily-title { font-size: 1.4rem; font-weight: 800; color: white; margin: 0; }
+.analytics-icon { color: #888; width: 20px; height: 20px; }
+
+.battery-card-main { background: white; border-radius: 28px; padding: 25px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin-bottom: 15px; }
+.battery-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
+.battery-icon-row { display: flex; gap: 10px; margin-bottom: 5px; }
+.icon-bolt { width: 14px; height: 14px; color: #14b8a6; }
+.icon-dim { width: 14px; height: 14px; color: #e2e8f0; }
+.battery-main-label { font-size: 1.1rem; font-weight: 800; margin: 0; }
+.battery-sub-label { font-size: 0.8rem; color: #94a3b8; margin: 2px 0 0 0; }
+
+.battery-gauge { position: relative; width: 75px; height: 75px; display: flex; align-items: center; justify-content: center; }
+.circular-chart { transform: rotate(-90deg); width: 100%; height: 100%; }
+.circle-bg { fill: none; stroke: #f1f5f9; stroke-width: 3.5; }
+.circle { fill: none; stroke: #14b8a6; stroke-width: 3.5; stroke-linecap: round; }
+.gauge-percentage { position: absolute; font-size: 1.1rem; font-weight: 700; }
+.gauge-percentage small { font-size: 0.6rem; margin-left: 1px; }
+
+.battery-stats-row { display: flex; border-top: 1px solid #f1f5f9; pt-20px; padding-top: 20px; }
+.stat-item { flex: 1; text-align: center; display: flex; flex-direction: column; }
+.stat-divider-vertical { width: 1px; background: #f1f5f9; margin: 0 10px; }
+.stat-item-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; }
+.stat-item-value { font-size: 1.3rem; font-weight: 800; color: #1e293b; }
+.stat-item-value small { font-size: 0.7rem; font-weight: 500; color: #94a3b8; }
+
+.metrics-grid-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-col-left, .grid-col-right { display: flex; flex-direction: column; gap: 12px; }
+
+.metric-card-white { background: white; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.metric-icon-circle { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.metric-icon-circle i { width: 18px; height: 18px; }
+
+.bg-sun { background: #fff7ed; color: #f97316; }
+.bg-home { background: #f0fdfa; color: #14b8a6; }
+.bg-wind { background: #eff6ff; color: #3b82f6; }
+.bg-grid { background: #f8fafc; color: #64748b; }
+
+.metric-content { display: flex; flex-direction: column; }
+.metric-v { font-size: 1.1rem; font-weight: 800; color: #1e293b; line-height: 1.1; }
+.metric-v small { font-size: 0.65rem; font-weight: 500; color: #94a3b8; }
+.metric-l { font-size: 0.7rem; font-weight: 600; color: #94a3b8; }
