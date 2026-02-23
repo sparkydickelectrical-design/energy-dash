@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Energy Savings | PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="stylesheet" href="style.css?v=2.3">
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div class="brand-logo">PeakShaving <span class="hide-mobile">Energy Hub</span></div>
             <div class="nav-links">
                 <a href="index.html" class="nav-item">Home</a>
-                <a href="savings.html" class="nav-item active">Energy Savings</a>
+                <a href="savings.html" class="nav-item active">Savings</a>
             </div>
         </div>
     </nav>
@@ -75,24 +75,18 @@
 
     <script>
         lucide.createIcons();
-
         function calculateSavings() {
-            // Pulling data from index.html session storage
             const importDay = parseFloat(sessionStorage.getItem('importDay')) || 0;
             const importNight = parseFloat(sessionStorage.getItem('importNight')) || 0;
-            const solarGen = parseFloat(sessionStorage.getItem('solarTotal')) || 3.41; // Fallback to 3.41
-
+            const solarGen = parseFloat(sessionStorage.getItem('solarTotal')) || 3.41;
             const dayRate = 0.285; 
             const nightRate = 0.075;
-            
             const estimatedSaved = (importNight * (dayRate - nightRate)) + (solarGen * dayRate);
             const co2 = (solarGen * 0.2); 
-
             document.getElementById('total-savings').innerText = `£${estimatedSaved.toFixed(2)}`;
             document.getElementById('cost-avoided').innerText = `£${(importNight * (dayRate - nightRate)).toFixed(2)}`;
             document.getElementById('co2-saved').innerHTML = `${co2.toFixed(1)} <small>kg</small>`;
         }
-
         calculateSavings();
         setInterval(calculateSavings, 5000);
     </script>
