@@ -23,68 +23,23 @@
         <div class="summary-box green"><div class="label">ENERGY GENERATED</div><div class="value">0.0 kW</div></div>
     </div>
 
-    <div class="hub-wrapper">
-        <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
-        <svg class="lines-svg">
-            <line class="hub-line" x1="50%" y1="50%" x2="50%" y2="15%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="85%" y2="40%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="85%" y2="65%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="65%" y2="85%" />
-            <line class="hub-line" id="charger-path" x1="50%" y1="50%" x2="35%" y2="85%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="15%" y2="65%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="15%" y2="40%" />
-        </svg>
-        <div class="spoke n-solar"><i data-lucide="sun"></i><div class="v">2.8 kW</div><div class="l">Solar</div></div>
-        <div class="spoke n-wind"><i data-lucide="wind"></i><div class="v">0.0 kW</div><div class="l">Wind</div></div>
-        <div class="spoke n-grid"><i data-lucide="transmission-tower"></i><div class="v">0.0 kW</div><div class="l">Grid</div></div>
-        <div class="spoke n-battery"><i data-lucide="battery"></i><div class="v">0.0 kW</div><div class="l">Battery</div></div>
-        <div class="spoke n-heat"><i data-lucide="thermometer"></i><div class="v">0.0 kW</div><div class="l">Heat Pump</div></div>
-        <div class="spoke n-home"><i data-lucide="home"></i><div class="v">0.0 kW</div><div class="l">Home</div></div>
-        <div id="charger-node" class="spoke n-charger"><i data-lucide="car"></i><div class="v" id="live-kw">---</div><div class="l">Charger</div></div>
+    <div class="hub-container">
+        <div class="hub-wrapper">
+            <svg class="lines-svg" viewBox="0 0 400 400">
+                <line class="hub-line" x1="200" y1="200" x2="200" y2="50" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="130" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="260" y2="350" /> <line class="hub-line" id="charger-path" x1="200" y1="200" x2="140" y2="350" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="130" /> </svg>
+
+            <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
+            
+            <div class="spoke n-solar"><i data-lucide="sun"></i><div class="v">2.8 kW</div><div class="l">Solar</div></div>
+            <div class="spoke n-wind"><i data-lucide="wind"></i><div class="v">0.0 kW</div><div class="l">Wind</div></div>
+            <div class="spoke n-grid"><i data-lucide="transmission-tower"></i><div class="v">0.0 kW</div><div class="l">Grid</div></div>
+            <div class="spoke n-battery"><i data-lucide="battery"></i><div class="v">0.0 kW</div><div class="l">Battery</div></div>
+            <div class="spoke n-heat"><i data-lucide="thermometer"></i><div class="v">0.0 kW</div><div class="l">Heat Pump</div></div>
+            <div class="spoke n-home"><i data-lucide="home"></i><div class="v">0.0 kW</div><div class="l">Home</div></div>
+            <div id="charger-node" class="spoke n-charger"><i data-lucide="car"></i><div class="v" id="live-kw">---</div><div class="l">Charger</div></div>
+        </div>
     </div>
 
     <div class="section-header">Daily Energy <i data-lucide="trending-up"></i></div>
     <div class="daily-card">
         <div class="daily-top">
-            <div class="icons"><i data-lucide="zap"></i> <i data-lucide="thermometer"></i> <i data-lucide="droplets"></i></div>
-            <div class="title">Battery Charging</div>
-            <div class="ring">20.0%</div>
-        </div>
-        <div class="daily-details">
-            <p>Remaining Energy 1.00kWh</p>
-            <p>Charged 0.70 kWh</p>
-            <p>Discharged 0.40 kWh</p>
-        </div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-item"><i data-lucide="sun" class="orange"></i> <strong>3.41<span>kWh</span></strong><small>Solar Produced</small></div>
-        <div class="stat-item border-left-blue"><i data-lucide="moon"></i> <strong>2.10<span>kWh</span></strong><small>Grid Night Rate</small></div>
-        <div class="stat-item"><i data-lucide="home" class="green"></i> <strong>8.88<span>kWh</span></strong><small>Home Consumed</small></div>
-        <div class="stat-item border-left-orange"><i data-lucide="sun"></i> <strong>3.69<span>kWh</span></strong><small>Grid Day Rate</small></div>
-        <div class="stat-item"><i data-lucide="wind" class="blue"></i> <strong>2.50<span>kWh</span></strong><small>Wind Produced</small></div>
-        <div class="stat-item"><i data-lucide="arrow-up-right"></i> <strong>0.10<span>kWh</span></strong><small>Grid Exported</small></div>
-    </div>
-
-    <script>
-        lucide.createIcons();
-        async function updateLive() {
-            try {
-                const res = await fetch('http://192.168.1.103:5000/api/live');
-                const data = await res.json();
-                if(data.online) {
-                    const kw = data.incomer_kw.toFixed(1) + " kW";
-                    document.getElementById('live-kw').innerText = kw;
-                    document.getElementById('grid-val').innerText = kw;
-                    if(data.is_charging) {
-                        document.getElementById('charger-node').style.borderColor = "#4ade80";
-                        document.getElementById('charger-path').classList.add('active-flow');
-                    }
-                }
-            } catch (e) {}
-        }
-        setInterval(updateLive, 5000);
-        updateLive();
-    </script>
-</body>
-</html>
