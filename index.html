@@ -3,56 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ion Live Hub</title>
+    <title>Energy Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <nav class="main-nav">
-        <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Ion Live</span></div>
-        </div>
+        <div class="brand-logo">PeakShaving <span>Hub</span></div>
     </nav>
 
-    <div id="status-card" class="monitor-circle">
-        <div class="lbl">Incomer Load</div>
-        <p class="kw-main" id="pwr-display">---</p>
-        <div class="lbl">kW</div>
-    </div>
-
-    <section class="status-section">
-        <div class="white-box">
-            <div class="icon-circle"><i data-lucide="zap"></i></div>
-            <div class="box-text">
-                <span class="val" id="status-sub">Connecting...</span>
-                <span class="lbl">SYSTEM STATUS</span>
+    <div class="hub-container">
+        <div class="node-item">
+            <div class="node-circle solar">
+                <i data-lucide="sun"></i>
+                <span class="kw-val">0.00</span>
+                <span class="lbl">Solar</span>
             </div>
         </div>
-    </section>
+
+        <div class="mid-row">
+            <div class="node-item">
+                <div class="node-circle grid">
+                    <i data-lucide="transmission-tower"></i>
+                    <span class="kw-val">0.00</span>
+                    <span class="lbl">Grid</span>
+                </div>
+            </div>
+
+            <div class="node-item">
+                <div class="node-circle home">
+                    <i data-lucide="home"></i>
+                    <span class="kw-val">0.00</span>
+                    <span class="lbl">Home</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="node-item">
+            <div id="car-node" class="node-circle car">
+                <i data-lucide="car"></i>
+                <span id="car-pwr" class="kw-val">---</span>
+                <span id="car-status" class="lbl">Car Charger</span>
+            </div>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
-        async function updateData() {
+        async function updateLiveStats() {
             try {
                 const res = await fetch('http://192.168.1.103:5000/api/live');
                 const data = await res.json();
+
                 if(data.online) {
-                    document.getElementById('pwr-display').innerText = data.incomer_kw.toFixed(2);
-                    document.getElementById('status-sub').innerText = data.status;
-                    const card = document.getElementById('status-card');
-                    if(data.is_charging) card.classList.add('active-glow');
-                    else card.classList.remove('active-glow');
+                    document.getElementById('car-pwr').innerText = data.incomer_kw.toFixed(2);
+                    document.getElementById('car-status').innerText = data.status;
+                    
+                    const carNode = document.getElementById('car-node');
+                    if(data.is_charging) {
+                        carNode.classList.add('active-charging');
+                    } else {
+                        carNode.classList.remove('active-charging');
+                    }
                 }
             } catch (e) {
-                document.getElementById('status-sub').innerText = "Bridge Offline";
-                document.getElementById('pwr-display').innerText = "OFFLINE";
+                document.getElementById('car-pwr').innerText = "OFFLINE";
+                document.getElementById('car-status').innerText = "Bridge Error";
             }
         }
-        setInterval(updateData, 5000);
-        updateData();
+
+        setInterval(updateLiveStats, 5000);
+        updateLiveStats();
     </script>
 </body>
 </html>
