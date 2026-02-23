@@ -1,15 +1,12 @@
-/* General Setup */
 html, body { background: #000; color: #fff; font-family: -apple-system, sans-serif; margin: 0; padding: 20px; box-sizing: border-box; overflow-x: hidden; }
 
-/* Desktop Centering Constraint */
 .header, .summary-row, .hub-container, .section-header, .daily-card, .stats-grid {
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Header & Nav */
-.header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; padding-top: env(safe-area-inset-top); }
+.header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
 .brand { line-height: 1.1; font-weight: 800; font-size: 1.4rem; }
 .white { color: #fff; }
 .green { color: #4ade80; }
@@ -18,7 +15,6 @@ html, body { background: #000; color: #fff; font-family: -apple-system, sans-ser
 
 .locating { color: #94a3b8; font-size: 0.85rem; text-align: center; margin: 20px 0; }
 
-/* Summary Grid */
 .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
 .summary-box { background: #1a1a1a; padding: 18px; border-radius: 15px; border: 2px solid #333; }
 .summary-box.red { border-color: #7f1d1d; }
@@ -26,24 +22,31 @@ html, body { background: #000; color: #fff; font-family: -apple-system, sans-ser
 .label { font-size: 0.55rem; color: #94a3b8; font-weight: bold; margin-bottom: 5px; }
 .value { font-size: 1.6rem; font-weight: 800; }
 
-/* HUB SYSTEM - LOCK COORDINATES */
+/* HUB DESIGN */
 .hub-container { position: relative; width: 100%; height: 420px; display: flex; justify-content: center; align-items: center; }
 .hub-wrapper { position: relative; width: 400px; height: 400px; transform: scale(0.95); }
-.lines-svg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+.lines-svg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
 .hub-line { stroke: #333; stroke-dasharray: 4, 4; stroke-width: 1.5; }
 
-.central-node { position: absolute; top: 200px; left: 200px; transform: translate(-50%, -50%); width: 100px; height: 100px; background: #222; border: 2px solid #444; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; text-align: center; }
+.central-node { position: absolute; top: 200px; left: 200px; transform: translate(-50%, -50%); width: 100px; height: 100px; background: #222; border: 2px solid #444; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; }
 
 .spoke { position: absolute; width: 80px; height: 80px; background: #000; border: 2px solid #333; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transform: translate(-50%, -50%); }
-.spoke i { width: 22px; height: 22px; margin-bottom: 4px; color: #fff; }
-.spoke .v { font-weight: 800; font-size: 0.9rem; }
-.spoke .l { font-size: 0.7rem; color: #94a3b8; }
 
-/* Grid Specific Graphic */
-.n-grid i { color: #4ade80; }
+/* SVG Styling to ensure they show up */
+.spoke svg, .spoke i { 
+    width: 24px !important; 
+    height: 24px !important; 
+    margin-bottom: 4px; 
+    display: block !important; 
+    stroke: #fff; 
+    stroke-width: 2px;
+}
+
+/* Grid Specific Graphic Styling */
 .n-grid { border-color: #4ade80 !important; }
+.n-grid svg, .n-grid .grid-icon { stroke: #4ade80 !important; }
 
-/* Coordinates (Fixed for Web Alignment) */
+/* Coordinates */
 .n-solar   { top: 50px;  left: 200px; border-color: #fff; }
 .n-wind    { top: 130px; left: 330px; }
 .n-grid    { top: 130px; left: 70px; }
@@ -52,26 +55,21 @@ html, body { background: #000; color: #fff; font-family: -apple-system, sans-ser
 .n-charger { top: 350px; left: 140px; border-color: #1d4ed8; }
 .n-home    { top: 350px; left: 260px; border-color: #3b82f6; }
 
-/* Daily Energy & Stats */
+/* Sections */
 .section-header { font-size: 1.6rem; font-weight: 900; margin: 30px auto 15px; display: flex; justify-content: space-between; align-items: center; }
 .daily-card { background: #1a1a1a; padding: 25px; border-radius: 30px; margin-bottom: 15px; }
-.daily-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+.daily-top { display: flex; align-items: center; justify-content: space-between; }
 .icons { display: flex; gap: 12px; color: #94a3b8; }
 .title { font-weight: 800; font-size: 1.3rem; flex-grow: 1; padding-left: 15px; }
-.ring { width: 60px; height: 60px; border: 5px solid #2dd4bf; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; border-left-color: #333; }
-.daily-details p { margin: 6px 0; color: #94a3b8; font-size: 1rem; }
+.ring { width: 60px; height: 60px; border: 5px solid #2dd4bf; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
 
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
 .stat-item { background: #1a1a1a; padding: 18px; border-radius: 20px; display: flex; flex-direction: column; }
-.stat-item i { margin-bottom: 8px; }
 .stat-item strong { font-size: 1.4rem; font-weight: 800; }
-.stat-item strong span { font-size: 0.8rem; color: #94a3b8; margin-left: 3px; }
-.stat-item small { color: #94a3b8; font-size: 0.8rem; font-weight: 600; }
+.stat-item small { color: #94a3b8; font-size: 0.8rem; }
 
-/* Colors & Animations */
-.orange { color: #f97316 !important; }
-.blue { color: #3b82f6 !important; }
-.green { color: #4ade80 !important; }
+/* Colors & Flow */
+.orange { color: #f97316 !important; } .blue { color: #3b82f6 !important; }
 .border-left-blue { border-left: 5px solid #3b82f6; }
 .border-left-orange { border-left: 5px solid #f97316; }
 
