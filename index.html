@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=2.1">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -133,9 +133,15 @@
 
         async function updateWeather() {
             try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2273&longitude=-4.1293&current=temperature_2m,relative_humidity_2m');
+                // Added wind_speed_10m to the API call
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2273&longitude=-4.1293&current=temperature_2m,relative_humidity_2m,wind_speed_10m&wind_speed_unit=mph');
                 const data = await res.json();
-                document.getElementById('weather-summary').innerText = `Bangor, UK: ${Math.round(data.current.temperature_2m)}°C • ${data.current.relative_humidity_2m}% Humidity`;
+                
+                const temp = Math.round(data.current.temperature_2m);
+                const hum = data.current.relative_humidity_2m;
+                const wind = Math.round(data.current.wind_speed_10m);
+                
+                document.getElementById('weather-summary').innerText = `Bangor, UK: ${temp}°C • ${hum}% Humidity • ${wind} mph Wind`;
             } catch (e) { document.getElementById('weather-summary').innerText = "Bangor, UK (Offline)"; }
         }
 
