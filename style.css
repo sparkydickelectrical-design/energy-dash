@@ -48,7 +48,10 @@ body { background: #000; color: #fff; font-family: -apple-system, sans-serif; pa
 .stat-value small { font-size: 0.7rem; color: #94a3b8; }
 
 .card-details { border-top: 1px solid #222; padding-top: 12px; }
-.detail-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; }
+.detail-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #94a3b8; margin-bottom: 6px; }
+
+/* INLINE ICONS */
+.inline-icon { width: 14px; height: 14px; vertical-align: middle; margin-right: 4px; }
 
 .stats-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .mini-box { background: #111; padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 12px; border: 1px solid #222; }
@@ -61,6 +64,7 @@ body { background: #000; color: #fff; font-family: -apple-system, sans-serif; pa
 .red-text { color: #ef4444; }
 .green-text { color: #4ade80; }
 .orange-text { color: #f97316; }
+.blue-text { color: #3b82f6; }
 
 .blue-border { border-color: #3b82f6 !important; }
 .green-border { border-color: #4ade80 !important; }
