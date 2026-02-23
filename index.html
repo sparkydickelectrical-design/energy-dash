@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=1.8">
+    <link rel="stylesheet" href="style.css?v=1.9">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -74,7 +74,12 @@
 
         <div class="daily-card border-red">
             <div class="daily-top">
-                <div class="card-icons"><i data-lucide="arrow-down-left" class="red-text"></i><i data-lucide="zap"></i></div>
+                <div class="card-icons">
+                    <i data-lucide="arrow-down-left" class="red-text"></i>
+                    <svg class="inline-grid-icon red-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/>
+                    </svg>
+                </div>
                 <div class="card-title">Total Grid Imported</div>
                 <div class="stat-value" id="d-grid-import-total">0.00 <small>kWh</small></div>
             </div>
@@ -92,7 +97,12 @@
 
         <div class="daily-card border-green">
             <div class="daily-top">
-                <div class="card-icons"><i data-lucide="arrow-up-right" class="green-text"></i><i data-lucide="broadcast"></i></div>
+                <div class="card-icons">
+                    <i data-lucide="arrow-up-right" class="green-text"></i>
+                    <svg class="inline-grid-icon green-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/>
+                    </svg>
+                </div>
                 <div class="card-title">Total Grid Exported</div>
                 <div class="stat-value" id="d-grid-export">0.10 <small>kWh</small></div>
             </div>
