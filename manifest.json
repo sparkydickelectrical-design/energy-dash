@@ -1,6 +1,6 @@
 {
-  "short_name": "IonLive",
-  "name": "Ion Smart Charger Monitor",
+  "short_name": "EnergyHub",
+  "name": "Energy Hub Monitor",
   "start_url": "index.html",
   "display": "standalone",
   "theme_color": "#0f172a",
