@@ -2,9 +2,10 @@
 body { 
     background: #000; color: #fff; font-family: -apple-system, sans-serif; 
     padding: env(safe-area-inset-top) 20px 20px 20px; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* NAVIGATION FIXES */
+/* NAVIGATION (MOBILE OPTIMIZED) */
 .nav-top { 
     display: flex; justify-content: space-between; align-items: center; 
     margin-bottom: 15px; gap: 10px; flex-wrap: nowrap;
@@ -16,51 +17,39 @@ body {
 .nav-item.active { color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 4px; }
 @media (max-width: 400px) { .hide-mobile { display: none; } }
 
-/* WEATHER & DATA HEADER */
-.weather-bar { background: #111; padding: 12px; border-radius: 14px; display: flex; align-items: center; gap: 10px; color: #94a3b8; font-size: 0.85rem; border: 1px solid #222; margin-bottom: 20px; }
-.data-header { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
-.data-box { background: #1a1a1a; padding: 18px; border-radius: 16px; border-left: 4px solid #333; }
-.grid-box { border-left-color: #ef4444; }
-.renewable-box { border-left-color: #4ade80; }
-.box-label { display: block; font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
-.box-value { font-size: clamp(1.2rem, 5vw, 1.5rem); font-weight: 800; }
+/* SAVINGS HERO */
+.content-wrapper { max-width: 900px; margin: 0 auto; }
+.savings-hero-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 24px; padding: clamp(25px, 6vw, 50px);
+    text-align: center; margin-bottom: 20px; border: 1px solid #334155;
+}
+.hero-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.hero-value { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 900; color: #4ade80; margin: 10px 0; }
+.hero-subtext { font-size: 0.75rem; color: #64748b; }
 
-/* HUB DESIGN */
-.radial-dashboard { position: relative; width: 100%; max-width: 400px; height: 400px; margin: 20px auto; }
-.connections-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.dash-line { stroke: #222; stroke-width: 2; stroke-dasharray: 4 4; }
-.node { position: absolute; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; border: 2px solid #333; border-radius: 50%; width: 70px; height: 70px; transform: translate(-50%, -50%); }
-.center-node { width: 90px; height: 90px; background: #111; top: 50%; left: 50%; }
-.node-value { font-size: 0.8rem; font-weight: 800; }
-.node-label-bottom { position: absolute; bottom: -20px; font-size: 0.6rem; color: #94a3b8; white-space: nowrap; }
+/* GRIDS & CARDS */
+.stats-mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 30px; }
+.mini-box { background: #111; padding: 18px; border-radius: 18px; display: flex; align-items: center; gap: 12px; border: 1px solid #222; }
+.mini-info strong { display: block; font-size: 1.2rem; }
+.mini-info span { font-size: 0.7rem; color: #94a3b8; }
 
-/* NODE POSITIONS */
-.solar-node { top: 50px; left: 200px; }
-.wind-node { top: 100px; left: 330px; }
-.battery-node { top: 220px; left: 350px; }
-.home-node { top: 340px; left: 280px; }
-.charger-node { top: 340px; left: 120px; }
-.heatpump-node { top: 220px; left: 50px; }
-.grid-node { top: 100px; left: 70px; }
-
-/* CARDS */
-.daily-card { background: #111; border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid #222; }
+.savings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+.daily-card { background: #111; border-radius: 24px; padding: 20px; border: 1px solid #222; position: relative; }
 .daily-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .card-title { font-weight: 700; font-size: 1.05rem; flex-grow: 1; margin-left: 10px; }
-.stat-ring { width: 50px; height: 50px; border-radius: 50%; border: 4px solid #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; }
-.stats-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.mini-box { background: #111; padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 12px; border: 1px solid #222; }
 
-/* SAVINGS HERO */
-.savings-hero-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 24px; padding: 40px; text-align: center; margin-bottom: 20px; border: 1px solid #334155; }
-.hero-value { font-size: 3rem; font-weight: 900; color: #4ade80; }
+/* EFFICIENCY RING */
+.stat-ring { 
+    width: 50px; height: 50px; border-radius: 50%; border: 4px solid #2dd4bf; 
+    display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; 
+}
+.card-details { border-top: 1px solid #222; padding-top: 12px; }
+.detail-item { display: flex; justify-content: space-between; font-size: 0.9rem; color: #94a3b8; margin-bottom: 8px; }
+.card-description { font-size: 0.75rem; color: #64748b; margin-top: 12px; line-height: 1.4; }
 
 /* UTILS */
-.border-red { border-left: 5px solid #ef4444 !important; }
 .border-green { border-left: 5px solid #4ade80 !important; }
 .border-blue { border-left: 5px solid #3b82f6 !important; }
-.red-text { color: #ef4444; }
 .green-text { color: #4ade80; }
 .blue-text { color: #3b82f6; }
-.orange-text { color: #f97316; }
-.inline-grid-icon { width: 18px; height: 18px; }
