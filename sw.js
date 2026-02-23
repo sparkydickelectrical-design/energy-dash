@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ion-hub-v48';
+const CACHE_NAME = 'hub-v1';
 const ASSETS = ['index.html', 'style.css', 'manifest.json'];
 
 self.addEventListener('install', (e) => {
