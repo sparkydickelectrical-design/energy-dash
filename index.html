@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=1.6">
+    <link rel="stylesheet" href="style.css?v=1.7">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -72,30 +72,36 @@
             <i data-lucide="trending-up" class="analytics-icon"></i>
         </div>
 
-        <div class="daily-card">
+        <div class="daily-card border-red">
             <div class="daily-top">
-                <div class="card-icons"><i data-lucide="zap"></i><i data-lucide="thermometer"></i><i data-lucide="droplets"></i></div>
-                <div class="card-title">Battery Status</div>
-                <div class="stat-ring">20%</div>
+                <div class="card-icons"><i data-lucide="arrow-down-left" class="red-text"></i><i data-lucide="zap"></i></div>
+                <div class="card-title">Total Grid Imported</div>
+                <div class="stat-value" id="d-grid-import-total">0.00 <small>kWh</small></div>
             </div>
             <div class="card-details">
-                <div class="detail-item"><span>Remaining</span> <span>1.00 kWh</span></div>
-                <div class="detail-item"><span>Charged</span> <span>0.70 kWh</span></div>
-                <div class="detail-item"><span>Discharged</span> <span>0.40 kWh</span></div>
+                <div class="detail-item"><span>Day Rate Usage</span> <span id="d-import-day">0.00 kWh</span></div>
+                <div class="detail-item"><span>Night Rate Usage</span> <span id="d-import-night">0.00 kWh</span></div>
+            </div>
+        </div>
+
+        <div class="daily-card border-green">
+            <div class="daily-top">
+                <div class="card-icons"><i data-lucide="arrow-up-right" class="green-text"></i><i data-lucide="broadcast"></i></div>
+                <div class="card-title">Total Grid Exported</div>
+                <div class="stat-value" id="d-grid-export">0.10 <small>kWh</small></div>
             </div>
         </div>
 
         <div class="stats-mini-grid">
             <div class="mini-box"><i data-lucide="sun" class="orange-text"></i><div class="mini-info"><strong id="d-solar">0.00 <small>kWh</small></strong><span>Solar Produced</span></div></div>
-            <div class="mini-box border-blue"><i data-lucide="moon"></i><div class="mini-info"><strong id="d-import-night">0.00 <small>kWh</small></strong><span>Grid Night Rate</span></div></div>
             <div class="mini-box border-green"><i data-lucide="home" class="green-text"></i><div class="mini-info"><strong id="d-home">0.00 <small>kWh</small></strong><span>Home Consumed</span></div></div>
-            <div class="mini-box border-orange"><i data-lucide="sun" class="orange-text"></i><div class="mini-info"><strong id="d-import-day">0.00 <small>kWh</small></strong><span>Grid Day Rate</span></div></div>
         </div>
     </section>
 
     <script>
         lucide.createIcons();
-        let dailyTotals = { solar: 0, home: 0, importDay: 0, importNight: 0 };
+        // Initial values for demonstration
+        let dailyTotals = { solar: 3.41, home: 8.88, importDay: 3.69, importNight: 2.10, export: 0.10 };
 
         async function updateWeather() {
             try {
@@ -114,6 +120,14 @@
                     document.getElementById('grid-val').innerText = kw;
                     document.getElementById('top-grid').innerText = kw;
                     document.getElementById('ev-val').innerText = kw;
+                    
+                    // Update the Daily Totals in the UI
+                    const totalImport = (dailyTotals.importDay + dailyTotals.importNight).toFixed(2);
+                    document.getElementById('d-grid-import-total').innerHTML = `${totalImport} <small>kWh</small>`;
+                    document.getElementById('d-import-day').innerText = `${dailyTotals.importDay.toFixed(2)} kWh`;
+                    document.getElementById('d-import-night').innerText = `${dailyTotals.importNight.toFixed(2)} kWh`;
+                    document.getElementById('d-solar').innerHTML = `${dailyTotals.solar.toFixed(2)} <small>kWh</small>`;
+                    document.getElementById('d-home').innerHTML = `${dailyTotals.home.toFixed(2)} <small>kWh</small>`;
                     
                     const chargerNode = document.getElementById('charger-node');
                     const chargerLine = document.getElementById('line-charger');
