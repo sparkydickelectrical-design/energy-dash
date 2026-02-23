@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=1.9">
+    <link rel="stylesheet" href="style.css?v=2.0">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -72,6 +72,19 @@
             <i data-lucide="trending-up" class="analytics-icon"></i>
         </div>
 
+        <div class="daily-card">
+            <div class="daily-top">
+                <div class="card-icons"><i data-lucide="battery"></i><i data-lucide="zap"></i></div>
+                <div class="card-title">Battery Status</div>
+                <div class="stat-ring" id="batt-ring">20%</div>
+            </div>
+            <div class="card-details">
+                <div class="detail-item"><span>Remaining</span> <span id="batt-rem">1.00 kWh</span></div>
+                <div class="detail-item"><span>Charged</span> <span id="batt-charge">0.70 kWh</span></div>
+                <div class="detail-item"><span>Discharged</span> <span id="batt-discharge">0.40 kWh</span></div>
+            </div>
+        </div>
+
         <div class="daily-card border-red">
             <div class="daily-top">
                 <div class="card-icons">
@@ -116,7 +129,7 @@
 
     <script>
         lucide.createIcons();
-        let dailyTotals = { solar: 3.41, home: 8.88, importDay: 3.69, importNight: 2.10, export: 0.10 };
+        let dailyTotals = { solar: 0, home: 0, importDay: 0, importNight: 0, export: 0.10 };
 
         async function updateWeather() {
             try {
@@ -134,7 +147,6 @@
                     const kw = data.incomer_kw.toFixed(1) + " kW";
                     document.getElementById('grid-val').innerText = kw;
                     document.getElementById('top-grid').innerText = kw;
-                    document.getElementById('ev-val').innerText = kw;
                     
                     const totalImport = (dailyTotals.importDay + dailyTotals.importNight).toFixed(2);
                     document.getElementById('d-grid-import-total').innerHTML = `${totalImport} <small>kWh</small>`;
@@ -142,16 +154,6 @@
                     document.getElementById('d-import-night').innerText = `${dailyTotals.importNight.toFixed(2)} kWh`;
                     document.getElementById('d-solar').innerHTML = `${dailyTotals.solar.toFixed(2)} <small>kWh</small>`;
                     document.getElementById('d-home').innerHTML = `${dailyTotals.home.toFixed(2)} <small>kWh</small>`;
-                    
-                    const chargerNode = document.getElementById('charger-node');
-                    const chargerLine = document.getElementById('line-charger');
-                    if(data.is_charging) {
-                        chargerNode.style.borderColor = "#4ade80";
-                        chargerLine.classList.add('active-flow');
-                    } else {
-                        chargerNode.style.borderColor = "#333";
-                        chargerLine.classList.remove('active-flow');
-                    }
                 }
             } catch (e) {}
         }
