@@ -32,21 +32,25 @@ html, body { background: #000; color: #fff; font-family: -apple-system, sans-ser
 
 .spoke { position: absolute; width: 80px; height: 80px; background: #000; border: 2px solid #333; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transform: translate(-50%, -50%); }
 
-/* SVG Styling to ensure they show up */
+/* Grid Specific Graphic */
+.grid-icon-svg { 
+    width: 28px !important; 
+    height: 28px !important; 
+    stroke: #4ade80 !important; 
+    margin-bottom: 4px;
+}
+.n-grid { border-color: #4ade80 !important; }
+
+/* Global icon styling */
 .spoke svg, .spoke i { 
-    width: 24px !important; 
-    height: 24px !important; 
+    width: 24px; 
+    height: 24px; 
     margin-bottom: 4px; 
-    display: block !important; 
     stroke: #fff; 
     stroke-width: 2px;
 }
 
-/* Grid Specific Graphic Styling */
-.n-grid { border-color: #4ade80 !important; }
-.n-grid svg, .n-grid .grid-icon { stroke: #4ade80 !important; }
-
-/* Coordinates */
+/* Positions */
 .n-solar   { top: 50px;  left: 200px; border-color: #fff; }
 .n-wind    { top: 130px; left: 330px; }
 .n-grid    { top: 130px; left: 70px; }
@@ -68,7 +72,7 @@ html, body { background: #000; color: #fff; font-family: -apple-system, sans-ser
 .stat-item strong { font-size: 1.4rem; font-weight: 800; }
 .stat-item small { color: #94a3b8; font-size: 0.8rem; }
 
-/* Colors & Flow */
+/* Colors */
 .orange { color: #f97316 !important; } .blue { color: #3b82f6 !important; }
 .border-left-blue { border-left: 5px solid #3b82f6; }
 .border-left-orange { border-left: 5px solid #f97316; }
