@@ -1,6 +1,6 @@
 {
-  "short_name": "PeakShave",
-  "name": "Energy Hub Monitor",
+  "short_name": "IonHub",
+  "name": "Ion Smart Hub Monitor",
   "icons": [
     {
       "src": "app-icon.png",
@@ -9,9 +9,8 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/energyhub/index.html",
-  "background_color": "#ffffff",
+  "start_url": "index.html",
+  "background_color": "#121212",
   "display": "standalone",
-  "scope": "/energyhub/",
-  "theme_color": "#4caf50"
+  "theme_color": "#76c757"
 }
