@@ -13,7 +13,10 @@
 <body>
     <header class="header">
         <div class="brand"><span class="white">PeakShaving</span> <span class="green">Energy</span><br><span class="green">Hub</span></div>
-        <nav class="nav"><a href="index.html" class="active">Home</a><a href="savings.html">Energy Savings</a></nav>
+        <nav class="nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="savings.html">Energy Savings</a>
+        </nav>
     </header>
 
     <div class="locating"><i data-lucide="map-pin"></i> Bangor, UK<br>Loading forecast...</div>
@@ -26,7 +29,14 @@
     <div class="hub-container">
         <div class="hub-wrapper">
             <svg class="lines-svg" viewBox="0 0 400 400">
-                <line class="hub-line" x1="200" y1="200" x2="200" y2="50" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="130" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="260" y2="350" /> <line class="hub-line" id="charger-path" x1="200" y1="200" x2="140" y2="350" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="130" /> </svg>
+                <line class="hub-line" x1="200" y1="200" x2="200" y2="50" />
+                <line class="hub-line" x1="200" y1="200" x2="330" y2="130" />
+                <line class="hub-line" x1="200" y1="200" x2="330" y2="270" />
+                <line class="hub-line" x1="200" y1="200" x2="260" y2="350" />
+                <line class="hub-line" id="charger-path" x1="200" y1="200" x2="140" y2="350" />
+                <line class="hub-line" x1="200" y1="200" x2="70" y2="270" />
+                <line class="hub-line" x1="200" y1="200" x2="70" y2="130" />
+            </svg>
 
             <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
             
@@ -41,5 +51,54 @@
     </div>
 
     <div class="section-header">Daily Energy <i data-lucide="trending-up"></i></div>
+    
     <div class="daily-card">
         <div class="daily-top">
+            <div class="icons">
+                <i data-lucide="zap"></i> 
+                <i data-lucide="thermometer"></i> 
+                <i data-lucide="droplets"></i>
+            </div>
+            <div class="title">Battery Charging</div>
+            <div class="ring">20.0%</div>
+        </div>
+        <div class="daily-details">
+            <p>Remaining Energy 1.00kWh</p>
+            <p>Charged 0.70 kWh</p>
+            <p>Discharged 0.40 kWh</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-item"><i data-lucide="sun" class="orange"></i> <strong>3.41<span>kWh</span></strong><small>Solar Produced</small></div>
+        <div class="stat-item border-left-blue"><i data-lucide="moon"></i> <strong>2.10<span>kWh</span></strong><small>Grid Night Rate</small></div>
+        <div class="stat-item"><i data-lucide="home" class="green"></i> <strong>8.88<span>kWh</span></strong><small>Home Consumed</small></div>
+        <div class="stat-item border-left-orange"><i data-lucide="sun"></i> <strong>3.69<span>kWh</span></strong><small>Grid Day Rate</small></div>
+        <div class="stat-item"><i data-lucide="wind" class="blue"></i> <strong>2.50<span>kWh</span></strong><small>Wind Produced</small></div>
+        <div class="stat-item"><i data-lucide="arrow-up-right"></i> <strong>0.10<span>kWh</span></strong><small>Grid Exported</small></div>
+    </div>
+
+    <script>
+        // Forces icons to render
+        lucide.createIcons();
+
+        async function updateLive() {
+            try {
+                const res = await fetch('http://192.168.1.103:5000/api/live');
+                const data = await res.json();
+                if(data.online) {
+                    const kw = data.incomer_kw.toFixed(1) + " kW";
+                    document.getElementById('live-kw').innerText = kw;
+                    document.getElementById('grid-val').innerText = kw;
+                    if(data.is_charging) {
+                        document.getElementById('charger-node').style.borderColor = "#4ade80";
+                        document.getElementById('charger-path').classList.add('active-flow');
+                    }
+                }
+            } catch (e) {}
+        }
+        setInterval(updateLive, 5000);
+        updateLive();
+    </script>
+</body>
+</html>
