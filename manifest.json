@@ -1,16 +1,8 @@
 {
-  "short_name": "IonHub",
-  "name": "Ion Smart Hub Monitor",
-  "icons": [
-    {
-      "src": "app-icon.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
+  "short_name": "IonLive",
+  "name": "Ion Smart Charger Monitor",
   "start_url": "index.html",
-  "background_color": "#121212",
   "display": "standalone",
-  "theme_color": "#76c757"
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a"
 }
