@@ -1,12 +1,68 @@
-:root { --bg: #0f172a; --card: #1e293b; --ion-green: #22c55e; --text: #f8fafc; }
-body { background-color: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-.main-nav { width: 100%; padding: 20px 0; text-align: center; border-bottom: 1px solid #334155; }
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --ion-green: #22c55e;
+    --text: #f8fafc;
+    --border: #334155;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-nav { 
+    width: 100%; 
+    padding: 20px 0; 
+    text-align: center; 
+    border-bottom: 1px solid var(--border); 
+}
 .brand-logo { font-size: 1.2rem; font-weight: 800; }
 .brand-logo span { color: var(--ion-green); }
-.monitor-circle { width: 260px; height: 260px; border: 6px solid #334155; border-radius: 50%; margin: 40px auto; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.5s; }
-.active-glow { border-color: var(--ion-green); box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); }
-.kw-main { font-size: 4rem; font-weight: 900; margin: 0; color: var(--ion-green); }
-.lbl { font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; }
-.white-box { background: var(--card); padding: 20px; border-radius: 20px; display: flex; align-items: center; gap: 15px; border: 1px solid #334155; width: 300px; }
-.icon-circle { width: 45px; height: 45px; background: #334155; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--ion-green); }
-.val { font-size: 1.1rem; font-weight: 700; }
+
+.hub-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 20px;
+}
+
+.mid-row {
+    display: flex;
+    gap: 40px;
+}
+
+.node-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 3px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    text-align: center;
+}
+
+.kw-val { font-size: 1.1rem; font-weight: 800; color: #fff; }
+.lbl { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; margin-top: 4px; padding: 0 5px; }
+
+/* Node Colors */
+.solar i { color: #facc15; }
+.grid i { color: #60a5fa; }
+.home i { color: #f87171; }
+.car i { color: var(--ion-green); }
+
+/* Live Glow for Charging */
+.active-charging {
+    border-color: var(--ion-green);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+}
