@@ -3,80 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Energy Hub</title>
+    <title>PeakShaving Energy Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="brand-logo">PeakShaving <span>Hub</span></div>
-    </nav>
+    <header class="main-header">
+        <div class="logo">PeakShaving <span>Energy</span><br><small>Hub</small></div>
+        <nav><a href="#" class="active">Home</a><a href="#">Energy Savings</a></nav>
+    </header>
 
-    <div class="hub-container">
-        <div class="node-item">
-            <div class="node-circle solar">
-                <i data-lucide="sun"></i>
-                <span class="kw-val">0.00</span>
-                <span class="lbl">Solar</span>
-            </div>
+    <div class="location-bar"><i data-lucide="map-pin"></i> <span>Locating... Loading forecast...</span></div>
+
+    <div class="summary-cards">
+        <div class="card red"><span class="card-lbl">ENERGY USED FROM GRID</span><div class="card-val" id="grid-summary">0.0 <span>kW</span></div></div>
+        <div class="card green"><span class="card-lbl">ENERGY GENERATED</span><div class="card-val">0.0 <span>kW</span></div></div>
+    </div>
+
+    <div class="energy-hub-viz">
+        <svg class="flow-svg">
+            <line id="charger-line" x1="50%" y1="50%" x2="78%" y2="88%" />
+        </svg>
+
+        <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
+
+        <div class="node n-solar"><span class="val">2.8 kW</span><span class="lab">Solar</span></div>
+        <div class="node n-wind"><span class="val">0.0 kW</span><span class="lab">Wind</span></div>
+        <div class="node n-grid"><i data-lucide="transmission-tower"></i><span class="val">0.0 kW</span><span class="lab">Grid</span></div>
+        <div class="node n-battery"><i data-lucide="wind"></i><span class="val">0.0 kW</span><span class="lab">Battery</span></div>
+        <div class="node n-heat"><i data-lucide="car"></i><span class="val">0.0 kW</span><span class="lab">Heat Pump</span></div>
+        
+        <div id="charger-node" class="node n-charger">
+            <i data-lucide="home"></i>
+            <span id="live-charger-kw" class="val">---</span>
+            <span id="live-charger-status" class="lab">Charger</span>
         </div>
+    </div>
 
-        <div class="mid-row">
-            <div class="node-item">
-                <div class="node-circle grid">
-                    <i data-lucide="transmission-tower"></i>
-                    <span class="kw-val">0.00</span>
-                    <span class="lbl">Grid</span>
-                </div>
-            </div>
+    <div class="section-title">Daily Energy <i data-lucide="trending-up" style="width:18px"></i></div>
 
-            <div class="node-item">
-                <div class="node-circle home">
-                    <i data-lucide="home"></i>
-                    <span class="kw-val">0.00</span>
-                    <span class="lbl">Home</span>
-                </div>
-            </div>
+    <div class="battery-status-card">
+        <div class="stat-header">
+            <div class="icons"><i data-lucide="zap"></i><i data-lucide="thermometer"></i><i data-lucide="droplets"></i></div>
+            <span>Battery Charging</span>
+            <div class="progress-circle">20.0%</div>
         </div>
-
-        <div class="node-item">
-            <div id="car-node" class="node-circle car">
-                <i data-lucide="car"></i>
-                <span id="car-pwr" class="kw-val">---</span>
-                <span id="car-status" class="lbl">Car Charger</span>
-            </div>
+        <div class="stat-details">
+            <p>Remaining Energy 1.00 kWh</p>
+            <p>Charged 0.70 kWh</p>
+            <p>Discharged 0.40 kWh</p>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-
-        async function updateLiveStats() {
+        async function updateLiveCharger() {
             try {
                 const res = await fetch('http://192.168.1.103:5000/api/live');
                 const data = await res.json();
-
                 if(data.online) {
-                    document.getElementById('car-pwr').innerText = data.incomer_kw.toFixed(2);
-                    document.getElementById('car-status').innerText = data.status;
+                    const displayKw = data.incomer_kw.toFixed(2);
+                    document.getElementById('live-charger-kw').innerText = displayKw + " kW";
+                    document.getElementById('live-charger-status').innerText = data.status;
+                    document.getElementById('grid-summary').innerHTML = `${displayKw} <span>kW</span>`;
                     
-                    const carNode = document.getElementById('car-node');
+                    const node = document.getElementById('charger-node');
+                    const line = document.getElementById('charger-line');
                     if(data.is_charging) {
-                        carNode.classList.add('active-charging');
+                        node.classList.add('active-glow');
+                        line.classList.add('active-flow');
                     } else {
-                        carNode.classList.remove('active-charging');
+                        node.classList.remove('active-glow');
+                        line.classList.remove('active-flow');
                     }
                 }
-            } catch (e) {
-                document.getElementById('car-pwr').innerText = "OFFLINE";
-                document.getElementById('car-status').innerText = "Bridge Error";
-            }
+            } catch (e) { document.getElementById('live-charger-kw').innerText = "Offline"; }
         }
-
-        setInterval(updateLiveStats, 5000);
-        updateLiveStats();
+        setInterval(updateLiveCharger, 5000);
+        updateLiveCharger();
     </script>
 </body>
 </html>
