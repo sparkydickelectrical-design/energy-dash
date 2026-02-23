@@ -6,7 +6,6 @@
     <title>PeakShaving Energy Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <header class="main-header">
@@ -22,38 +21,51 @@
     </div>
 
     <div class="energy-hub-viz">
-        <svg class="flow-svg">
-            <line id="charger-line" x1="50%" y1="50%" x2="78%" y2="88%" />
-        </svg>
-
-        <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
-
-        <div class="node n-solar"><span class="val">2.8 kW</span><span class="lab">Solar</span></div>
-        <div class="node n-wind"><span class="val">0.0 kW</span><span class="lab">Wind</span></div>
+        <svg class="flow-svg"><line id="charger-line" x1="50%" y1="50%" x2="35%" y2="85%" /></svg>
+        <div class="central-node"><i>⚡</i><span>Energy Hub</span></div>
+        
+        <div class="node n-solar"><i data-lucide="sun"></i><span class="val">2.8 kW</span><span class="lab">Solar</span></div>
+        <div class="node n-wind"><i data-lucide="wind"></i><span class="val">0.0 kW</span><span class="lab">Wind</span></div>
         <div class="node n-grid"><i data-lucide="transmission-tower"></i><span class="val">0.0 kW</span><span class="lab">Grid</span></div>
-        <div class="node n-battery"><i data-lucide="wind"></i><span class="val">0.0 kW</span><span class="lab">Battery</span></div>
-        <div class="node n-heat"><i data-lucide="car"></i><span class="val">0.0 kW</span><span class="lab">Heat Pump</span></div>
+        <div class="node n-battery"><i data-lucide="battery"></i><span class="val">0.0 kW</span><span class="lab">Battery</span></div>
+        <div class="node n-heat"><i data-lucide="thermometer"></i><span class="val">0.0 kW</span><span class="lab">Heat Pump</span></div>
+        <div class="node n-home"><i data-lucide="home"></i><span class="val">0.0 kW</span><span class="lab">Home</span></div>
         
         <div id="charger-node" class="node n-charger">
-            <i data-lucide="home"></i>
+            <i data-lucide="car"></i>
             <span id="live-charger-kw" class="val">---</span>
             <span id="live-charger-status" class="lab">Charger</span>
         </div>
     </div>
 
     <div class="section-title">Daily Energy <i data-lucide="trending-up" style="width:18px"></i></div>
-
-    <div class="battery-status-card">
-        <div class="stat-header">
-            <div class="icons"><i data-lucide="zap"></i><i data-lucide="thermometer"></i><i data-lucide="droplets"></i></div>
-            <span>Battery Charging</span>
-            <div class="progress-circle">20.0%</div>
-        </div>
-        <div class="stat-details">
-            <p>Remaining Energy 1.00 kWh</p>
+    <div class="daily-energy-container">
+        <div class="battery-status-card">
+            <div class="stat-header">
+                <div class="icons"><i data-lucide="zap"></i><i data-lucide="thermometer"></i><i data-lucide="droplets"></i></div>
+                <span>Battery Charging</span>
+                <div class="progress-circle">20.0%</div>
+            </div>
+            <p>Remaining Energy 1.00kWh</p>
             <p>Charged 0.70 kWh</p>
             <p>Discharged 0.40 kWh</p>
         </div>
+
+        <div class="stat-grid">
+            <div class="stat-box"><i data-lucide="sun"></i><strong>3.41<span>kWh</span></strong><small>Solar Produced</small></div>
+            <div class="stat-box border-blue"><i data-lucide="moon"></i><strong>2.10<span>kWh</span></strong><small>Grid Night Rate</small></div>
+            <div class="stat-box"><i data-lucide="home" style="color:#4ade80"></i><strong>8.88<span>kWh</span></strong><small>Home Consumed</small></div>
+            <div class="stat-box border-orange"><i data-lucide="sun"></i><strong>3.69<span>kWh</span></strong><small>Grid Day Rate</small></div>
+            <div class="stat-box"><i data-lucide="wind"></i><strong>2.50<span>kWh</span></strong><small>Wind Produced</small></div>
+            <div class="stat-box"><i data-lucide="arrow-up-right"></i><strong>0.10<span>kWh</span></strong><small>Grid Exported</small></div>
+        </div>
+    </div>
+
+    <div class="section-title">Financial Impact</div>
+    <div class="financial-card">
+        <small>ESTIMATED COST TODAY</small>
+        <h1>£1.41</h1>
+        <p>Day: £1.18 | Night: £0.23</p>
     </div>
 
     <script>
@@ -63,22 +75,18 @@
                 const res = await fetch('http://192.168.1.103:5000/api/live');
                 const data = await res.json();
                 if(data.online) {
-                    const displayKw = data.incomer_kw.toFixed(2);
+                    const displayKw = data.incomer_kw.toFixed(1);
                     document.getElementById('live-charger-kw').innerText = displayKw + " kW";
-                    document.getElementById('live-charger-status').innerText = data.status;
                     document.getElementById('grid-summary').innerHTML = `${displayKw} <span>kW</span>`;
-                    
-                    const node = document.getElementById('charger-node');
-                    const line = document.getElementById('charger-line');
                     if(data.is_charging) {
-                        node.classList.add('active-glow');
-                        line.classList.add('active-flow');
+                        document.getElementById('charger-node').classList.add('active-glow');
+                        document.getElementById('charger-line').classList.add('active-flow');
                     } else {
-                        node.classList.remove('active-glow');
-                        line.classList.remove('active-flow');
+                        document.getElementById('charger-node').classList.remove('active-glow');
+                        document.getElementById('charger-line').classList.remove('active-flow');
                     }
                 }
-            } catch (e) { document.getElementById('live-charger-kw').innerText = "Offline"; }
+            } catch (e) { console.log("Offline"); }
         }
         setInterval(updateLiveCharger, 5000);
         updateLiveCharger();
