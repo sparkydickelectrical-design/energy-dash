@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=1.7">
+    <link rel="stylesheet" href="style.css?v=1.8">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -79,8 +79,14 @@
                 <div class="stat-value" id="d-grid-import-total">0.00 <small>kWh</small></div>
             </div>
             <div class="card-details">
-                <div class="detail-item"><span>Day Rate Usage</span> <span id="d-import-day">0.00 kWh</span></div>
-                <div class="detail-item"><span>Night Rate Usage</span> <span id="d-import-night">0.00 kWh</span></div>
+                <div class="detail-item">
+                    <span><i data-lucide="sun" class="inline-icon orange-text"></i> Day Rate Usage</span> 
+                    <span id="d-import-day">0.00 kWh</span>
+                </div>
+                <div class="detail-item">
+                    <span><i data-lucide="moon" class="inline-icon blue-text"></i> Night Rate Usage</span> 
+                    <span id="d-import-night">0.00 kWh</span>
+                </div>
             </div>
         </div>
 
@@ -100,7 +106,6 @@
 
     <script>
         lucide.createIcons();
-        // Initial values for demonstration
         let dailyTotals = { solar: 3.41, home: 8.88, importDay: 3.69, importNight: 2.10, export: 0.10 };
 
         async function updateWeather() {
@@ -121,7 +126,6 @@
                     document.getElementById('top-grid').innerText = kw;
                     document.getElementById('ev-val').innerText = kw;
                     
-                    // Update the Daily Totals in the UI
                     const totalImport = (dailyTotals.importDay + dailyTotals.importNight).toFixed(2);
                     document.getElementById('d-grid-import-total').innerHTML = `${totalImport} <small>kWh</small>`;
                     document.getElementById('d-import-day').innerText = `${dailyTotals.importDay.toFixed(2)} kWh`;
