@@ -2,34 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
     <title>PeakShaving Energy Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="header">
-        <div class="brand">
-            <span class="white">PeakShaving</span> <span class="green">Energy</span><br>
-            <span class="green">Hub</span>
-        </div>
-        <nav class="nav">
-            <a href="index.html" class="active">Home</a>
-            <a href="savings.html">Energy Savings</a>
-        </nav>
+        <div class="brand"><span class="white">PeakShaving</span> <span class="green">Energy</span><br><span class="green">Hub</span></div>
+        <nav class="nav"><a href="index.html" class="active">Home</a><a href="savings.html">Energy Savings</a></nav>
     </header>
 
-    <div class="locating"><i data-lucide="map-pin"></i> Locating...<br>Loading forecast...</div>
+    <div class="locating"><i data-lucide="map-pin"></i> Bangor, UK<br>Loading forecast...</div>
 
     <div class="summary-row">
-        <div class="summary-box red">
-            <div class="label">ENERGY USED FROM GRID</div>
-            <div class="value" id="grid-val">0.0 kW</div>
-        </div>
-        <div class="summary-box green">
-            <div class="label">ENERGY GENERATED</div>
-            <div class="value">0.0 kW</div>
-        </div>
+        <div class="summary-box red"><div class="label">ENERGY USED FROM GRID</div><div class="value" id="grid-val">0.0 kW</div></div>
+        <div class="summary-box green"><div class="label">ENERGY GENERATED</div><div class="value">0.0 kW</div></div>
     </div>
 
     <div class="hub-wrapper">
@@ -39,7 +30,7 @@
             <line class="hub-line" x1="50%" y1="50%" x2="85%" y2="40%" />
             <line class="hub-line" x1="50%" y1="50%" x2="85%" y2="65%" />
             <line class="hub-line" x1="50%" y1="50%" x2="65%" y2="85%" />
-            <line class="hub-line" x1="50%" y1="50%" x2="35%" y2="85%" />
+            <line class="hub-line" id="charger-path" x1="50%" y1="50%" x2="35%" y2="85%" />
             <line class="hub-line" x1="50%" y1="50%" x2="15%" y2="65%" />
             <line class="hub-line" x1="50%" y1="50%" x2="15%" y2="40%" />
         </svg>
@@ -49,7 +40,7 @@
         <div class="spoke n-battery"><i data-lucide="battery"></i><div class="v">0.0 kW</div><div class="l">Battery</div></div>
         <div class="spoke n-heat"><i data-lucide="thermometer"></i><div class="v">0.0 kW</div><div class="l">Heat Pump</div></div>
         <div class="spoke n-home"><i data-lucide="home"></i><div class="v">0.0 kW</div><div class="l">Home</div></div>
-        <div id="charger-node" class="spoke n-charger active-blue"><i data-lucide="car"></i><div class="v" id="live-kw">---</div><div class="l">Charger</div></div>
+        <div id="charger-node" class="spoke n-charger"><i data-lucide="car"></i><div class="v" id="live-kw">---</div><div class="l">Charger</div></div>
     </div>
 
     <div class="section-header">Daily Energy <i data-lucide="trending-up"></i></div>
@@ -85,6 +76,10 @@
                     const kw = data.incomer_kw.toFixed(1) + " kW";
                     document.getElementById('live-kw').innerText = kw;
                     document.getElementById('grid-val').innerText = kw;
+                    if(data.is_charging) {
+                        document.getElementById('charger-node').style.borderColor = "#4ade80";
+                        document.getElementById('charger-path').classList.add('active-flow');
+                    }
                 }
             } catch (e) {}
         }
