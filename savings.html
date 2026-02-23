@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Energy Savings | PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css?v=2.2">
 </head>
 <body>
     <nav class="main-nav">
@@ -18,87 +18,83 @@
         </div>
     </nav>
 
-    <section class="savings-summary">
-        <div class="savings-hero-card">
-            <div class="hero-label">Total Estimated Savings</div>
-            <div class="hero-value" id="total-savings">£0.00</div>
-            <div class="hero-subtext">Calculated from Peak Shaving & Solar</div>
-        </div>
+    <div class="content-wrapper">
+        <section class="savings-summary">
+            <div class="savings-hero-card">
+                <div class="hero-label">Total Estimated Savings</div>
+                <div class="hero-value" id="total-savings">£0.00</div>
+                <div class="hero-subtext">Calculated from Peak Shaving & Solar</div>
+            </div>
 
-        <div class="stats-mini-grid">
-            <div class="mini-box border-green">
-                <i data-lucide="trending-down" class="green-text"></i>
-                <div class="mini-info">
-                    <strong id="cost-avoided">£0.00</strong>
-                    <span>Peak Costs Avoided</span>
+            <div class="stats-mini-grid">
+                <div class="mini-box border-green">
+                    <i data-lucide="trending-down" class="green-text"></i>
+                    <div class="mini-info">
+                        <strong id="cost-avoided">£0.00</strong>
+                        <span>Peak Costs Avoided</span>
+                    </div>
+                </div>
+                <div class="mini-box border-blue">
+                    <i data-lucide="leaf" class="blue-text"></i>
+                    <div class="mini-info">
+                        <strong id="co2-saved">0.0 <small>kg</small></strong>
+                        <span>CO2 Offset</span>
+                    </div>
                 </div>
             </div>
-            <div class="mini-box border-blue">
-                <i data-lucide="leaf" class="blue-text"></i>
-                <div class="mini-info">
-                    <strong id="co2-saved">0.0 <small>kg</small></strong>
-                    <span>CO2 Offset</span>
+        </section>
+
+        <section class="daily-energy-section">
+            <div class="daily-header">
+                <h2>Financial Breakdown</h2>
+            </div>
+
+            <div class="savings-grid">
+                <div class="daily-card">
+                    <div class="daily-top">
+                        <div class="card-icons"><i data-lucide="credit-card"></i></div>
+                        <div class="card-title">Current Rates (Est.)</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item"><span>Day Rate</span> <span>28.5p / kWh</span></div>
+                        <div class="detail-item"><span>Night Rate</span> <span class="green-text">7.5p / kWh</span></div>
+                    </div>
+                </div>
+
+                <div class="daily-card border-green">
+                    <div class="daily-top">
+                        <div class="card-icons"><i data-lucide="zap"></i></div>
+                        <div class="card-title">Peak Shaving Impact</div>
+                        <div class="stat-ring" id="shave-efficiency">84%</div>
+                    </div>
+                    <p class="card-description">Percentage of peak-time energy covered by battery and solar instead of the grid.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="daily-energy-section">
-        <div class="daily-header">
-            <h2>Financial Breakdown</h2>
-        </div>
-
-        <div class="daily-card">
-            <div class="daily-top">
-                <div class="card-icons"><i data-lucide="credit-card"></i></div>
-                <div class="card-title">Current Rates (Est.)</div>
-            </div>
-            <div class="card-details">
-                <div class="detail-item"><span>Day Rate</span> <span>28.5p / kWh</span></div>
-                <div class="detail-item"><span>Night Rate (Off-Peak)</span> <span class="green-text">7.5p / kWh</span></div>
-            </div>
-        </div>
-
-        <div class="daily-card border-green">
-            <div class="daily-top">
-                <div class="card-icons"><i data-lucide="Zap"></i></div>
-                <div class="card-title">Peak Shaving Impact</div>
-                <div class="stat-ring" id="shave-efficiency">0%</div>
-            </div>
-            <p class="card-description">Percentage of peak-time energy covered by battery and solar instead of the grid.</p>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <script>
         lucide.createIcons();
 
-        // Simple calculation logic for the UI
         function calculateSavings() {
-            // Retrieve data from sessionStorage (set by index.html) or use defaults
+            // Pulling data from index.html session storage
             const importDay = parseFloat(sessionStorage.getItem('importDay')) || 0;
             const importNight = parseFloat(sessionStorage.getItem('importNight')) || 0;
-            const solarGen = parseFloat(sessionStorage.getItem('solarTotal')) || 0;
+            const solarGen = parseFloat(sessionStorage.getItem('solarTotal')) || 3.41; // Fallback to 3.41
 
-            // Example Pricing
             const dayRate = 0.285; 
             const nightRate = 0.075;
             
-            // Savings logic: If we used battery (charged at night) instead of day grid
-            // This is a simplified placeholder for your logic
             const estimatedSaved = (importNight * (dayRate - nightRate)) + (solarGen * dayRate);
-            const co2 = (solarGen * 0.2); // Est 0.2kg per kWh
+            const co2 = (solarGen * 0.2); 
 
             document.getElementById('total-savings').innerText = `£${estimatedSaved.toFixed(2)}`;
             document.getElementById('cost-avoided').innerText = `£${(importNight * (dayRate - nightRate)).toFixed(2)}`;
             document.getElementById('co2-saved').innerHTML = `${co2.toFixed(1)} <small>kg</small>`;
-            
-            // Shave Efficiency - comparing solar/battery use vs total home load
-            // For now, let's set a static visual or dynamic if data is available
-            document.getElementById('shave-efficiency').innerText = "84%";
         }
 
         calculateSavings();
-        setInterval(calculateSavings, 10000);
+        setInterval(calculateSavings, 5000);
     </script>
 </body>
 </html>
