@@ -7,7 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>PeakShaving Energy Hub</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script src="https://unpkg.com/lucide@0.300.0"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,13 +30,26 @@
     <div class="hub-container">
         <div class="hub-wrapper">
             <svg class="lines-svg" viewBox="0 0 400 400">
-                <line class="hub-line" x1="200" y1="200" x2="200" y2="50" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="130" /> <line class="hub-line" x1="200" y1="200" x2="330" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="260" y2="350" /> <line class="hub-line" id="charger-path" x1="200" y1="200" x2="140" y2="350" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="270" /> <line class="hub-line" x1="200" y1="200" x2="70" y2="130" /> </svg>
+                <line class="hub-line" x1="200" y1="200" x2="200" y2="50" />
+                <line class="hub-line" x1="200" y1="200" x2="330" y2="130" />
+                <line class="hub-line" x1="200" y1="200" x2="330" y2="270" />
+                <line class="hub-line" x1="200" y1="200" x2="260" y2="350" />
+                <line class="hub-line" id="charger-path" x1="200" y1="200" x2="140" y2="350" />
+                <line class="hub-line" x1="200" y1="200" x2="70" y2="270" />
+                <line class="hub-line" x1="200" y1="200" x2="70" y2="130" />
+            </svg>
 
             <div class="central-node"><i data-lucide="zap"></i><span>Energy Hub</span></div>
             
             <div class="spoke n-solar"><i data-lucide="sun"></i><div class="v">2.8 kW</div><div class="l">Solar</div></div>
             <div class="spoke n-wind"><i data-lucide="wind"></i><div class="v">0.0 kW</div><div class="l">Wind</div></div>
-            <div class="spoke n-grid"><i data-lucide="transmission-tower"></i><div class="v">0.0 kW</div><div class="l">Grid</div></div>
+            
+            <div class="spoke n-grid">
+                <i data-lucide="transmission-tower" class="grid-icon"></i>
+                <div class="v">0.0 kW</div>
+                <div class="l">Grid</div>
+            </div>
+
             <div class="spoke n-battery"><i data-lucide="battery"></i><div class="v">0.0 kW</div><div class="l">Battery</div></div>
             <div class="spoke n-heat"><i data-lucide="thermometer"></i><div class="v">0.0 kW</div><div class="l">Heat Pump</div></div>
             <div class="spoke n-home"><i data-lucide="home"></i><div class="v">0.0 kW</div><div class="l">Home</div></div>
@@ -44,14 +58,9 @@
     </div>
 
     <div class="section-header">Daily Energy <i data-lucide="trending-up"></i></div>
-    
     <div class="daily-card">
         <div class="daily-top">
-            <div class="icons">
-                <i data-lucide="zap"></i> 
-                <i data-lucide="thermometer"></i> 
-                <i data-lucide="droplets"></i>
-            </div>
+            <div class="icons"><i data-lucide="zap"></i><i data-lucide="thermometer"></i><i data-lucide="droplets"></i></div>
             <div class="title">Battery Charging</div>
             <div class="ring">20.0%</div>
         </div>
@@ -72,9 +81,7 @@
     </div>
 
     <script>
-        // Initialize Icons
         lucide.createIcons();
-
         async function updateLive() {
             try {
                 const res = await fetch('http://192.168.1.103:5000/api/live');
