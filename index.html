@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ion Smart Hub</title>
+    <title>Ion Live Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -12,62 +12,47 @@
     <nav class="main-nav">
         <div class="nav-top">
             <div class="brand-logo">PeakShaving <span>Ion Live</span></div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item active">Home</a>
-                <a href="savings.html" class="nav-item">Savings</a>
-            </div>
         </div>
     </nav>
 
-    <div id="status-card" class="monitor-circle" style="width: 280px; height: 280px; border: 4px solid #444; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 50px auto; background: rgba(255,255,255,0.05); transition: all 0.5s ease;">
-        <div id="status-text" class="lbl">Incomer Load</div>
-        <p class="kw-main" id="pwr-display" style="font-size: 4.5rem; font-weight: 900; color: #76c757; margin: 0;">0.00</p>
+    <div id="status-card" class="monitor-circle">
+        <div class="lbl">Incomer Load</div>
+        <p class="kw-main" id="pwr-display">---</p>
         <div class="lbl">kW</div>
     </div>
 
-    <section class="daily-energy-section">
+    <section class="status-section">
         <div class="white-box">
-            <div class="icon-circle grid-bg"><i data-lucide="zap"></i></div>
+            <div class="icon-circle"><i data-lucide="zap"></i></div>
             <div class="box-text">
                 <span class="val" id="status-sub">Connecting...</span>
-                <span class="lbl">Charger Status</span>
+                <span class="lbl">SYSTEM STATUS</span>
             </div>
         </div>
     </section>
 
     <script>
         lucide.createIcons();
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-
-        async function updateIonData() {
+        async function updateData() {
             try {
                 const res = await fetch('http://192.168.1.103:5000/api/live');
                 const data = await res.json();
-
                 if(data.online) {
                     document.getElementById('pwr-display').innerText = data.incomer_kw.toFixed(2);
                     document.getElementById('status-sub').innerText = data.status;
-                    
                     const card = document.getElementById('status-card');
-                    if(data.is_charging) {
-                        card.style.borderColor = "#76c757";
-                        card.style.boxShadow = "0 0 20px rgba(118, 199, 87, 0.3)";
-                    } else {
-                        card.style.borderColor = "#444";
-                        card.style.boxShadow = "none";
-                    }
+                    if(data.is_charging) card.classList.add('active-glow');
+                    else card.classList.remove('active-glow');
                 }
             } catch (e) {
                 document.getElementById('status-sub').innerText = "Bridge Offline";
+                document.getElementById('pwr-display').innerText = "OFFLINE";
             }
         }
-
-        setInterval(updateIonData, 5000);
-        updateIonData();
+        setInterval(updateData, 5000);
+        updateData();
     </script>
 </body>
 </html>
