@@ -2,24 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css?v=2.3">
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="app-icon.png">
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div class="brand-logo">PeakShaving <span class="hide-mobile">Energy Hub</span></div>
             <div class="nav-links">
                 <a href="index.html" class="nav-item active">Home</a>
-                <a href="savings.html" class="nav-item">Energy Savings</a>
+                <a href="savings.html" class="nav-item">Savings</a>
             </div>
         </div>
-        <div id="weather-widget" class="weather-bar">
+        <div id="weather-widget" class="weather-bar" onclick="toggleForecast()">
             <i data-lucide="map-pin" class="weather-icon"></i>
-            <span id="weather-summary">Locating Bangor, UK...</span>
+            <span id="weather-summary">Locating...</span>
+            <div id="forecast-drawer" class="forecast-drawer">
+                <div id="forecast-content">Loading forecast...</div>
+            </div>
         </div>
     </nav>
 
@@ -49,14 +53,12 @@
             <div class="node-icon"><i data-lucide="zap"></i></div>
             <div class="node-label-inside">Energy Hub</div>
         </div>
-        
         <div class="node solar-node"><div class="node-icon"><i data-lucide="sun"></i></div><div class="node-value" id="solar-val">0.0 kW</div><div class="node-label-bottom">Solar</div></div>
         <div class="node wind-node"><div class="node-icon"><i data-lucide="wind"></i></div><div class="node-value" id="wind-val">0.0 kW</div><div class="node-label-bottom">Wind</div></div>
         <div class="node battery-node"><div class="node-icon"><i data-lucide="battery"></i></div><div class="node-value" id="batt-val">0.0 kW</div><div class="node-label-bottom">Battery</div></div>
         <div class="node home-node blue-border"><div class="node-icon"><i data-lucide="home"></i></div><div class="node-value" id="home-val">0.0 kW</div><div class="node-label-bottom">Home</div></div>
-        <div id="charger-node" class="node charger-node green-border"><div class="node-icon"><i data-lucide="car"></i></div><div class="node-value" id="ev-val">0.0 kW</div><div class="node-label-bottom">Charger</div></div>
+        <div class="node charger-node green-border"><div class="node-icon"><i data-lucide="car"></i></div><div class="node-value" id="ev-val">0.0 kW</div><div class="node-label-bottom">Charger</div></div>
         <div class="node heatpump-node"><div class="node-icon"><i data-lucide="thermometer"></i></div><div class="node-value" id="hp-val">0.0 kW</div><div class="node-label-bottom">Heat Pump</div></div>
-        
         <div class="node grid-node green-border">
             <div class="node-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/></svg>
@@ -72,102 +74,77 @@
             <i data-lucide="trending-up" class="analytics-icon"></i>
         </div>
 
-        <div class="daily-card">
-            <div class="daily-top">
-                <div class="card-icons"><i data-lucide="battery"></i><i data-lucide="zap"></i></div>
-                <div class="card-title">Battery Status</div>
-                <div class="stat-ring" id="batt-ring">20%</div>
-            </div>
-            <div class="card-details">
-                <div class="detail-item"><span>Remaining</span> <span id="batt-rem">1.00 kWh</span></div>
-                <div class="detail-item"><span>Charged</span> <span id="batt-charge">0.70 kWh</span></div>
-                <div class="detail-item"><span>Discharged</span> <span id="batt-discharge">0.40 kWh</span></div>
-            </div>
-        </div>
-
-        <div class="daily-card border-red">
-            <div class="daily-top">
-                <div class="card-icons">
-                    <i data-lucide="arrow-down-left" class="red-text"></i>
-                    <svg class="inline-grid-icon red-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/>
-                    </svg>
+        <div class="energy-grid-wrapper">
+            <div class="grid-col">
+                <div class="white-box">
+                    <div class="icon-circle sun-bg"><i data-lucide="sun"></i></div>
+                    <div class="box-text">
+                        <span class="val" id="d-solar">0.00 <small>kWh</small></span>
+                        <span class="lbl">Solar Produced</span>
+                    </div>
                 </div>
-                <div class="card-title">Total Grid Imported</div>
-                <div class="stat-value" id="d-grid-import-total">0.00 <small>kWh</small></div>
-            </div>
-            <div class="card-details">
-                <div class="detail-item">
-                    <span><i data-lucide="sun" class="inline-icon orange-text"></i> Day Rate Usage</span> 
-                    <span id="d-import-day">0.00 kWh</span>
-                </div>
-                <div class="detail-item">
-                    <span><i data-lucide="moon" class="inline-icon blue-text"></i> Night Rate Usage</span> 
-                    <span id="d-import-night">0.00 kWh</span>
+                <div class="white-box">
+                    <div class="icon-circle home-bg"><i data-lucide="home"></i></div>
+                    <div class="box-text">
+                        <span class="val" id="d-home">0.00 <small>kWh</small></span>
+                        <span class="lbl">Home Consumed</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="daily-card border-green">
-            <div class="daily-top">
-                <div class="card-icons">
-                    <i data-lucide="arrow-up-right" class="green-text"></i>
-                    <svg class="inline-grid-icon green-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/>
-                    </svg>
+            <div class="grid-col">
+                <div class="white-box rate-night">
+                    <div class="icon-circle grid-bg"><i data-lucide="moon"></i></div>
+                    <div class="box-text">
+                        <span class="val" id="d-import-night">0.00 <small>kWh</small></span>
+                        <span class="lbl">Grid Night Rate</span>
+                    </div>
                 </div>
-                <div class="card-title">Total Grid Exported</div>
-                <div class="stat-value" id="d-grid-export">0.10 <small>kWh</small></div>
+                <div class="white-box rate-day">
+                    <div class="icon-circle grid-bg"><i data-lucide="sun-medium"></i></div>
+                    <div class="box-text">
+                        <span class="val" id="d-import-day">0.00 <small>kWh</small></span>
+                        <span class="lbl">Grid Day Rate</span>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="stats-mini-grid">
-            <div class="mini-box"><i data-lucide="sun" class="orange-text"></i><div class="mini-info"><strong id="d-solar">0.00 <small>kWh</small></strong><span>Solar Produced</span></div></div>
-            <div class="mini-box border-green"><i data-lucide="home" class="green-text"></i><div class="mini-info"><strong id="d-home">0.00 <small>kWh</small></strong><span>Home Consumed</span></div></div>
         </div>
     </section>
 
     <script>
         lucide.createIcons();
-        let dailyTotals = { solar: 0, home: 0, importDay: 0, importNight: 0, export: 0.10 };
-
-        async function updateWeather() {
-            try {
-                // Added wind_speed_10m to the API call
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2273&longitude=-4.1293&current=temperature_2m,relative_humidity_2m,wind_speed_10m&wind_speed_unit=mph');
-                const data = await res.json();
-                
-                const temp = Math.round(data.current.temperature_2m);
-                const hum = data.current.relative_humidity_2m;
-                const wind = Math.round(data.current.wind_speed_10m);
-                
-                document.getElementById('weather-summary').innerText = `Bangor, UK: ${temp}°C • ${hum}% Humidity • ${wind} mph Wind`;
-            } catch (e) { document.getElementById('weather-summary').innerText = "Bangor, UK (Offline)"; }
+        let dailyTotals = { solar: 0, home: 0, importDay: 0, importNight: 0 };
+        function isBST() {
+            const date = new Date();
+            const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+            const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+            return date.getTimezoneOffset() < Math.max(jan, jul);
         }
-
-        async function updateLive() {
-            try {
-                const res = await fetch('http://192.168.1.103:5000/api/live');
-                const data = await res.json();
-                if(data.online) {
-                    const kw = data.incomer_kw.toFixed(1) + " kW";
-                    document.getElementById('grid-val').innerText = kw;
-                    document.getElementById('top-grid').innerText = kw;
-                    
-                    const totalImport = (dailyTotals.importDay + dailyTotals.importNight).toFixed(2);
-                    document.getElementById('d-grid-import-total').innerHTML = `${totalImport} <small>kWh</small>`;
-                    document.getElementById('d-import-day').innerText = `${dailyTotals.importDay.toFixed(2)} kWh`;
-                    document.getElementById('d-import-night').innerText = `${dailyTotals.importNight.toFixed(2)} kWh`;
-                    document.getElementById('d-solar').innerHTML = `${dailyTotals.solar.toFixed(2)} <small>kWh</small>`;
-                    document.getElementById('d-home').innerHTML = `${dailyTotals.home.toFixed(2)} <small>kWh</small>`;
-                }
-            } catch (e) {}
+        function updateDashboard() {
+            const solar = Math.random() * 4.5;
+            const wind = Math.random() * 2.0;
+            const home = 0.6 + Math.random() * 0.4;
+            const generated = solar + wind;
+            const grid = Math.max(0, (home + 2.0) - generated);
+            const hour = new Date().getHours();
+            const bst = isBST();
+            const tick = 1 / 1200;
+            const start = bst ? 2 : 1;
+            const end = bst ? 9 : 8;
+            if (hour >= start && hour < end) { dailyTotals.importNight += grid * tick; } 
+            else { dailyTotals.importDay += grid * tick; }
+            dailyTotals.solar += solar * tick;
+            dailyTotals.home += home * tick;
+            document.getElementById('solar-val').innerText = `${solar.toFixed(1)} kW`;
+            document.getElementById('grid-val').innerText = `${grid.toFixed(1)} kW`;
+            document.getElementById('d-solar').innerHTML = `${dailyTotals.solar.toFixed(2)} <small>kWh</small>`;
+            document.getElementById('d-home').innerHTML = `${dailyTotals.home.toFixed(2)} <small>kWh</small>`;
+            document.getElementById('d-import-day').innerHTML = `${dailyTotals.importDay.toFixed(2)} <small>kWh</small>`;
+            document.getElementById('d-import-night').innerHTML = `${dailyTotals.importNight.toFixed(2)} <small>kWh</small>`;
+            sessionStorage.setItem('importDay', dailyTotals.importDay);
+            sessionStorage.setItem('importNight', dailyTotals.importNight);
+            sessionStorage.setItem('solarTotal', dailyTotals.solar);
         }
-
-        setInterval(updateLive, 5000);
-        setInterval(updateWeather, 600000);
-        updateLive();
-        updateWeather();
+        setInterval(updateDashboard, 3000);
     </script>
 </body>
 </html>
