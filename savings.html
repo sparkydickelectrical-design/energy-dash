@@ -2,36 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Savings - PeakShaving</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Savings</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="savings-container" style="padding: 20px; width: 90%; max-width: 450px;">
-        <h2 style="font-size: 1.5rem; font-weight: 800;">Financial Impact</h2>
-        <div class="white-box" style="margin-top: 20px; padding: 25px; flex-direction: column; align-items: flex-start;">
-            <span class="lbl">ESTIMATED COST TODAY</span>
-            <span id="daily-cost" style="font-size: 2.5rem; font-weight: 800; color: #1e293b;">£0.00</span>
-            <p id="cost-breakdown" style="color: #64748b; font-size: 0.8rem; margin-top: 5px;"></p>
+    <header class="header">
+        <div class="brand">
+            <span class="white">PeakShaving</span> <span class="green">Energy</span><br>
+            <span class="green">Hub</span>
         </div>
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="savings.html" class="active">Energy Savings</a>
+        </nav>
+    </header>
+
+    <div class="section-header" style="margin-top: 40px;">Financial Impact</div>
+    
+    <div class="financial-card">
+        <div class="f-label">ESTIMATED COST TODAY</div>
+        <div class="f-price">£1.41</div>
+        <div class="f-sub">Day: £1.18 | Night: £0.23</div>
     </div>
 
-    <script>
-        function updateSavings() {
-            const dayKWh = parseFloat(sessionStorage.getItem('importDay')) || 0;
-            const nightKWh = parseFloat(sessionStorage.getItem('importNight')) || 0;
-            
-            const dayPrice = 0.32; // Example 32p Day
-            const nightPrice = 0.11; // Example 11p Night
-            const total = (dayKWh * dayPrice) + (nightKWh * nightPrice);
-            
-            document.getElementById('daily-cost').innerText = `£${total.toFixed(2)}`;
-            document.getElementById('cost-breakdown').innerText = 
-                `Day: £${(dayKWh*dayPrice).toFixed(2)} | Night: £${(nightKWh*nightPrice).toFixed(2)}`;
-        }
-        setInterval(updateSavings, 3000);
-        updateSavings();
-    </script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
