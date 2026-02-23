@@ -42,7 +42,7 @@ body { background: #000; color: #fff; font-family: -apple-system, sans-serif; pa
 .daily-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .daily-card { background: #111; border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid #222; position: relative; }
 .daily-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.card-icons { display: flex; gap: 8px; color: #94a3b8; }
+.card-icons { display: flex; gap: 8px; color: #94a3b8; align-items: center; }
 .card-title { font-weight: 700; font-size: 1.05rem; flex-grow: 1; margin-left: 12px; }
 .stat-value { font-size: 1.2rem; font-weight: 800; color: #fff; }
 .stat-value small { font-size: 0.7rem; color: #94a3b8; }
@@ -52,6 +52,7 @@ body { background: #000; color: #fff; font-family: -apple-system, sans-serif; pa
 
 /* INLINE ICONS */
 .inline-icon { width: 14px; height: 14px; vertical-align: middle; margin-right: 4px; }
+.inline-grid-icon { width: 18px; height: 18px; }
 
 .stats-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .mini-box { background: #111; padding: 15px; border-radius: 18px; display: flex; align-items: center; gap: 12px; border: 1px solid #222; }
