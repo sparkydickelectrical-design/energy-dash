@@ -1,81 +1,254 @@
-html, body { background: #000; color: #fff; font-family: -apple-system, sans-serif; margin: 0; padding: 20px; box-sizing: border-box; overflow-x: hidden; }
-
-.header, .summary-row, .hub-container, .section-header, .daily-card, .stats-grid {
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
+/* GLOBAL RESET & BASE STYLES */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
 }
 
-.header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
-.brand { line-height: 1.1; font-weight: 800; font-size: 1.4rem; }
-.white { color: #fff; }
-.green { color: #4ade80; }
-.nav a { color: #94a3b8; text-decoration: none; margin-left: 15px; font-size: 0.9rem; font-weight: 600; }
-.nav a.active { color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 4px; }
-
-.locating { color: #94a3b8; font-size: 0.85rem; text-align: center; margin: 20px 0; }
-
-.summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.summary-box { background: #1a1a1a; padding: 18px; border-radius: 15px; border: 2px solid #333; }
-.summary-box.red { border-color: #7f1d1d; }
-.summary-box.green { border-color: #14532d; }
-.label { font-size: 0.55rem; color: #94a3b8; font-weight: bold; margin-bottom: 5px; }
-.value { font-size: 1.6rem; font-weight: 800; }
-
-/* HUB DESIGN */
-.hub-container { position: relative; width: 100%; height: 420px; display: flex; justify-content: center; align-items: center; }
-.hub-wrapper { position: relative; width: 400px; height: 400px; transform: scale(0.95); }
-.lines-svg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
-.hub-line { stroke: #333; stroke-dasharray: 4, 4; stroke-width: 1.5; }
-
-.central-node { position: absolute; top: 200px; left: 200px; transform: translate(-50%, -50%); width: 100px; height: 100px; background: #222; border: 2px solid #444; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; }
-
-.spoke { position: absolute; width: 80px; height: 80px; background: #000; border: 2px solid #333; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transform: translate(-50%, -50%); }
-
-/* Grid Specific Graphic */
-.grid-icon-svg { 
-    width: 28px !important; 
-    height: 28px !important; 
-    stroke: #4ade80 !important; 
-    margin-bottom: 4px;
+body { 
+    background-color: #000; 
+    color: #fff; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 20px;
+    line-height: 1.4;
+    overflow-x: hidden;
 }
-.n-grid { border-color: #4ade80 !important; }
 
-/* Global icon styling */
-.spoke svg, .spoke i { 
+/* NAVIGATION & WEATHER BAR */
+.main-nav { 
+    margin-bottom: 25px; 
+}
+
+.nav-top { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 15px; 
+}
+
+.brand-logo { 
+    font-weight: 800; 
+    font-size: 1.3rem; 
+    letter-spacing: -0.02em;
+}
+
+.brand-logo span { 
+    color: #4ade80; 
+}
+
+.nav-links .nav-item { 
+    color: #94a3b8; 
+    text-decoration: none; 
+    margin-left: 15px; 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+}
+
+.nav-links .nav-item.active { 
+    color: #3b82f6; 
+    border-bottom: 2px solid #3b82f6; 
+    padding-bottom: 4px; 
+}
+
+.weather-bar { 
+    background: #111; 
+    padding: 12px 16px; 
+    border-radius: 14px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    color: #94a3b8;
+    font-size: 0.85rem;
+    border: 1px solid #222;
+}
+
+.weather-icon { 
+    color: #3b82f6; 
+}
+
+/* TOP DATA SUMMARY BOXES */
+.data-header { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+    margin-bottom: 30px; 
+}
+
+.data-box { 
+    background: #1a1a1a; 
+    padding: 18px; 
+    border-radius: 16px; 
+    border-left: 4px solid #333; 
+}
+
+.grid-box { border-left-color: #ef4444; }
+.renewable-box { border-left-color: #4ade80; }
+
+.box-label { 
+    display: block; 
+    font-size: 0.6rem; 
+    color: #94a3b8; 
+    text-transform: uppercase; 
+    font-weight: 700;
+    margin-bottom: 6px; 
+}
+
+.box-value { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+}
+
+/* RADIAL HUB LAYOUT */
+.radial-dashboard { 
+    position: relative; 
+    width: 100%; 
+    max-width: 400px; 
+    height: 400px; 
+    margin: 40px auto; 
+}
+
+.connections-layer { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 1; 
+}
+
+.dash-line { 
+    stroke: #222; 
+    stroke-width: 2; 
+    stroke-dasharray: 4 4; 
+}
+
+/* INDIVIDUAL NODES */
+.node { 
+    position: absolute; 
+    z-index: 10; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    background: #000;
+    border: 2px solid #333;
+    border-radius: 50%;
+    width: 75px; 
+    height: 75px;
+    transform: translate(-50%, -50%);
+}
+
+.center-node { 
+    width: 100px; 
+    height: 100px; 
+    background: #111; 
+    border-color: #444; 
+    top: 50%; 
+    left: 50%; 
+}
+
+.node-icon svg, .node-icon i { 
     width: 24px; 
     height: 24px; 
-    margin-bottom: 4px; 
-    stroke: #fff; 
-    stroke-width: 2px;
+    color: #fff; 
 }
 
-/* Positions */
-.n-solar   { top: 50px;  left: 200px; border-color: #fff; }
-.n-wind    { top: 130px; left: 330px; }
-.n-grid    { top: 130px; left: 70px; }
-.n-battery { top: 270px; left: 330px; }
-.n-heat    { top: 270px; left: 70px; }
-.n-charger { top: 350px; left: 140px; border-color: #1d4ed8; }
-.n-home    { top: 350px; left: 260px; border-color: #3b82f6; }
+.node-value { 
+    font-size: 0.85rem; 
+    font-weight: 800; 
+    margin-top: 2px;
+}
 
-/* Sections */
-.section-header { font-size: 1.6rem; font-weight: 900; margin: 30px auto 15px; display: flex; justify-content: space-between; align-items: center; }
-.daily-card { background: #1a1a1a; padding: 25px; border-radius: 30px; margin-bottom: 15px; }
-.daily-top { display: flex; align-items: center; justify-content: space-between; }
-.icons { display: flex; gap: 12px; color: #94a3b8; }
-.title { font-weight: 800; font-size: 1.3rem; flex-grow: 1; padding-left: 15px; }
-.ring { width: 60px; height: 60px; border: 5px solid #2dd4bf; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+.node-label-bottom { 
+    position: absolute; 
+    bottom: -22px; 
+    font-size: 0.65rem; 
+    color: #94a3b8; 
+    white-space: nowrap; 
+}
 
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
-.stat-item { background: #1a1a1a; padding: 18px; border-radius: 20px; display: flex; flex-direction: column; }
-.stat-item strong { font-size: 1.4rem; font-weight: 800; }
-.stat-item small { color: #94a3b8; font-size: 0.8rem; }
+/* NODE COORDINATES (Matching SVG lines) */
+.solar-node     { top: 50px;  left: 200px; }
+.wind-node      { top: 100px; left: 330px; }
+.battery-node   { top: 220px; left: 350px; }
+.home-node      { top: 340px; left: 280px; }
+.charger-node   { top: 340px; left: 120px; }
+.heatpump-node  { top: 220px; left: 50px; }
+.grid-node      { top: 100px; left: 70px; }
 
-/* Colors */
-.orange { color: #f97316 !important; } .blue { color: #3b82f6 !important; }
-.border-left-blue { border-left: 5px solid #3b82f6; }
-.border-left-orange { border-left: 5px solid #f97316; }
+/* NODE HIGHLIGHTS */
+.blue-border { border-color: #3b82f6 !important; }
+.green-border { border-color: #4ade80 !important; }
 
-.active-flow { stroke: #4ade80; stroke-width: 2.5; animation: dash 1s linear infinite; }
-@keyframes dash { to { stroke-dashoffset: -8; } }
+/* DAILY STATISTICS */
+.daily-energy-section { 
+    margin-top: 60px; 
+}
+
+.daily-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px; 
+}
+
+.energy-grid-wrapper { 
+    display: flex; 
+    gap: 12px; 
+}
+
+.grid-col { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.white-box { 
+    background: #1a1a1a; 
+    padding: 16px; 
+    border-radius: 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
+
+.icon-circle { 
+    width: 38px; 
+    height: 38px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.sun-bg { background: #f59e0b; }
+.home-bg { background: #3b82f6; }
+.grid-bg { background: #444; }
+
+.box-text .val { 
+    display: block; 
+    font-size: 1.1rem; 
+    font-weight: 800; 
+}
+
+.box-text .lbl { 
+    font-size: 0.65rem; 
+    color: #94a3b8; 
+}
+
+.val small { 
+    font-size: 0.6rem; 
+    color: #64748b; 
+}
+
+/* ANIMATIONS */
+.active-flow { 
+    stroke: #4ade80; 
+    stroke-width: 3; 
+    animation: flow 1.5s linear infinite; 
+}
+
+@keyframes flow { 
+    to { stroke-dashoffset: -20; } 
+}
