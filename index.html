@@ -7,9 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>PeakShaving Energy Hub</title>
-    
-    <script src="https://unpkg.com/lucide@0.300.0"></script>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 <body>
     <header class="header">
@@ -45,7 +44,9 @@
             <div class="spoke n-wind"><i data-lucide="wind"></i><div class="v">0.0 kW</div><div class="l">Wind</div></div>
             
             <div class="spoke n-grid">
-                <i data-lucide="transmission-tower" class="grid-icon"></i>
+                <svg class="grid-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v20"/><path d="m17 2 3 5"/><path d="m2 7 3-5"/><path d="M7 14h10"/><path d="M3 22l5-5"/><path d="M21 22l-5-5"/><path d="M7 7l5 5 5-5"/><path d="m2 7 20 0"/>
+                </svg>
                 <div class="v">0.0 kW</div>
                 <div class="l">Grid</div>
             </div>
