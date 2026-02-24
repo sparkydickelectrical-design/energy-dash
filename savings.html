@@ -3,71 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Savings | PeakShaving Hub</title>
+    <title>PeakShaving Hub | Live</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=3.0">
+    <link rel="stylesheet" href="style.css?v=3.2">
 </head>
 <body>
     <nav class="main-nav">
         <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span class="hide-mobile">Energy Hub</span></div>
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
             <div class="nav-links">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="savings.html" class="nav-item active">Savings</a>
+                <a href="index.html" class="nav-item active">Home</a>
+                <a href="savings.html" class="nav-item">Savings</a>
             </div>
+        </div>
+        <div id="weather-widget" class="weather-bar">
+            <i data-lucide="map-pin"></i>
+            <span id="weather-summary">Bangor: Loading...</span>
         </div>
     </nav>
 
+    <header class="data-header">
+        <div class="data-box grid-box">
+            <span class="box-label">Grid Consumption</span>
+            <span class="box-value" id="top-grid">0.00 kW</span>
+        </div>
+        <div class="data-box renewable-box">
+            <span class="box-label">Renewable Power</span>
+            <span class="box-value" id="top-renew">0.00 kW</span>
+        </div>
+    </header>
+
+    <div class="radial-dashboard">
+        <svg class="connections-layer" viewBox="0 0 400 400">
+            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" id="line-solar" />
+            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" id="line-wind" />
+            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" id="line-battery" />
+            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" id="line-home" />
+            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" id="line-charger" />
+            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" id="line-hp" />
+            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" id="line-grid" />
+        </svg>
+
+        <div class="node center-node large-hub">
+            <i data-lucide="zap"></i>
+            <div class="node-label-inside">HUB</div>
+        </div>
+        
+        <div class="node solar-node"><i data-lucide="sun"></i><div class="node-value" id="v-solar">0.0</div><div class="node-label-bottom">Solar</div></div>
+        <div class="node wind-node"><i data-lucide="wind"></i><div class="node-value" id="v-wind">0.0</div><div class="node-label-bottom">Wind</div></div>
+        <div class="node battery-node"><i data-lucide="battery"></i><div class="node-value" id="v-batt">0.0</div><div class="node-label-bottom">Battery</div></div>
+        <div class="node home-node blue-border"><i data-lucide="home"></i><div class="node-value" id="v-home">0.0</div><div class="node-label-bottom">Home</div></div>
+        <div class="node charger-node green-border"><i data-lucide="car"></i><div class="node-value" id="v-ev">0.0</div><div class="node-label-bottom">EV</div></div>
+        <div class="node heatpump-node"><i data-lucide="thermometer"></i><div class="node-value" id="v-hp">0.0</div><div class="node-label-bottom">HeatPump</div></div>
+        <div class="node grid-node red-border"><i data-lucide="utility-pole"></i><div class="node-value" id="v-grid">0.0</div><div class="node-label-bottom">Grid</div></div>
+    </div>
+
     <div class="scroll-content">
-        <section class="savings-hero-card">
-            <div class="hero-label">Total Estimated Savings</div>
-            <div class="hero-value" id="total-savings">£142.50</div>
-            <div class="hero-subtext">Based on Night Rate Optimization</div>
-        </section>
-
-        <div class="stats-mini-grid">
-            <div class="mini-box border-green">
-                <i data-lucide="trending-down" class="green-text"></i>
-                <div class="mini-info">
-                    <strong>£84.20</strong>
-                    <span>Avoided Peak Costs</span>
-                </div>
+        <div class="daily-header"><h2>System Health</h2></div>
+        <div class="daily-card">
+            <div class="daily-top">
+                <div class="card-icons"><i data-lucide="battery" class="green-text"></i></div>
+                <div class="card-title">Battery Status</div>
+                <div class="stat-ring" id="soc-ring">0%</div>
             </div>
-            <div class="mini-box border-blue">
-                <i data-lucide="leaf" class="blue-text"></i>
-                <div class="mini-info">
-                    <strong>12.4 <small>kg</small></strong>
-                    <span>CO2 Offset</span>
-                </div>
+            <div class="card-details">
+                <div class="detail-item"><span>Current Flow</span> <span id="batt-flow">0.0 kW</span></div>
+                <div class="detail-item"><span>Efficiency</span> <span class="green-text">94.2%</span></div>
             </div>
         </div>
 
-        <div class="daily-header">
-            <h2>Financial Breakdown</h2>
-        </div>
-
+        <div class="daily-header"><h2>Daily Energy (kWh)</h2></div>
         <div class="energy-grid-wrapper">
-            <div class="daily-card">
-                <div class="daily-top">
-                    <div class="card-icons"><i data-lucide="credit-card"></i></div>
-                    <div class="card-title">Tariff Rates</div>
+            <div class="grid-col">
+                <div class="white-box">
+                    <div class="icon-circle sun-bg"><i data-lucide="sun"></i></div>
+                    <div class="box-text"><span class="val" id="d-solar">0.00</span><span class="lbl">Solar Produced</span></div>
                 </div>
-                <div class="card-details">
-                    <div class="detail-item"><span>Peak (Day)</span> <span>28.5p</span></div>
-                    <div class="detail-item"><span>Off-Peak (Night)</span> <span class="green-text">7.5p</span></div>
+                <div class="white-box">
+                    <div class="icon-circle home-bg"><i data-lucide="home"></i></div>
+                    <div class="box-text"><span class="val" id="d-home">0.00</span><span class="lbl">Home Total</span></div>
                 </div>
             </div>
-
-            <div class="daily-card">
-                <div class="daily-top">
-                    <div class="card-icons"><i data-lucide="zap" class="orange-text"></i></div>
-                    <div class="card-title">Grid Independence</div>
-                    <div class="stat-ring">88%</div>
+            <div class="grid-col">
+                <div class="white-box">
+                    <div class="icon-circle moon-bg"><i data-lucide="moon"></i></div>
+                    <div class="box-text"><span class="val" id="d-night">0.00</span><span class="lbl">Night Import</span></div>
                 </div>
-                <div class="card-details">
-                    <p class="card-description" style="font-size: 0.75rem; color: #94a3b8; margin-top: 10px;">
-                        Percentage of daytime energy supplied by solar and battery storage rather than the grid.
-                    </p>
+                <div class="white-box">
+                    <div class="icon-circle sun-med-bg"><i data-lucide="sun-medium"></i></div>
+                    <div class="box-text"><span class="val" id="d-day">0.00</span><span class="lbl">Day Import</span></div>
                 </div>
             </div>
         </div>
@@ -75,6 +99,60 @@
 
     <script>
         lucide.createIcons();
+
+        // 1. Simulation Data
+        let state = {
+            solar: 2.4, wind: 0.5, batt: -0.8, home: 1.2, ev: 0.0, hp: 0.5, grid: 0.4,
+            soc: 75, dSolar: 12.4, dHome: 8.2, dNight: 4.1, dDay: 0.5
+        };
+
+        function updateUI() {
+            // Update Hub Values
+            document.getElementById('v-solar').innerText = state.solar.toFixed(1);
+            document.getElementById('v-wind').innerText = state.wind.toFixed(1);
+            document.getElementById('v-batt').innerText = state.batt.toFixed(1);
+            document.getElementById('v-home').innerText = state.home.toFixed(1);
+            document.getElementById('v-ev').innerText = state.ev.toFixed(1);
+            document.getElementById('v-hp').innerText = state.hp.toFixed(1);
+            document.getElementById('v-grid').innerText = state.grid.toFixed(1);
+
+            // Top Totals
+            document.getElementById('top-grid').innerText = state.grid.toFixed(2) + " kW";
+            document.getElementById('top-renew').innerText = (state.solar + state.wind).toFixed(2) + " kW";
+
+            // Battery/Daily
+            document.getElementById('soc-ring').innerText = state.soc + "%";
+            document.getElementById('batt-flow').innerText = state.batt.toFixed(1) + " kW";
+            document.getElementById('d-solar').innerText = state.dSolar.toFixed(2);
+            document.getElementById('d-home').innerText = state.dHome.toFixed(2);
+            document.getElementById('d-night').innerText = state.dNight.toFixed(2);
+            document.getElementById('d-day').innerText = state.dDay.toFixed(2);
+
+            // Line Animations (Highlight if power > 0)
+            const lines = ['solar', 'wind', 'battery', 'home', 'charger', 'hp', 'grid'];
+            lines.forEach(id => {
+                const line = document.getElementById('line-' + id);
+                if (line) line.style.stroke = "#4ade80"; 
+            });
+        }
+
+        // 2. Weather API
+        async function fetchWeather() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2273&longitude=-4.1293&current=temperature_2m,wind_speed_10m');
+                const data = await res.json();
+                document.getElementById('weather-summary').innerText = `Bangor: ${Math.round(data.current.temperature_2m)}°C • ${Math.round(data.current.wind_speed_10m)} mph`;
+            } catch (e) { document.getElementById('weather-summary').innerText = "Bangor: 8°C • Breezy"; }
+        }
+
+        setInterval(() => {
+            state.solar += (Math.random() - 0.5) * 0.1;
+            state.home += (Math.random() - 0.5) * 0.05;
+            updateUI();
+        }, 3000);
+
+        fetchWeather();
+        updateUI();
     </script>
 </body>
 </html>
