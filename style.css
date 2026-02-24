@@ -1,72 +1,46 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    background: #000; color: #fff; font-family: -apple-system, sans-serif; 
-    padding: 20px; overflow-x: hidden;
-    line-height: 1.5;
+/* Add these specific lines to your existing style.css if they are missing */
+
+.savings-hero-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 24px;
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1px solid #334155;
 }
 
-/* NAV & HEADER */
-.nav-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.brand-logo { font-weight: 800; font-size: 1.2rem; }
-.brand-logo span { color: #4ade80; }
-.nav-links { display: flex; gap: 15px; }
-.nav-item { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-.nav-item.active { color: #3b82f6; border-bottom: 2px solid #3b82f6; padding-bottom: 4px; }
-@media (max-width: 400px) { .hide-mobile { display: none; } }
-
-.weather-bar { background: #111; padding: 12px; border-radius: 14px; display: flex; align-items: center; gap: 10px; color: #94a3b8; font-size: 0.85rem; border: 1px solid #222; margin-bottom: 20px; }
-.data-header { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.data-box { background: #1a1a1a; padding: 18px; border-radius: 16px; border-left: 4px solid #333; }
-.grid-box { border-left-color: #ef4444; }
-.renewable-box { border-left-color: #4ade80; }
-.box-label { display: block; font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
-.box-value { font-size: 1.3rem; font-weight: 800; }
-
-/* THE HUB (Fixed Height) */
-.radial-dashboard { 
-    position: relative; 
-    width: 100%; max-width: 400px; height: 400px; 
-    margin: 30px auto 60px auto; /* Added bottom margin for spacing */
+.hero-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
-.connections-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-.dash-line { stroke: #222; stroke-width: 2; stroke-dasharray: 4 4; }
-.node { position: absolute; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; border: 2px solid #333; border-radius: 50%; width: 70px; height: 70px; transform: translate(-50%, -50%); }
-.center-node { width: 90px; height: 90px; background: #111; top: 50%; left: 50%; }
-.node-value { font-size: 0.85rem; font-weight: 800; }
-.node-label-bottom { position: absolute; bottom: -20px; font-size: 0.65rem; color: #94a3b8; }
 
-/* NODE POSITIONS */
-.solar-node { top: 50px; left: 200px; }
-.wind-node { top: 100px; left: 330px; }
-.battery-node { top: 220px; left: 350px; }
-.home-node { top: 340px; left: 280px; border-color: #3b82f6 !important; }
-.charger-node { top: 340px; left: 120px; border-color: #4ade80 !important; }
-.heatpump-node { top: 220px; left: 50px; }
-.grid-node { top: 100px; left: 70px; border-color: #ef4444 !important; }
+.hero-value {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+    font-weight: 900;
+    color: #4ade80;
+    margin: 10px 0;
+}
 
-/* SCROLLABLE CONTENT AREA */
-.scroll-content { padding-bottom: 40px; }
-.daily-header { margin: 20px 0 15px 0; border-top: 1px solid #222; padding-top: 20px; }
-.daily-header h2 { font-size: 1.1rem; font-weight: 700; }
+.hero-subtext {
+    font-size: 0.75rem;
+    color: #64748b;
+}
 
-.daily-card { background: #111; border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1px solid #222; }
-.daily-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.card-title { font-weight: 700; font-size: 1rem; flex-grow: 1; margin-left: 10px; }
-.stat-ring { width: 45px; height: 45px; border-radius: 50%; border: 4px solid #2dd4bf; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; }
-.card-details { border-top: 1px solid #222; padding-top: 12px; }
-.detail-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; }
+.stats-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 25px;
+}
 
-/* DAILY GRID */
-.energy-grid-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-.grid-col { display: flex; flex-direction: column; gap: 12px; }
-.white-box { background: #111; padding: 15px; border-radius: 20px; display: flex; align-items: center; gap: 12px; border: 1px solid #222; }
-.icon-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.border-green { border-left: 4px solid #4ade80 !important; }
+.border-blue { border-left: 4px solid #3b82f6 !important; }
 
-/* COLORS */
-.sun-bg { background: rgba(249, 115, 22, 0.1); color: #f97316; }
-.home-bg { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-.moon-bg { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
-.sun-med-bg { background: rgba(234, 179, 8, 0.1); color: #eab308; }
-.green-text { color: #4ade80; }
-.box-text .val { display: block; font-size: 1.1rem; font-weight: 800; }
-.box-text .lbl { font-size: 0.65rem; color: #94a3b8; }
+/* Ensure the grid wrapper works for both pages */
+.energy-grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
