@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Savings | PeakShaving Hub</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=3.4">
+    <link rel="stylesheet" href="style.css?v=4.1">
 </head>
 <body>
     <nav class="main-nav">
@@ -22,7 +22,7 @@
         <section class="savings-hero-card">
             <div class="hero-label">Total Estimated Savings</div>
             <div class="hero-value">£142.50</div>
-            <div class="hero-subtext">Based on Night Rate Optimization</div>
+            <div id="dst-status" class="hero-subtext">Calculating Window...</div>
         </section>
 
         <div class="stats-mini-grid">
@@ -42,24 +42,24 @@
             </div>
         </div>
 
-        <div class="daily-header"><h2>Financial Breakdown</h2></div>
+        <div class="daily-header"><h2>Economy 7 Breakdown</h2></div>
 
         <div class="financial-section">
             <div class="tariff-card">
                 <div class="tariff-header">
-                    <i data-lucide="calculator" class="blue-text"></i>
-                    <span>Current Energy Tariff</span>
+                    <i data-lucide="clock" class="blue-text"></i>
+                    <span id="tariff-label">Economy 7 Schedule</span>
                 </div>
                 <div class="tariff-split">
                     <div class="rate-box peak">
-                        <div class="rate-label"><i data-lucide="sun"></i> Peak Rate</div>
-                        <div class="rate-price">28.5<small>p/kWh</small></div>
-                        <div class="rate-period">07:00 - 00:00</div>
+                        <div class="rate-label"><i data-lucide="sun"></i> Day Rate</div>
+                        <div class="rate-price">28.5<small>p</small></div>
+                        <div id="peak-time" class="rate-period">07:00 — 00:00</div>
                     </div>
-                    <div class="rate-box off-peak">
+                    <div class="rate-box off-peak active-glow">
                         <div class="rate-label"><i data-lucide="moon"></i> Night Rate</div>
-                        <div class="rate-price green-text">7.5<small>p/kWh</small></div>
-                        <div class="rate-period">00:00 - 07:00</div>
+                        <div class="rate-price green-text">7.5<small>p</small></div>
+                        <div id="night-time" class="rate-period">00:00 — 07:00</div>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="card-details">
                     <p class="card-description">
-                        Percentage of your daily energy load covered by solar and battery storage instead of grid import.
+                        Percentage of your daily load covered by solar and battery storage.
                     </p>
                 </div>
             </div>
@@ -81,6 +81,26 @@
 
     <script>
         lucide.createIcons();
+
+        function updateSmartTariff() {
+            const now = new Date();
+            // Detect if browser is currently in British Summer Time
+            const isBST = now.getTimezoneOffset() < 0;
+            const zone = isBST ? "BST" : "GMT";
+
+            // Standard Smart Meter Economy 7 windows
+            const nightStart = "00:00";
+            const nightEnd = "07:00";
+            const dayStart = "07:00";
+            const dayEnd = "00:00";
+
+            document.getElementById('peak-time').innerText = `${dayStart} — ${dayEnd}`;
+            document.getElementById('night-time').innerText = `${nightStart} — ${nightEnd}`;
+            document.getElementById('dst-status').innerText = `Smart Meter Active Zone: ${zone}`;
+            document.getElementById('tariff-label').innerText = `${zone} Economy 7 Schedule`;
+        }
+
+        updateSmartTariff();
     </script>
 </body>
 </html>
