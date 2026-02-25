@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>PeakShaving Hub | Home</title>
+    <title>PeakShaving Hub | Live</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=3.3">
+    <link rel="stylesheet" href="style.css?v=3.5">
 </head>
 <body>
     <nav class="main-nav">
@@ -25,41 +25,41 @@
     <header class="data-header">
         <div class="data-box grid-box">
             <span class="box-label">Grid Consumption</span>
-            <span class="box-value" id="top-grid">0.85 kW</span>
+            <span class="box-value">0.85 kW</span>
         </div>
         <div class="data-box renewable-box">
             <span class="box-label">Renewable Power</span>
-            <span class="box-value" id="top-renew">3.10 kW</span>
+            <span class="box-value">3.10 kW</span>
         </div>
     </header>
 
     <div class="radial-dashboard">
         <svg class="connections-layer" viewBox="0 0 400 400">
-            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" id="line-solar" />
-            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" id="line-wind" />
-            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" id="line-battery" />
-            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" id="line-home" />
-            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" id="line-charger" />
-            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" id="line-hp" />
-            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" id="line-grid" />
+            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
+            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
+            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
         </svg>
 
-        <div class="node center-node large-hub"><i data-lucide="zap"></i></div>
+        <div class="node center-node"><i data-lucide="zap"></i></div>
         
-        <div class="node solar-node"><i data-lucide="sun"></i><div class="node-value" id="v-solar">2.4</div><div class="node-label-bottom">Solar</div></div>
-        <div class="node wind-node"><i data-lucide="wind"></i><div class="node-value" id="v-wind">0.7</div><div class="node-label-bottom">Wind</div></div>
-        <div class="node battery-node"><i data-lucide="battery"></i><div class="node-value" id="v-batt">-0.5</div><div class="node-label-bottom">Battery</div></div>
-        <div class="node home-node blue-border"><i data-lucide="home"></i><div class="node-value" id="v-home">1.1</div><div class="node-label-bottom">Home</div></div>
-        <div class="node charger-node green-border"><i data-lucide="car"></i><div class="node-value" id="v-ev">0.0</div><div class="node-label-bottom">EV</div></div>
-        <div class="node heatpump-node"><i data-lucide="thermometer"></i><div class="node-value" id="v-hp">0.6</div><div class="node-label-bottom">HP</div></div>
-        <div class="node grid-node red-border"><i data-lucide="utility-pole"></i><div class="node-value" id="v-grid">0.8</div><div class="node-label-bottom">Grid</div></div>
+        <div class="node solar-node"><i data-lucide="sun"></i><div class="node-value">2.4</div><div class="node-label-bottom">Solar</div></div>
+        <div class="node wind-node"><i data-lucide="wind"></i><div class="node-value">0.7</div><div class="node-label-bottom">Wind</div></div>
+        <div class="node battery-node"><i data-lucide="battery"></i><div class="node-value">-0.5</div><div class="node-label-bottom">Battery</div></div>
+        <div class="node home-node"><i data-lucide="home"></i><div class="node-value">1.1</div><div class="node-label-bottom">Home</div></div>
+        <div class="node charger-node"><i data-lucide="car"></i><div class="node-value">0.0</div><div class="node-label-bottom">EV</div></div>
+        <div class="node heatpump-node"><i data-lucide="thermometer"></i><div class="node-value">0.6</div><div class="node-label-bottom">HP</div></div>
+        <div class="node grid-node"><i data-lucide="utility-pole"></i><div class="node-value">0.8</div><div class="node-label-bottom">Grid</div></div>
     </div>
 
     <div class="scroll-content">
         <div class="daily-header"><h2>System Health</h2></div>
         <div class="daily-card">
             <div class="daily-top">
-                <div class="card-icons"><i data-lucide="battery" class="green-text"></i></div>
+                <i data-lucide="battery" class="green-text"></i>
                 <div class="card-title">Battery Status</div>
                 <div class="stat-ring">82%</div>
             </div>
@@ -74,11 +74,11 @@
             <div class="grid-col">
                 <div class="white-box">
                     <div class="icon-circle sun-bg"><i data-lucide="sun"></i></div>
-                    <div class="box-text"><span class="val">14.2 kWh</span><span class="lbl">Solar Produced</span></div>
+                    <div class="box-text"><span class="val">14.2 kWh</span><span class="lbl">Solar</span></div>
                 </div>
                 <div class="white-box">
                     <div class="icon-circle home-bg"><i data-lucide="home"></i></div>
-                    <div class="box-text"><span class="val">8.4 kWh</span><span class="lbl">Home Consumed</span></div>
+                    <div class="box-text"><span class="val">8.4 kWh</span><span class="lbl">Home</span></div>
                 </div>
             </div>
             <div class="grid-col">
@@ -93,16 +93,6 @@
             </div>
         </div>
     </div>
-    <script>
-        lucide.createIcons();
-        async function updateWeather() {
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2273&longitude=-4.1293&current=temperature_2m,wind_speed_10m');
-                const data = await res.json();
-                document.getElementById('weather-summary').innerText = `Bangor: ${Math.round(data.current.temperature_2m)}°C • ${Math.round(data.current.wind_speed_10m)} mph`;
-            } catch (e) { document.getElementById('weather-summary').innerText = "Bangor: 12°C • Clear"; }
-        }
-        updateWeather();
-    </script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
