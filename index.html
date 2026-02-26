@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Dashboard | PeakShaving Pro</title>
+    <title>Dashboard | PeakShaving Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -12,118 +12,162 @@
         <aside class="sidebar" id="sidebar">
             <div class="nav-brand">PeakShaving <span class="green-text">PRO</span></div>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-                <a href="savings.html" class="nav-link"><i data-lucide="banknote"></i> Savings</a>
-                <a href="analytics.html" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
+                <a href="#" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="#" class="nav-link"><i data-lucide="banknote"></i> Savings</a>
+                <a href="#" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
             </nav>
             <div class="status-container">
                 <div class="status-pill"><div class="indicator-dot"></div> System Online</div>
-                <div id="sync-stat" style="font-size:0.6rem; color:var(--tx-m); margin-top:5px;">Bangor Sync: Active</div>
+                <div id="sync-stat" style="font-size:0.55rem; color:var(--tx-m); margin-top:5px; font-weight: 600;">BANGOR CLOUD SYNC: ACTIVE</div>
             </div>
         </aside>
 
         <main class="main-content">
             <div class="weather-bar">
-                <div id="live-loc"><i data-lucide="map-pin"></i> Bangor, UK</div>
-                <div id="live-temp"><i data-lucide="thermometer"></i> --°C</div>
-                <div id="live-wind"><i data-lucide="wind"></i> -- mph</div>
+                <div><i data-lucide="map-pin" style="width:14px"></i> Bangor, UK</div>
+                <div id="live-temp"><i data-lucide="thermometer" style="width:14px"></i> --°C</div>
+                <div id="live-wind"><i data-lucide="wind" style="width:14px"></i> -- mph</div>
             </div>
-
-            <header class="data-header">
-                <div class="data-box"><span class="box-label">Grid Intensity</span><div class="box-value" id="grid-intensity">--</div></div>
-                <div class="data-box"><span class="box-label">Solar Yield</span><div class="box-value green-text" id="solar-val">3.10<small>kW</small></div></div>
-            </header>
 
             <section class="radial-container">
                 <svg class="connections-layer" viewBox="0 0 400 400">
-                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line flow-in" />
-                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line flow-in" />
-                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line flow-in" />
-                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line flow-out" />
-                    <line id="ev-line" x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line flow-out" />
-                    <line id="grid-line" x1="200" y1="200" x2="70" y2="100" class="dash-line flow-grid-in" />
+                    <line id="line-solar" x1="200" y1="200" x2="200" y2="50" class="dash-line flow-in" />
+                    <line id="line-wind" x1="200" y1="200" x2="330" y2="100" class="dash-line flow-in" />
+                    <line id="line-batt" x1="200" y1="200" x2="350" y2="220" class="dash-line flow-in" />
+                    <line id="line-home" x1="200" y1="200" x2="280" y2="340" class="dash-line flow-out" />
+                    <line id="line-ev" x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+                    <line id="line-hp" x1="200" y1="200" x2="50" y2="220" class="dash-line flow-out" />
+                    <line id="line-grid" x1="200" y1="200" x2="70" y2="100" class="dash-line flow-grid" />
                 </svg>
 
-                <div class="node-wrapper center-pos"><div class="node" style="width:95px;height:95px;border-color:#333"><i data-lucide="zap" class="blue-text"></i></div><span class="external-label">Hub</span></div>
-                <div class="node-wrapper solar-pos"><div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v" id="node-solar">2.4</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
-                <div class="node-wrapper wind-pos"><div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v" id="node-wind">0.7</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
+                <div class="node-wrapper center-pos"><div class="node" style="width:90px;height:90px;border-color:#222"><i data-lucide="zap" class="blue-text"></i></div><span class="external-label">Hub</span></div>
+                <div class="node-wrapper solar-pos"><div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v" id="val-solar">2.4</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
+                <div class="node-wrapper wind-pos"><div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v" id="val-wind">0.8</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
                 <div class="node-wrapper battery-pos"><div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div><span class="external-label">Storage</span></div>
-                <div class="node-wrapper home-pos"><div class="node" style="border-color:var(--blue)!important"><i data-lucide="home" class="blue-text"></i><span class="v" id="node-home">1.1</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
-                
-                <div class="node-wrapper charger-pos">
-                    <div id="ev-node" class="node"><i data-lucide="car"></i><span class="v" id="node-ev">0.0</span><span class="u">kW</span></div>
-                    <span class="external-label">EV Charger</span>
-                </div>
-
+                <div class="node-wrapper home-pos"><div class="node"><i data-lucide="home" class="blue-text"></i><span class="v" id="val-home">1.2</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
+                <div class="node-wrapper charger-pos"><div id="node-ev" class="node"><i data-lucide="car"></i><span class="v" id="val-ev">0.0</span><span class="u">kW</span></div><span class="external-label">EV Charger</span></div>
                 <div class="node-wrapper heatpump-pos"><div class="node"><i data-lucide="snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div><span class="external-label">Heat Pump</span></div>
-                <div class="node-wrapper grid-pos"><div class="node" id="grid-node" style="border-color:var(--red)!important"><i data-lucide="utility-pole" id="grid-icon" class="red-text"></i><span class="v" id="node-grid">0.8</span><span class="u">kW</span></div><span class="external-label" id="grid-label">Grid</span></div>
+                <div class="node-wrapper grid-pos"><div id="node-grid" class="node"><i data-lucide="utility-pole" id="icon-grid" class="red-text"></i><span class="v" id="val-grid">1.1</span><span class="u">kW</span></div><span class="external-label" id="lbl-grid">Grid Import</span></div>
             </section>
 
-            <section class="battery-viz-card">
-                <div style="position:relative;width:100px;height:100px">
-                    <svg width="100" height="100"><circle class="ring-bg" cx="50" cy="50" r="45"></circle><circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 22"></circle></svg>
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
+            <section class="sim-lab">
+                <div class="sim-header"><i data-lucide="flask-conical" style="width:16px"></i> Simulation Lab</div>
+                <div class="sim-controls">
+                    <div class="sim-group">
+                        <label>Solar Generation (kW)</label>
+                        <input type="range" id="sim-solar" min="0" max="8" step="0.1" value="2.4" oninput="runSim()">
+                    </div>
+                    <div class="sim-group">
+                        <label>EV Charging Load (kW)</label>
+                        <input type="range" id="sim-ev" min="0" max="11" step="0.1" value="0" oninput="runSim()">
+                    </div>
+                    <div class="sim-group">
+                        <label>Grid Status</label>
+                        <select id="sim-grid" onchange="runSim()">
+                            <option value="clean">Clean (Normal Import)</option>
+                            <option value="dirty">Dirty (Peak Shave Active)</option>
+                        </select>
+                    </div>
+                    <div class="sim-group" style="display:flex; align-items:flex-end;">
+                        <button onclick="location.reload()" style="width:100%; padding:8px; background:var(--bd); border:none; color:var(--tx-m); border-radius:6px; font-size:0.7rem; font-weight:800; cursor:pointer;">RESET TO LIVE DATA</button>
+                    </div>
                 </div>
-                <div><div style="font-size:1.8rem;font-weight:900">13.8 <small class="tx-m" style="font-size:.9rem">kWh</small></div><div class="box-label">Current Storage</div></div>
             </section>
         </main>
     </div>
 
     <script>
         lucide.createIcons();
-        async function updateLiveStats() {
+        let isSimulating = false;
+
+        async function fetchLiveData() {
+            if (isSimulating) return;
             try {
-                // Weather Bangor
+                // Weather API (Bangor)
                 const wRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2274&longitude=-4.1293&current=temperature_2m,wind_speed_10m');
                 const wData = await wRes.json();
-                document.getElementById('live-temp').innerHTML = `<i data-lucide="thermometer"></i> ${wData.current.temperature_2m}°C`;
-                document.getElementById('live-wind').innerHTML = `<i data-lucide="wind"></i> ${wData.current.wind_speed_10m} mph`;
+                document.getElementById('live-temp').innerHTML = `<i data-lucide="thermometer" style="width:14px"></i> ${wData.current.temperature_2m}°C`;
+                document.getElementById('live-wind').innerHTML = `<i data-lucide="wind" style="width:14px"></i> ${wData.current.wind_speed_10m} mph`;
 
-                // Grid Carbon
-                const gRes = await fetch('https://api.carbonintensity.org.uk/intensity');
-                const gData = await gRes.json();
-                const intensity = gData.data[0].intensity.actual || gData.data[0].intensity.forecast;
-                const index = gData.data[0].intensity.index;
-                document.getElementById('grid-intensity').innerText = `${intensity} gCO2/kWh`;
-
-                // Smart Grid Logic
-                if(index === 'high' || index === 'very high') {
-                    document.getElementById('node-grid').innerText = "0.1";
-                    document.getElementById('grid-icon').className = "blue-text";
-                    document.getElementById('grid-line').classList.remove('flow-grid-in');
-                    document.getElementById('grid-label').innerText = "Peak Shaving";
-                }
-
-                // Smart EV Logic Simulator (30% chance charging)
-                const isCharging = Math.random() > 0.7;
-                const evNode = document.getElementById('ev-node');
-                const evLine = document.getElementById('ev-line');
-                const evVal = document.getElementById('node-ev');
+                // Carbon Intensity API
+                const cRes = await fetch('https://api.carbonintensity.org.uk/intensity');
+                const cData = await cRes.json();
+                const intensity = cData.data[0].intensity.index;
                 
-                if(isCharging) {
-                    evVal.innerText = (7.2 + Math.random()).toFixed(1);
-                    evNode.className = "node node-charging";
-                    evNode.querySelector('i').className = "green-text";
-                    evLine.className = "dash-line flow-ev-active";
+                if (intensity === 'high' || intensity === 'very high') {
+                    updateGridUI(true);
                 } else {
-                    evVal.innerText = "0.0";
-                    evNode.className = "node node-idle";
-                    evNode.querySelector('i').className = "red-text";
-                    evLine.className = "dash-line flow-ev-idle";
+                    updateGridUI(false);
                 }
-
-                document.getElementById('node-solar').innerText = (2.4 + (Math.random()*0.3)).toFixed(1);
                 lucide.createIcons();
-            } catch (e) { console.log(e); }
+            } catch (e) { console.error("API Error", e); }
         }
-        updateLiveStats(); setInterval(updateLiveStats, 15000);
-        const btn = document.getElementById('menuBtn'); const sidebar = document.getElementById('sidebar');
+
+        function updateGridUI(isDirty) {
+            const node = document.getElementById('node-grid');
+            const icon = document.getElementById('icon-grid');
+            const label = document.getElementById('lbl-grid');
+            const line = document.getElementById('line-grid');
+            const val = document.getElementById('val-grid');
+
+            if (isDirty) {
+                node.style.borderColor = "var(--blue)";
+                icon.className = "blue-text";
+                label.innerText = "Peak Shaving";
+                line.style.stroke = "var(--blue)";
+                val.innerText = "0.1";
+            } else {
+                node.style.borderColor = "var(--red)";
+                icon.className = "red-text";
+                label.innerText = "Grid Import";
+                line.style.stroke = "var(--red)";
+                val.innerText = "1.1";
+            }
+        }
+
+        function runSim() {
+            isSimulating = true;
+            document.getElementById('sync-stat').innerText = "MANUAL SIMULATION ACTIVE";
+            document.getElementById('sync-stat').style.color = "var(--gold)";
+
+            // Update Solar
+            const sVal = document.getElementById('sim-solar').value;
+            document.getElementById('val-solar').innerText = sVal;
+            document.getElementById('line-solar').style.opacity = sVal > 0 ? "0.8" : "0.1";
+
+            // Update EV
+            const eVal = parseFloat(document.getElementById('sim-ev').value);
+            const evNode = document.getElementById('node-ev');
+            const evLine = document.getElementById('line-ev');
+            document.getElementById('val-ev').innerText = eVal.toFixed(1);
+
+            if (eVal > 0) {
+                evNode.className = "node node-charging";
+                evNode.querySelector('i').className = "green-text";
+                evLine.className = "dash-line flow-rev";
+                evLine.style.stroke = "var(--green)";
+                evLine.style.opacity = "1";
+            } else {
+                evNode.className = "node node-idle";
+                evNode.querySelector('i').className = "red-text";
+                evLine.className = "dash-line";
+                evLine.style.stroke = "var(--red)";
+                evLine.style.opacity = "0.3";
+            }
+
+            // Update Grid
+            updateGridUI(document.getElementById('sim-grid').value === 'dirty');
+            lucide.createIcons();
+        }
+
+        const btn = document.getElementById('menuBtn');
         btn.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            btn.querySelector('i').setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
+            document.getElementById('sidebar').classList.toggle('open');
             lucide.createIcons();
         });
+
+        fetchLiveData();
+        setInterval(fetchLiveData, 30000);
     </script>
 </body>
 </html>
