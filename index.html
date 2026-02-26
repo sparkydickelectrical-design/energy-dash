@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dynamic Flow Hub | PeakShaving Pro</title>
+    <title>Full System Flow | PeakShaving Pro</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
@@ -40,15 +40,14 @@
         .tel-lbl { font-size: 0.85rem; color: #888; font-weight: 600; }
         .tel-val { font-weight: 900; font-size: 1rem; }
 
-        /* RADIAL HUB */
+        /* RADIAL HUB & SVG */
         .radial-section { position: relative; height: 380px; width: 400px; margin: 0 auto 30px auto; }
         .radial-hub { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .svg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
         
-        /* DASHED LINES */
-        .dash-line { stroke: #222; stroke-width: 2.5; stroke-dasharray: 6; fill: none; transition: stroke 0.5s ease; }
+        .dash-line { stroke: #222; stroke-width: 2.5; stroke-dasharray: 6; fill: none; transition: stroke 0.4s ease; }
         
-        /* FLOW ANIMATIONS */
+        /* DIRECTIONAL FLOW ANIMATIONS */
         .flow-in { animation: flowIn 2s linear infinite; }
         .flow-out { animation: flowOut 2s linear infinite; }
         
@@ -60,22 +59,23 @@
         .node-circle {
             width: 62px; height: 62px; background: #000; border: 2px solid #222; border-radius: 50%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: border-color 0.4s ease;
         }
-        .node-circle i { width: 16px; height: 16px; color: #555; margin-bottom: 2px; }
+        .node-circle i { width: 16px; height: 16px; color: #555; margin-bottom: 2px; transition: color 0.4s ease; }
         .node-circle .val { font-weight: 900; font-size: 0.85rem; }
         .node-tag { font-size: 0.55rem; color: #666; font-weight: 800; margin-top: 8px; display: block; }
 
-        /* Positions */
+        /* NODE POSITIONS (FIXED SOLAR) */
         .pos-center { top: 50%; left: 50%; }
-        .pos-n1 { top: 12.5%; left: 50%; } /* Solar */
-        .pos-n2 { top: 25%; left: 83%; }  /* Wind */
-        .pos-n3 { top: 55%; left: 88%; }  /* Storage */
-        .pos-n4 { top: 85%; left: 70%; }  /* Home */
-        .pos-n5 { top: 85%; left: 30%; }  /* EV */
-        .pos-n6 { top: 55%; left: 12%; }  /* Heat Pump */
-        .pos-n7 { top: 25%; left: 17.5%; } /* Grid */
+        .pos-n1 { top: 12.5%; left: 50%; } 
+        .pos-n2 { top: 25%; left: 83%; }  
+        .pos-n3 { top: 55%; left: 88%; }  
+        .pos-n4 { top: 85%; left: 70%; }  
+        .pos-n5 { top: 85%; left: 30%; }  
+        .pos-n6 { top: 55%; left: 12%; }  
+        .pos-n7 { top: 25%; left: 17.5%; } 
 
-        /* SLIDERS */
+        /* CONTROL PANEL */
         .control-panel { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #1a1a1a; margin-bottom: 40px; }
         .slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .slider-header { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-weight: 700; margin-bottom: 5px;}
@@ -92,14 +92,14 @@
         <div class="side-logo"><i data-lucide="zap" class="green-text"></i></div>
         <nav class="side-links">
             <a href="#" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>HUB</span></a>
-            <a href="#" class="nav-item"><i data-lucide="trending-up"></i><span>DATA</span></a>
+            <a href="#" class="nav-item"><i data-lucide="bar-chart-3"></i><span>DATA</span></a>
         </nav>
     </aside>
 
     <div class="main-content">
         <header class="telemetry-bar">
-            <div class="tel-row"><span class="tel-lbl">Real-time Grid</span><span class="tel-val" id="tel-grid">0.0 kW</span></div>
-            <div class="tel-row"><span class="tel-lbl">Renewable Yield</span><span class="tel-val green-text" id="tel-yield">0.0 kW</span></div>
+            <div class="tel-row"><span class="tel-lbl">Utility Import/Export</span><span class="tel-val" id="tel-grid">0.0 kW</span></div>
+            <div class="tel-row"><span class="tel-lbl">Renewable Contribution</span><span class="tel-val green-text" id="tel-yield">0.0 kW</span></div>
         </header>
 
         <section class="radial-section">
@@ -115,6 +115,7 @@
                 </svg>
 
                 <div class="node-box pos-center"><div class="node-circle"><i data-lucide="cpu" class="blue-text"></i></div><span class="node-tag">CORE</span></div>
+                
                 <div class="node-box pos-n1"><div class="node-circle" id="node-solar"><i data-lucide="sun"></i><span class="val">0.0</span></div><span class="node-tag">SOLAR</span></div>
                 <div class="node-box pos-n2"><div class="node-circle" id="node-wind"><i data-lucide="wind"></i><span class="val">0.0</span></div><span class="node-tag">WIND</span></div>
                 <div class="node-box pos-n3"><div class="node-circle" id="node-batt"><i data-lucide="battery"></i><span class="val">0.0</span></div><span class="node-tag">BATT</span></div>
@@ -127,30 +128,37 @@
 
         <div class="control-panel">
             <div class="slider-grid">
-                <div class="slider-group"><div class="slider-header"><span>Solar</span><span id="v-solar">0.0</span></div><input type="range" id="s-solar" min="0" max="10" step="0.1" value="4.0"></div>
+                <div class="slider-group"><div class="slider-header"><span>Solar PV</span><span id="v-solar">0.0</span></div><input type="range" id="s-solar" min="0" max="10" step="0.1" value="4.0"></div>
                 <div class="slider-group"><div class="slider-header"><span>Wind</span><span id="v-wind">0.0</span></div><input type="range" id="s-wind" min="0" max="10" step="0.1" value="1.5"></div>
-                <div class="slider-group"><div class="slider-header"><span>HP</span><span id="v-hp">0.0</span></div><input type="range" id="s-hp" min="0" max="5" step="0.1" value="2.0"></div>
-                <div class="slider-group"><div class="slider-header"><span>Batt</span><span id="v-batt">0.0</span></div><input type="range" id="s-batt" min="-5" max="5" step="0.1" value="0.5"></div>
-                <div class="slider-group"><div class="slider-header"><span>Home</span><span id="v-home">0.0</span></div><input type="range" id="s-home" min="0" max="10" step="0.1" value="2.5"></div>
-                <div class="slider-group"><div class="slider-header"><span>EV</span><span id="v-ev">0.0</span></div><input type="range" id="s-ev" min="0" max="7.4" step="0.1" value="0.0"></div>
+                <div class="slider-group"><div class="slider-header"><span>Heat Pump</span><span id="v-hp">0.0</span></div><input type="range" id="s-hp" min="0" max="5" step="0.1" value="2.0"></div>
+                <div class="slider-group"><div class="slider-header"><span>Battery (Discharge)</span><span id="v-batt">0.0</span></div><input type="range" id="s-batt" min="-5" max="5" step="0.1" value="0.5"></div>
+                <div class="slider-group"><div class="slider-header"><span>Home Load</span><span id="v-home">0.0</span></div><input type="range" id="s-home" min="0" max="10" step="0.1" value="2.5"></div>
+                <div class="slider-group"><div class="slider-header"><span>EV Charger</span><span id="v-ev">0.0</span></div><input type="range" id="s-ev" min="0" max="7.4" step="0.1" value="0.0"></div>
             </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        const inputs = { solar: document.getElementById('s-solar'), wind: document.getElementById('s-wind'), hp: document.getElementById('s-hp'), batt: document.getElementById('s-batt'), home: document.getElementById('s-home'), ev: document.getElementById('s-ev') };
+        const inputs = { 
+            solar: document.getElementById('s-solar'), 
+            wind: document.getElementById('s-wind'), 
+            hp: document.getElementById('s-hp'), 
+            batt: document.getElementById('s-batt'), 
+            home: document.getElementById('s-home'), 
+            ev: document.getElementById('s-ev') 
+        };
 
-        const updateFlow = (id, val, color, isSource) => {
+        const updateVisuals = (id, val, color, isSource) => {
             const line = document.getElementById(`line-${id}`);
             const node = document.getElementById(`node-${id}`);
             const icon = node.querySelector('i');
             
             if (Math.abs(val) > 0.1) {
                 line.style.stroke = color;
-                // If it's a source (like Solar), flow goes IN to core. If load (Home), flow goes OUT.
-                line.className = (val > 0 && isSource) || (val < 0 && !isSource) ? 'dash-line flow-in' : 'dash-line flow-out';
-                line.style.animationDuration = `${Math.max(0.2, 3 / Math.abs(val))}s`;
+                // flow-in = toward core, flow-out = toward node
+                line.className = (val > 0 && isSource) ? 'dash-line flow-in' : 'dash-line flow-out';
+                line.style.animationDuration = `${Math.max(0.1, 2 / Math.abs(val))}s`;
                 node.style.borderColor = color;
                 icon.style.color = color;
             } else {
@@ -164,33 +172,52 @@
         const update = () => {
             const v = { s: +inputs.solar.value, w: +inputs.wind.value, hp: +inputs.hp.value, b: +inputs.batt.value, h: +inputs.home.value, ev: +inputs.ev.value };
             
-            // Text updates
             for (let k in inputs) {
                 const val = (k==='solar')?v.s:(k==='wind')?v.w:(k==='hp')?v.hp:(k==='batt')?v.b:(k==='home')?v.h:v.ev;
                 document.getElementById(`v-${k}`).innerText = val.toFixed(1) + " kW";
                 document.getElementById(`node-${k}`).querySelector('.val').innerText = val.toFixed(1);
             }
 
-            // Logic
-            const production = v.s + v.w + v.hp + v.b;
-            const consumption = v.h + v.ev;
-            const grid = consumption - production;
+            // MATH: Total offset = Solar + Wind + HP + Battery discharge
+            const productionTotal = v.s + v.w + v.hp + v.b;
+            const consumptionTotal = v.h + v.ev;
+            const grid = consumptionTotal - productionTotal;
 
-            // Flow updates
-            updateFlow('solar', v.s, 'var(--green)', true);
-            updateFlow('wind', v.w, 'var(--green)', true);
-            updateFlow('hp', v.hp, 'var(--green)', true);
-            updateFlow('batt', v.b, 'var(--blue)', true);
-            updateFlow('home', v.h, 'var(--blue)', false);
-            updateFlow('ev', v.ev, v.ev > 0 ? 'var(--green)' : 'var(--red)', false);
-            updateFlow('grid', grid, grid > 0 ? 'var(--red)' : 'var(--green)', false);
+            // Apply logic to ALL lines
+            updateVisuals('solar', v.s, 'var(--green)', true);
+            updateVisuals('wind', v.w, 'var(--green)', true);
+            updateVisuals('hp', v.hp, 'var(--green)', true);
+            updateVisuals('batt', v.b, 'var(--blue)', true);
+            updateVisuals('home', v.h, 'var(--blue)', false);
+            
+            // EV specific: Red at 0, Green when active
+            updateVisuals('ev', v.ev, v.ev > 0 ? 'var(--green)' : 'var(--red)', false);
 
-            // Grid Node Text & Tel
-            const gn = document.getElementById('node-grid');
-            gn.querySelector('.val').innerText = grid.toFixed(1);
-            document.getElementById('tel-grid').innerText = grid.toFixed(1) + " kW";
-            document.getElementById('tel-grid').className = "tel-val " + (grid > 0 ? "red-text" : "green-text");
-            document.getElementById('tel-yield').innerText = (v.s + v.w + v.hp).toFixed(1) + " kW";
+            // Grid: Red importing (flow-out from grid node), Green exporting (flow-in to grid node)
+            const gridNode = document.getElementById('node-grid');
+            const gridLine = document.getElementById('line-grid');
+            gridNode.querySelector('.val').innerText = grid.toFixed(1);
+            
+            if (Math.abs(grid) > 0.1) {
+                const gColor = grid > 0 ? 'var(--red)' : 'var(--green)';
+                gridLine.style.stroke = gColor;
+                gridLine.className = grid > 0 ? 'dash-line flow-in' : 'dash-line flow-out';
+                gridNode.style.borderColor = gColor;
+                gridNode.querySelector('i').style.color = gColor;
+                gridNode.querySelector('.val').style.color = gColor;
+            } else {
+                gridLine.style.stroke = '#222';
+                gridLine.className = 'dash-line';
+                gridNode.style.borderColor = '#222';
+                gridNode.querySelector('i').style.color = '#555';
+                gridNode.querySelector('.val').style.color = '#fff';
+            }
+
+            // Header Telemetry
+            document.getElementById('tel-yield').innerText = productionTotal.toFixed(1) + " kW";
+            const tg = document.getElementById('tel-grid');
+            tg.innerText = grid.toFixed(1) + " kW";
+            tg.className = "tel-val " + (grid > 0 ? "red-text" : "green-text");
         };
 
         Object.values(inputs).forEach(i => i.oninput = update);
