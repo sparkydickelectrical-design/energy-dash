@@ -1,149 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Master Hub | PeakShaving Pro</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="industrial-theme">
+:root {
+    --bg: #000;
+    --card: #0d0d0d;
+    --sidebar-w: 75px;
+    --green: #4ade80;
+    --blue: #3b82f6;
+    --red: #ef4444;
+    --text-muted: #666;
+}
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <div class="brand">
-                <i data-lucide="zap" class="green-text"></i>
-                <span>PeakShaving <strong>PRO</strong></span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="active">Hub</a>
-                <a href="savings.html">Savings</a>
-                <a href="analytics.html">Analytics</a>
-            </div>
-        </div>
-    </nav>
+body {
+    background: var(--bg);
+    color: #fff;
+    font-family: -apple-system, sans-serif;
+    margin: 0;
+    display: flex; /* Critical for Sidebar */
+    height: 100vh;
+    overflow: hidden;
+}
 
-    <header class="telemetry-header">
-        <div class="tel-item">
-            <i data-lucide="arrow-down-left" class="red-text"></i>
-            <span class="tel-label">Grid Import Status</span>
-            <span class="tel-val" id="header-grid">0.85 kW</span>
-        </div>
-        <div class="tel-item">
-            <i data-lucide="zap" class="green-text"></i>
-            <span class="tel-label">Active Renewable Yield</span>
-            <span class="tel-val" id="header-yield">3.10 kW</span>
-        </div>
-    </header>
+/* --- SIDEBAR DESIGN --- */
+.sidebar {
+    width: var(--sidebar-w);
+    background: #080808;
+    border-right: 1px solid #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0;
+    flex-shrink: 0;
+}
 
-    <section class="radial-container">
-        <div class="radial-dashboard">
-            <svg class="connections-layer" viewBox="0 0 400 400">
-                <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
-                <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
-                <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
-                <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
-                <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
-                <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
-            </svg>
+.side-brand { margin-bottom: 50px; text-align: center; }
+.brand-text { font-size: 0.55rem; display: block; margin-top: 4px; font-weight: 800; }
 
-            <div class="node-wrapper center-pos">
-                <div class="node center-node"><i data-lucide="cpu" class="blue-text"></i></div>
-                <span class="ext-label">CORE ACTIVE</span>
-            </div>
+.side-nav {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
 
-            <div class="node-wrapper solar-pos">
-                <div class="node" id="sim-solar"><i data-lucide="sun"></i><span class="v">2.4</span></div>
-                <span class="ext-label">SOLAR PV</span>
-            </div>
-            <div class="node-wrapper wind-pos">
-                <div class="node" id="sim-wind"><i data-lucide="wind"></i><span class="v">0.7</span></div>
-                <span class="ext-label">WIND</span>
-            </div>
-            <div class="node-wrapper battery-pos">
-                <div class="node" id="sim-batt"><i data-lucide="battery"></i><span class="v">-0.5</span></div>
-                <span class="ext-label">STORAGE</span>
-            </div>
-            <div class="node-wrapper home-pos">
-                <div class="node border-blue" id="sim-home"><i data-lucide="home"></i><span class="v">1.1</span></div>
-                <span class="ext-label">HOME LOAD</span>
-            </div>
-            <div class="node-wrapper charger-pos">
-                <div class="node border-green" id="sim-ev"><i data-lucide="car"></i><span class="v">0.0</span></div>
-                <span class="ext-label">EV CHARGER</span>
-            </div>
-            <div class="node-wrapper heatpump-pos">
-                <div class="node" id="sim-hp"><i data-lucide="thermometer"></i><span class="v">0.6</span></div>
-                <span class="ext-label">HEAT PUMP</span>
-            </div>
-            <div class="node-wrapper grid-pos">
-                <div class="node border-red" id="sim-grid"><i data-lucide="utility-pole"></i><span class="v">0.8</span></div>
-                <span class="ext-label">UTILITY GRID</span>
-            </div>
-        </div>
-    </section>
+.nav-item {
+    color: #444;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.2s;
+}
 
-    <main class="scroll-content">
-        <section class="section-group">
-            <h2 class="section-title">Energy Storage System (ESS) Metrics</h2>
-            <div class="ess-card">
-                <div class="bms-status">
-                    <i data-lucide="shield-check" class="green-text"></i>
-                    <span>BMS Status: Nominal</span>
-                </div>
-                <div class="ess-metrics-list">
-                    <p>92% Charge</p>
-                    <p>DC Voltage 54.21 V</p>
-                    <p>Internal Temp 24.5 °C</p>
-                    <p>Cycle Count 122</p>
-                </div>
-            </div>
-        </section>
+.nav-item i { width: 22px; height: 22px; }
+.nav-item.active { color: var(--blue); }
+.side-label { font-size: 0.5rem; font-weight: 900; margin-top: 6px; letter-spacing: 0.5px; }
 
-        <section class="section-group">
-            <h2 class="section-title">24h System Accumulation</h2>
-            <div class="acc-grid">
-                <div class="acc-card">
-                    <span class="acc-val" id="acc-solar">14.22</span>
-                    <span class="acc-unit">kWh</span>
-                    <div class="acc-meta"><i data-lucide="sun" class="orange-text"></i> SOLAR GENERATION</div>
-                </div>
-                <div class="acc-card">
-                    <span class="acc-val">8.45</span>
-                    <span class="acc-unit">kWh</span>
-                    <div class="acc-meta"><i data-lucide="home" class="blue-text"></i> HOUSEHOLD DEMAND</div>
-                </div>
-                <div class="acc-card">
-                    <span class="acc-val">2.10</span>
-                    <span class="acc-unit">kWh</span>
-                    <div class="acc-meta"><i data-lucide="moon" class="muted-text"></i> OFF-PEAK IMPORT</div>
-                </div>
-                <div class="acc-card">
-                    <span class="acc-val">0.52</span>
-                    <span class="acc-unit">kWh</span>
-                    <div class="acc-meta"><i data-lucide="zap-off" class="red-text"></i> PEAK COST IMPORT</div>
-                </div>
-            </div>
-        </section>
-    </main>
+/* --- MAIN CONTENT AREA --- */
+.dashboard-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
 
-    <script>
-        lucide.createIcons();
-        
-        // Simulation Script
-        setInterval(() => {
-            const nodes = ['sim-solar', 'sim-wind', 'sim-batt', 'sim-home', 'sim-hp', 'sim-grid'];
-            nodes.forEach(id => {
-                const el = document.getElementById(id).querySelector('.v');
-                let val = parseFloat(el.innerText);
-                el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
-            });
-            
-            // Link Solar to Header
-            const sVal = document.getElementById('sim-solar').querySelector('.v').innerText;
-            document.getElementById('header-yield').innerText = (parseFloat(sVal) + 0.7).toFixed(2) + " kW";
-        }, 3000);
-    </script>
-</body>
-</html>
+.telemetry-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #111;
+    padding-bottom: 15px;
+}
+
+.tel-item { display: flex; flex-direction: column; }
+.tel-label { font-size: 0.6rem; color: var(--text-muted); font-weight: 800; }
+.tel-val { font-size: 1.1rem; font-weight: 900; }
+
+/* --- 7-NODE HUB (Image 3) --- */
+.radial-container {
+    position: relative;
+    height: 380px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 50px auto;
+}
+
+.connections-layer { position: absolute; width: 100%; height: 100%; opacity: 0.4; }
+.dash-line { stroke: #333; stroke-width: 1.5; stroke-dasharray: 4; }
+
+.node-wrapper { position: absolute; transform: translate(-50%, -50%); text-align: center; }
+.node {
+    width: 60px; height: 60px;
+    border: 2px solid #222;
+    border-radius: 50%;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+}
+.node .v { font-size: 0.85rem; font-weight: 900; }
+.ext-label { font-size: 0.5rem; color: var(--text-muted); margin-top: 8px; display: block; font-weight: 800; }
+
+/* Coordinates */
+.center-pos { top: 50%; left: 50%; }
+.solar-pos { top: 12%; left: 60%; } .wind-pos { top: 28%; left: 88%; } .battery-pos { top: 58%; left: 92%; } 
+.home-pos { top: 88%; left: 78%; } .charger-pos { top: 88%; left: 35%; } .heatpump-pos { top: 62%; left: 10%; } .grid-pos { top: 28%; left: 15%; }
+
+/* --- BOTTOM BOXES (Image 1) --- */
+.section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; }
+.ess-card { background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 30px; border: 1px solid #1a1a1a; }
+.bms-header { display: flex; align-items: center; gap: 10px; font-weight: 700; margin-bottom: 15px; }
+.ess-metrics-list p { margin: 8px 0; font-size: 1rem; border-bottom: 1px solid #1a1a1a; padding-bottom: 8px; }
+
+.acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.acc-card { background: var(--card); border-radius: 20px; padding: 20px; text-align: center; border: 1px solid #1a1a1a; }
+.acc-val { font-size: 1.8rem; font-weight: 900; display: block; }
+.acc-unit { font-size: 0.8rem; color: #888; margin-bottom: 10px; display: block; font-weight: 700; }
+.acc-meta { font-size: 0.55rem; color: var(--text-muted); font-weight: 800; }
+
+/* UTILS */
+.green-text { color: var(--green); } .blue-text { color: var(--blue); } .red-text { color: var(--red); }
+.border-blue { border-color: var(--blue); } .border-green { border-color: var(--green); } .border-red { border-color: var(--red); }
