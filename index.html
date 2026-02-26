@@ -1,190 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        if (localStorage.getItem('peakShavingAuth') !== 'true') { 
-            window.location.replace("login.html"); 
-        }
-    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Master Hub | PeakShaving Professional</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=65.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Master Hub | PeakShaving Pro</title>
+    
+    <style>
+        :root{--b:#000;--c:#0a0a0a;--blue:#3b82f6;--green:#4ade80;--red:#ef4444;--gold:#f59e0b;--tx:#fff;--tx-m:#64748b;--bd:#1a1a1a;--sh:0 10px 25px rgba(0,0,0,.9)}
+        body{background:var(--b);color:var(--tx);font-family:-apple-system,system-ui,sans-serif;margin:0;padding:20px;overflow-x:hidden}
+        .main-nav{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto 30px}
+        .brand-logo{font-weight:900;text-transform:uppercase;letter-spacing:-1px}.brand-logo span{color:var(--green)}
+        
+        /* THE RADIAL TRIPLE-STACK ENGINE */
+        .radial-container{position:relative;width:400px;height:400px;margin:60px auto}
+        .connections-layer{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:.2}
+        .dash-line{stroke:#fff;stroke-width:2;stroke-dasharray:5}
+        
+        .node-wrapper{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:10;width:100px}
+        .node{width:80px;height:80px;background:var(--b);border:3px solid var(--bd);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;margin-bottom:8px;box-shadow:var(--sh)}
+        .node svg{width:20px;height:20px;stroke-width:2.5}
+        .node .v{font-size:1.1rem;font-weight:900;line-height:1}
+        .external-label{font-size:.65rem;font-weight:800;color:var(--tx-m);text-transform:uppercase;letter-spacing:1px;text-align:center}
+        
+        /* POSITIONS */
+        .center-pos{top:50%;left:50%}.solar-pos{top:10%;left:50%}.wind-pos{top:25%;left:85%}.battery-pos{top:55%;left:90%}.home-pos{top:85%;left:70%}.charger-pos{top:85%;left:30%}.heatpump-pos{top:55%;left:10%}.grid-pos{top:25%;left:15%}
+        .center-node{width:100px;height:100px;border-color:#333}
+        
+        /* COLOR UTILS */
+        .gold-text{color:var(--gold)}.blue-text{color:var(--blue)}.green-text{color:var(--green)}.red-text{color:var(--red)}
+        .border-blue{border-color:var(--blue)!important}.border-green{border-color:var(--green)!important}.border-red{border-color:var(--red)!important}
+    </style>
+    
+    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
 </head>
 <body>
 
     <nav class="main-nav">
-        <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Professional</span></div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item active">Home Dashboard</a>
-                <a href="savings.html" class="nav-item">Financial Savings</a>
-                <a href="analytics.html" class="nav-item">System Analytics</a>
-                <button onclick="logout()" class="logout-btn">System Logout</button>
-            </div>
-        </div>
-        <div class="weather-bar">
-            <div class="telemetry-group">
-                <i data-lucide="map-pin" class="icon-xs"></i>
-                <span id="geo-loc">Syncing...</span>
-            </div>
-            <div class="telemetry-group" style="margin-left: auto;">
-                <i data-lucide="thermometer" class="icon-xs"></i>
-                <span id="env-temp">--°C</span>
-            </div>
+        <div class="brand-logo">PeakShaving <span>Professional</span></div>
+        <div style="display:flex;gap:15px">
+            <a href="savings.html" style="color:var(--tx-m);text-decoration:none;font-weight:700;font-size:.8rem">SAVINGS</a>
+            <a href="analytics.html" style="color:var(--tx-m);text-decoration:none;font-weight:700;font-size:.8rem">ANALYTICS</a>
         </div>
     </nav>
 
-    <header class="data-header">
-        <div class="data-box">
-            <div class="box-meta">
-                <i data-lucide="arrow-down-left" class="red-text"></i> 
-                <span class="box-label">Grid Import</span>
-            </div>
-            <div class="box-value-wrap">
-                <span class="box-value">0.85</span> <span class="box-unit">kW</span>
-            </div>
-        </div>
-        <div class="data-box">
-            <div class="box-meta">
-                <i data-lucide="zap" class="green-text"></i> 
-                <span class="box-label">Solar Yield</span>
-            </div>
-            <div class="box-value-wrap">
-                <span class="box-value">3.10</span> <span class="box-unit">kW</span>
-            </div>
-        </div>
-    </header>
+    
 
     <section class="radial-container">
-        <div class="radial-dashboard">
-            <svg class="connections-layer" viewBox="0 0 400 400">
-                <line x1="200" y1="200" x2="200" y2="50"  class="dash-line" />
-                <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
-                <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
-                <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
-                <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                <line x1="200" y1="200" x2="50"  y2="220" class="dash-line" />
-                <line x1="200" y1="200" x2="70"  y2="100" class="dash-line" />
-            </svg>
+        <svg class="connections-layer" viewBox="0 0 400 400">
+            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
+            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
+            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+        </svg>
 
-            <div class="node-wrapper center-pos">
-                <div class="node center-node">
-                    <i data-lucide="zap" class="blue-text"></i>
-                </div>
-                <span class="external-label">Master Hub</span>
-            </div>
+        <div class="node-wrapper center-pos">
+            <div class="node center-node"><i data-lucide="zap" class="blue-text"></i></div>
+            <span class="external-label">Master Hub</span>
+        </div>
 
-            <div class="node-wrapper solar-pos">
-                <div class="node">
-                    <span class="v">2.4</span>
-                </div>
-                <span class="external-label">Solar PV</span>
-            </div>
+        <div class="node-wrapper solar-pos">
+            <div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span></div>
+            <span class="external-label">Solar PV</span>
+        </div>
 
-            <div class="node-wrapper wind-pos">
-                <div class="node">
-                    <span class="v">0.7</span>
-                </div>
-                <span class="external-label">Wind Gen</span>
-            </div>
+        <div class="node-wrapper wind-pos">
+            <div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span></div>
+            <span class="external-label">Wind Gen</span>
+        </div>
 
-            <div class="node-wrapper battery-pos">
-                <div class="node">
-                    <span class="v">-0.5</span>
-                </div>
-                <span class="external-label">Battery SOC</span>
-            </div>
+        <div class="node-wrapper battery-pos">
+            <div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92%</span></div>
+            <span class="external-label">Battery SOC</span>
+        </div>
 
-            <div class="node-wrapper home-pos">
-                <div class="node border-blue">
-                    <span class="v">1.1</span>
-                </div>
-                <span class="external-label">Home Load</span>
-            </div>
+        <div class="node-wrapper home-pos">
+            <div class="node border-blue"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span></div>
+            <span class="external-label">Home Load</span>
+        </div>
 
-            <div class="node-wrapper charger-pos">
-                <div class="node border-green">
-                    <span class="v">0.0</span>
-                </div>
-                <span class="external-label">EV Charger</span>
-            </div>
+        <div class="node-wrapper charger-pos">
+            <div class="node border-green"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span></div>
+            <span class="external-label">EV Charger</span>
+        </div>
 
-            <div class="node-wrapper heatpump-pos">
-                <div class="node">
-                    <span class="v">0.6</span>
-                </div>
-                <span class="external-label">Heat Pump</span>
-            </div>
+        <div class="node-wrapper heatpump-pos">
+            <div class="node"><i data-lucide="thermometer-snowflake" class="blue-text"></i><span class="v">0.6</span></div>
+            <span class="external-label">Heat Pump</span>
+        </div>
 
-            <div class="node-wrapper grid-pos">
-                <div class="node border-red">
-                    <span class="v">0.8</span>
-                </div>
-                <span class="external-label">Utility Grid</span>
-            </div>
+        <div class="node-wrapper grid-pos">
+            <div class="node border-red"><i data-lucide="landmark" class="red-text"></i><span class="v">0.8</span></div>
+            <span class="external-label">Utility Grid</span>
         </div>
     </section>
 
-    <main class="scroll-content">
-        <section class="ops-section">
-            <div class="daily-header"><h2>Battery Management</h2></div>
-            <div class="health-card">
-                <div class="health-meta">
-                    <div class="status-pill"><i data-lucide="shield-check"></i> Nominal</div>
-                    <div class="soc-text">92% SOC</div>
-                </div>
-                <div class="battery-gauge"><div class="gauge-fill" style="width: 92%"></div></div>
-                <div class="tech-spec-grid">
-                    <div class="spec-item"><span class="spec-label">SoH</span><strong class="spec-value">98.2%</strong></div>
-                    <div class="spec-item"><span class="spec-label">Temp</span><strong class="spec-value">24.5°C</strong></div>
-                    <div class="spec-item"><span class="spec-label">Voltage</span><strong class="spec-value">54.21V</strong></div>
-                    <div class="spec-item"><span class="spec-label">Cycles</span><strong class="spec-value">122</strong></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="ops-section">
-            <div class="daily-header"><h2>Accumulation (24h)</h2></div>
-            <div class="accumulation-grid">
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="sun"></i> Solar</div>
-                    <div class="acc-main"><strong>14.22</strong> <small>kWh</small></div>
-                </div>
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="home"></i> Load</div>
-                    <div class="acc-main"><strong>8.45</strong> <small>kWh</small></div>
-                </div>
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="moon"></i> Off-Peak</div>
-                    <div class="acc-main"><strong>2.10</strong> <small>kWh</small></div>
-                </div>
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="zap-off"></i> Peak</div>
-                    <div class="acc-main"><strong>0.52</strong> <small>kWh</small></div>
-                </div>
-            </div>
-        </section>
-        <div style="height: 100px;"></div>
-    </main>
-
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        lucide.createIcons();
-        function logout() { localStorage.removeItem('peakShavingAuth'); window.location.href = "login.html"; }
-        async function syncTelemetry() {
-            const geoText = document.getElementById('geo-loc');
-            const tempText = document.getElementById('env-temp');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (p) => {
-                    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&current=temperature_2m`);
-                    const data = await res.json();
-                    geoText.innerText = "Active";
-                    tempText.innerText = Math.round(data.current.temperature_2m) + "°C";
-                });
-            }
-        }
-        window.onload = syncTelemetry;
+        // High-speed initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            if(window.lucide) lucide.createIcons();
+        });
     </script>
 </body>
 </html>
