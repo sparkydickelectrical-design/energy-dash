@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | PeakShaving Pro</title>
+    <meta charset="UTF-8">
+    <title>PeakShaving PRO | Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
-            <div class="nav-brand">PeakShaving <span class="green">PRO</span></div>
-            <nav class="nav-menu">
-                <a href="#" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <h2 style="font-size:1rem; margin-bottom:40px;">PeakShaving <span class="green">PRO</span></h2>
+            <nav style="display:flex; flex-direction:column; gap:10px;">
+                <a href="#" class="blue" style="text-decoration:none; font-weight:bold; font-size:0.8rem;">DASHBOARD</a>
             </nav>
-            <div class="status-container">
-                <div id="sync-msg" class="stat-lbl">BANGOR: CONNECTED</div>
-            </div>
         </aside>
 
         <main class="main-content">
             <div class="load-summary">
                 <div class="stat-card">
-                    <div class="stat-lbl">Total Generation</div>
-                    <div class="stat-val green" id="total-gen">0.0<small>kW</small></div>
+                    <div class="stat-lbl">Generation</div>
+                    <div class="stat-val green" id="total-gen">0.0 kW</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-lbl">Total House Load</div>
-                    <div class="stat-val blue" id="total-load">0.0<small>kW</small></div>
+                    <div class="stat-lbl">House Load</div>
+                    <div class="stat-val blue" id="total-load">0.0 kW</div>
                 </div>
             </div>
 
+            
             <section class="radial-container">
                 <svg class="connections-layer" viewBox="0 0 400 400">
                     <line id="l-solar" x1="200" y1="200" x2="200" y2="40" class="dash-line" />
@@ -41,30 +39,30 @@
                     <line id="l-grid" x1="200" y1="200" x2="60" y2="100" class="dash-line fwd" style="stroke:var(--red)"/>
                 </svg>
 
-                <div class="node-wrapper p-center"><div class="node hub"><i data-lucide="zap" class="blue"></i></div><span class="external-label">Hub</span></div>
+                <div class="node-wrapper p-center"><div class="node hub"><i data-lucide="zap" class="blue"></i></div><span class="external-label">HUB</span></div>
                 <div class="node-wrapper p-n"><div id="n-solar" class="node"><i data-lucide="sun" class="gold"></i><span class="v" id="v-solar">0.0</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
                 <div class="node-wrapper p-ne"><div id="n-wind" class="node"><i data-lucide="wind" class="blue"></i><span class="v" id="v-wind">0.0</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
                 <div class="node-wrapper p-se"><div id="n-batt" class="node"><i data-lucide="battery" id="i-batt" class="green"></i><span class="v">90</span><span class="u">% SOC</span></div><span class="external-label">Battery</span></div>
-                <div class="node-wrapper p-s"><div class="node node-active-blue"><i data-lucide="home" class="blue"></i><span class="v" id="v-home">1.2</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
+                <div class="node-wrapper p-s"><div class="node node-active-blue"><i data-lucide="home" class="blue"></i><span class="v" id="v-home">0.0</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
                 <div class="node-wrapper p-sw"><div id="n-ev" class="node node-idle"><i data-lucide="car"></i><span class="v" id="v-ev">0.0</span><span class="u">kW</span></div><span class="external-label">EV</span></div>
                 <div class="node-wrapper p-hp"><div id="n-hp" class="node node-idle"><i data-lucide="snowflake"></i><span class="v" id="v-hp">0.0</span><span class="u">kW</span></div><span class="external-label">Heat Pump</span></div>
-                <div class="node-wrapper p-nw"><div id="n-grid" class="node"><i data-lucide="utility-pole" id="i-grid" class="red"></i><span class="v" id="v-grid">1.1</span><span class="u">kW</span></div><span class="external-label" id="l-grid-txt">Grid</span></div>
+                <div class="node-wrapper p-nw"><div id="n-grid" class="node"><i data-lucide="utility-pole" class="red"></i><span class="v">1.2</span><span class="u">kW</span></div><span class="external-label">Grid</span></div>
             </section>
 
             <section class="sim-lab">
-                <div class="sim-header"><i data-lucide="flask-conical" size="14"></i> Simulation Lab</div>
+                <div class="sim-header"><i data-lucide="flask-conical" size="14"></i> System Simulation</div>
                 <div class="sim-controls">
                     <div class="sim-group"><label>Solar (kW)</label><input type="range" id="s-solar" min="0" max="10" step="0.1" value="0" oninput="sim()"></div>
                     <div class="sim-group"><label>Wind (kW)</label><input type="range" id="s-wind" min="0" max="5" step="0.1" value="0" oninput="sim()"></div>
-                    <div class="sim-group"><label>Home (kW)</label><input type="range" id="s-home" min="0.2" max="8" step="0.1" value="1.2" oninput="sim()"></div>
-                    <div class="sim-group"><label>EV Charger (kW)</label><input type="range" id="s-ev" min="0" max="11" step="0.1" value="0" oninput="sim()"></div>
+                    <div class="sim-group"><label>Home (kW)</label><input type="range" id="s-home" min="0" max="5" step="0.1" value="1.2" oninput="sim()"></div>
+                    <div class="sim-group"><label>EV (kW)</label><input type="range" id="s-ev" min="0" max="11" step="0.5" value="0" oninput="sim()"></div>
                     <div class="sim-group"><label>Heat Pump (kW)</label><input type="range" id="s-hp" min="0" max="5" step="0.1" value="0" oninput="sim()"></div>
                     <div class="sim-group">
                         <label>Battery</label>
-                        <select id="s-batt" onchange="sim()">
+                        <select id="s-batt" onchange="sim()" style="width:100%; background:#000; color:#fff; border:1px solid #333; padding:5px;">
                             <option value="idle">Idle</option>
-                            <option value="charge">Charge</option>
-                            <option value="discharge">Discharge</option>
+                            <option value="charge">Charging</option>
+                            <option value="discharge">Discharging</option>
                         </select>
                     </div>
                 </div>
@@ -82,18 +80,17 @@
             const hp = parseFloat(document.getElementById('s-hp').value);
             const bMode = document.getElementById('s-batt').value;
 
-            // Updates Values
+            // Updates
             document.getElementById('v-solar').innerText = sol.toFixed(1);
             document.getElementById('v-wind').innerText = win.toFixed(1);
             document.getElementById('v-home').innerText = hom.toFixed(1);
             document.getElementById('v-ev').innerText = ev.toFixed(1);
             document.getElementById('v-hp').innerText = hp.toFixed(1);
+            
+            document.getElementById('total-gen').innerText = (sol + win).toFixed(1) + " kW";
+            document.getElementById('total-load').innerText = (hom + ev + hp).toFixed(1) + " kW";
 
-            // Totals
-            document.getElementById('total-gen').innerHTML = (sol + win).toFixed(1) + "<small>kW</small>";
-            document.getElementById('total-load').innerHTML = (hom + ev + hp).toFixed(1) + "<small>kW</small>";
-
-            // Flow & Node States
+            // Visual Logic
             document.getElementById('l-solar').className = sol > 0 ? "dash-line fwd" : "dash-line";
             document.getElementById('l-solar').style.stroke = sol > 0 ? "var(--green)" : "#222";
             
@@ -105,7 +102,6 @@
             document.getElementById('l-hp').className = hp > 0 ? "dash-line rev" : "dash-line";
             document.getElementById('l-hp').style.stroke = hp > 0 ? "var(--blue)" : "#222";
 
-            // Battery
             const lB = document.getElementById('l-batt');
             if(bMode === 'charge') { lB.className = "dash-line fwd"; lB.style.stroke = "var(--green)"; }
             else if(bMode === 'discharge') { lB.className = "dash-line rev"; lB.style.stroke = "var(--blue)"; }
@@ -113,6 +109,7 @@
 
             lucide.createIcons();
         }
+        sim();
     </script>
 </body>
 </html>
