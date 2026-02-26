@@ -15,13 +15,20 @@
                 <a href="savings.html" class="nav-link"><i data-lucide="banknote"></i> Savings</a>
                 <a href="analytics.html" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
             </nav>
+            <div class="status-container">
+                <div class="status-pill">
+                    <div class="indicator-dot"></div>
+                    System Online
+                </div>
+                <div style="font-size: 0.6rem; color: var(--tx-m); margin-top: 5px;">Syncing with Bangor Grid...</div>
+            </div>
         </aside>
 
         <main class="main-content">
             <div class="weather-bar">
-                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="map-pin"></i> <span id="loc">Bangor, UK</span></div>
-                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="thermometer"></i> <span id="temp">8°C</span></div>
-                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="wind"></i> <span id="wind">14 mph NW</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="map-pin"></i> Bangor, UK</div>
+                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="thermometer"></i> 8°C</div>
+                <div style="display:flex;align-items:center;gap:6px"><i data-lucide="wind"></i> 14 mph NW</div>
             </div>
 
             <header class="data-header">
@@ -43,13 +50,36 @@
                 <div class="node-wrapper grid-pos"><div class="node" style="border-color:var(--red)!important"><i data-lucide="landmark" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div><span class="external-label">Grid</span></div>
             </section>
 
-            <div class="battery-viz-card">
-                <div style="position:relative;width:100px;height:100px">
-                    <svg width="100" height="100"><circle class="ring-bg" cx="50" cy="50" r="45"></circle><circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 25;"></circle></svg>
-                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
+            <section class="ops-section" style="margin-top: 50px;">
+                <h2 style="font-size:1rem; text-transform:uppercase; color:var(--tx-m); margin-bottom:20px;">Energy Storage</h2>
+                <div class="battery-viz-card">
+                    <div style="position:relative;width:100px;height:100px">
+                        <svg width="100" height="100">
+                            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 25;"></circle>
+                        </svg>
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
+                    </div>
+                    <div>
+                        <div style="font-size:1.8rem;font-weight:900">13.8 <small style="font-size:.9rem;color:var(--tx-m)">kWh</small></div>
+                        <div class="box-label">Storage Capacity</div>
+                    </div>
                 </div>
-                <div><div style="font-size:1.8rem;font-weight:900">13.8 <small style="font-size:.9rem;color:var(--tx-m)">kWh</small></div><div class="box-label">Storage Capacity</div></div>
-            </div>
+            </section>
+
+            <section class="ops-section" style="margin-top: 40px; padding-bottom: 50px;">
+                <h2 style="font-size:1rem; text-transform:uppercase; color:var(--tx-m); margin-bottom:20px;">Daily Accumulation</h2>
+                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:15px;">
+                    <div class="data-box">
+                        <span class="box-label">Solar Total (24h)</span>
+                        <div class="box-value">14.22 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
+                    </div>
+                    <div class="data-box">
+                        <span class="box-label">Grid Export (24h)</span>
+                        <div class="box-value blue-text">2.45 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
     <script>lucide.createIcons();</script>
