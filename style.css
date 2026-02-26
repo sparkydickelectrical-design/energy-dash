@@ -1,82 +1,96 @@
 /* ==========================================================================
-   PEAKSHAVING PRO: INDUSTRIAL CSS ENGINE v26.0
+   PEAKSHAVING PROFESSIONAL: MASTER DESIGN SYSTEM
+   VERSION: 27.0 (FULL PRODUCTION RELEASE)
    ========================================================================== */
 
+/* 1. VARIABLE ARCHITECTURE
+   ========================================================================== */
 :root {
-    /* Semantic Color Tokens */
+    /* Brand Colors */
     --bg-black: #000000;
     --bg-card: #0a0a0a;
+    --bg-glass: rgba(10, 10, 10, 0.7);
+    
+    /* Action Colors */
     --accent-blue: #3b82f6;
     --accent-green: #4ade80;
     --accent-red: #ef4444;
+    --accent-gold: #f59e0b;
+    
+    /* Typography & Borders */
     --text-primary: #ffffff;
     --text-muted: #64748b;
     --border-dim: #1a1a1a;
     --border-active: #222222;
+    --border-glass: rgba(255, 255, 255, 0.08);
+
+    /* Animation */
+    --transition-fast: 0.2s ease;
+    --transition-standard: 0.3s ease-in-out;
 }
 
-/* 1. Global Reset & Base */
+/* 2. GLOBAL RESET & BASE STYLES
+   ========================================================================== */
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
+    -webkit-font-smoothing: antialiased;
 }
 
 body {
     background-color: var(--bg-black);
     color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    line-height: 1.5;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    padding: 20px;
 }
 
-/* 2. Navigation Framework */
+/* 3. NAVIGATION & BRANDING
+   ========================================================================== */
 .main-nav {
-    margin-bottom: 30px;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
 }
 
 .nav-top {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .brand-logo {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 900;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
 }
 
 .brand-logo span {
     color: var(--accent-green);
+    margin-left: 4px;
 }
 
 .nav-links {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     align-items: center;
 }
 
 .nav-item {
     color: var(--text-muted);
     text-decoration: none;
-    font-weight: 700;
     font-size: 0.85rem;
-    padding-bottom: 4px;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: transparent;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
 }
 
 .nav-item.active {
@@ -85,49 +99,81 @@ body {
 }
 
 .logout-btn {
-    background-color: transparent;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-active);
+    background: transparent;
+    border: 1px solid var(--border-active);
     color: var(--accent-red);
-    padding-top: 6px;
-    padding-bottom: 6px;
-    padding-left: 12px;
-    padding-right: 12px;
-    border-radius: 8px;
+    padding: 8px 16px;
+    border-radius: 10px;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
-/* 3. Weather & Telemetry */
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* 4. TELEMETRY & DATA HEADERS
+   ========================================================================== */
 .weather-bar {
-    background-color: var(--bg-card);
-    padding-top: 12px;
-    padding-bottom: 12px;
-    padding-left: 16px;
-    padding-right: 16px;
-    border-radius: 14px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dim);
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    padding: 12px 20px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     font-size: 0.8rem;
     color: var(--text-muted);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
-/* 4. Radial Data Hub (The Fix) */
+.data-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+}
+
+.data-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    padding: 24px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.box-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.box-value {
+    font-size: 2rem;
+    font-weight: 900;
+    display: block;
+    margin-top: 5px;
+}
+
+.box-unit {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* 5. RADIAL HUB ARCHITECTURE (7-NODE SYSTEM)
+   ========================================================================== */
 .radial-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    height: 400px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 450px;
+    height: 450px;
+    margin: 80px auto;
 }
 
 .radial-dashboard {
@@ -138,8 +184,8 @@ body {
 
 .connections-layer {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
@@ -148,7 +194,7 @@ body {
 .dash-line {
     stroke: #1a1a1a;
     stroke-width: 2.5;
-    stroke-dasharray: 6 4;
+    stroke-dasharray: 8 5;
 }
 
 .node-wrapper {
@@ -157,105 +203,226 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80px;
     z-index: 10;
+    width: 90px;
 }
 
 .node {
-    width: 65px;
-    height: 65px;
-    background-color: #000000;
-    border-width: 2.5px;
-    border-style: solid;
-    border-color: #222222;
+    width: 70px;
+    height: 70px;
+    background: #000;
+    border: 2.5px solid #262626;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
 }
 
 .center-node {
-    width: 90px;
-    height: 90px;
-    border-color: #333333;
-    background-color: #050505;
+    width: 95px;
+    height: 95px;
+    background: #050505;
+    border-color: #333;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
 }
 
 .external-label {
     font-size: 0.65rem;
     font-weight: 800;
-    text-transform: uppercase;
     color: var(--text-muted);
-    letter-spacing: 0.05em;
-    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
 }
 
 .node .v {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 900;
+    letter-spacing: -0.02em;
 }
 
-/* Coordinate Mapping */
-.center-pos { top: 50%; left: 50%; }
-.solar-pos { top: 12%; left: 50%; }
-.wind-pos { top: 25%; left: 85%; }
-.battery-pos { top: 55%; left: 90%; }
-.home-pos { top: 85%; left: 70%; }
-.charger-pos { top: 85%; left: 30%; }
+/* Absolute Coordinate Mapping */
+.center-pos   { top: 50%; left: 50%; }
+.solar-pos    { top: 12%; left: 50%; }
+.wind-pos     { top: 25%; left: 85%; }
+.battery-pos  { top: 55%; left: 90%; }
+.home-pos     { top: 85%; left: 70%; }
+.charger-pos  { top: 85%; left: 30%; }
 .heatpump-pos { top: 55%; left: 10%; }
-.grid-pos { top: 25%; left: 15%; }
+.grid-pos     { top: 25%; left: 15%; }
 
-/* 5. System Health Components */
-.health-card {
-    background-color: var(--bg-card);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dim);
-    border-radius: 24px;
+/* 6. SYSTEM HEALTH & ACCUMULATION
+   ========================================================================== */
+.scroll-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.daily-header {
+    margin: 50px 0 20px 0;
+    border-top: 1px solid #111;
     padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
+}
+
+.daily-header h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.health-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    padding: 30px;
+    border-radius: 28px;
+}
+
+.health-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status-pill {
+    background: rgba(74, 222, 128, 0.08);
+    color: var(--accent-green);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .battery-gauge {
     width: 100%;
-    height: 8px;
-    background-color: #1a1a1a;
-    border-radius: 4px;
+    height: 10px;
+    background: #111;
+    border-radius: 5px;
     overflow: hidden;
-    margin-top: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .gauge-fill {
     height: 100%;
-    background-color: var(--accent-green);
+    background: var(--accent-green);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
 }
 
 .tech-spec-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
 }
 
-/* 6. SaaS Components (Analytics) */
+.spec-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.spec-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.spec-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* 7. SAAS ANALYTICS (LOVABLE AESTHETIC)
+   ========================================================================== */
 .saas-theme {
     background-color: #050505;
+    background-image: radial-gradient(circle at top right, #111 0%, #050505 50%);
 }
 
 .saas-nav {
     display: flex;
     justify-content: space-between;
-    padding: 20px 40px;
-    background-color: #000;
+    align-items: center;
+    padding: 24px 40px;
+    background: #000;
     border-bottom: 1px solid #111;
 }
 
-/* Utils */
+.analytics-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.saas-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 25px;
+}
+
+.main-chart-box {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 32px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.canvas-wrapper {
+    height: 380px;
+    width: 100%;
+}
+
+/* 8. ACCUMULATION GRID
+   ========================================================================== */
+.accumulation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.acc-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 24px;
+    padding: 20px;
+}
+
+.acc-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+}
+
+.acc-main strong {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+/* 9. UTILITIES
+   ========================================================================== */
 .border-blue { border-color: var(--accent-blue) !important; }
 .border-green { border-color: var(--accent-green) !important; }
 .border-red { border-color: var(--accent-red) !important; }
 .green-text { color: var(--accent-green); }
 .red-text { color: var(--accent-red); }
+.blue-text { color: var(--accent-blue); }
+
+@media (max-width: 600px) {
+    .radial-container { transform: scale(0.8); margin: 20px auto; }
+    .data-header { grid-template-columns: 1fr; }
+    .accumulation-grid { grid-template-columns: 1fr; }
+}
