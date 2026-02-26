@@ -5,25 +5,6 @@
     <title>Dashboard | PeakShaving Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        .mobile-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1100;
-            background: var(--blue);
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .mobile-toggle { display: block; }
-            .sidebar.open { transform: translateX(0); }
-        }
-    </style>
 </head>
 <body>
     <button class="mobile-toggle" id="menuBtn"><i data-lucide="menu"></i></button>
@@ -37,11 +18,8 @@
                 <a href="analytics.html" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
             </nav>
             <div class="status-container">
-                <div class="status-pill">
-                    <div class="indicator-dot"></div>
-                    System Online
-                </div>
-                <div style="font-size: 0.6rem; color: var(--tx-m); margin-top: 5px;">Bangor Grid Sync Active</div>
+                <div class="status-pill"><div class="indicator-dot"></div> System Online</div>
+                <div style="font-size: 0.6rem; color: var(--tx-m); margin-top: 5px;">Bangor Grid Sync: 14ms</div>
             </div>
         </aside>
 
@@ -53,103 +31,47 @@
             </div>
 
             <header class="data-header">
-                <div class="data-box"><span class="box-label">Grid Import</span><div class="box-value">0.85<small class="box-unit">kW</small></div></div>
-                <div class="data-box"><span class="box-label">Solar Yield</span><div class="box-value green-text">3.10<small class="box-unit">kW</small></div></div>
+                <div class="data-box"><span class="box-label">Grid Import</span><div class="box-value">0.85<small style="color:var(--tx-m); font-size:0.8rem">kW</small></div></div>
+                <div class="data-box"><span class="box-label">Solar Yield</span><div class="box-value green-text">3.10<small style="color:var(--tx-m); font-size:0.8rem">kW</small></div></div>
             </header>
 
             <section class="radial-container">
                 <svg class="connections-layer" viewBox="0 0 400 400">
-                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
-                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
-                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
-                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line flow-in" />
+                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line flow-in" />
+                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line flow-in" />
+                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line flow-out" />
                     <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
-                    <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line flow-out" />
+                    <line x1="200" y1="200" x2="70" y2="100" class="dash-line flow-grid-in" />
                 </svg>
 
-                <div class="node-wrapper center-pos">
-                    <div class="node" style="width:95px;height:95px;border-color:#333"><i data-lucide="zap" class="blue-text"></i></div>
-                    <span class="external-label">Hub</span>
-                </div>
-
-                <div class="node-wrapper solar-pos">
-                    <div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span><span class="u">kW</span></div>
-                    <span class="external-label">Solar</span>
-                </div>
-
-                <div class="node-wrapper wind-pos">
-                    <div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span><span class="u">kW</span></div>
-                    <span class="external-label">Wind</span>
-                </div>
-
-                <div class="node-wrapper battery-pos">
-                    <div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div>
-                    <span class="external-label">Storage</span>
-                </div>
-
-                <div class="node-wrapper home-pos">
-                    <div class="node" style="border-color:var(--blue)!important"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span><span class="u">kW</span></div>
-                    <span class="external-label">Home</span>
-                </div>
-
-                <div class="node-wrapper charger-pos">
-                    <div class="node" style="border-color:var(--green)!important"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span><span class="u">kW</span></div>
-                    <span class="external-label">EV</span>
-                </div>
-
-                <div class="node-wrapper heatpump-pos">
-                    <div class="node"><i data-lucide="snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div>
-                    <span class="external-label">Heat Pump</span>
-                </div>
-
-                <div class="node-wrapper grid-pos">
-                    <div class="node" style="border-color:var(--red)!important"><i data-lucide="utility-pole" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div>
-                    <span class="external-label">Grid</span>
-                </div>
+                <div class="node-wrapper center-pos"><div class="node" style="width:95px;height:95px;border-color:#333"><i data-lucide="zap" class="blue-text"></i></div><span class="external-label">Master Hub</span></div>
+                <div class="node-wrapper solar-pos"><div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
+                <div class="node-wrapper wind-pos"><div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
+                <div class="node-wrapper battery-pos"><div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div><span class="external-label">Storage</span></div>
+                <div class="node-wrapper home-pos"><div class="node" style="border-color:var(--blue)!important"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
+                <div class="node-wrapper charger-pos"><div class="node" style="opacity:0.3"><i data-lucide="car"></i><span class="v">0.0</span><span class="u">kW</span></div><span class="external-label">EV</span></div>
+                <div class="node-wrapper heatpump-pos"><div class="node"><i data-lucide="snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div><span class="external-label">Heat Pump</span></div>
+                <div class="node-wrapper grid-pos"><div class="node" style="border-color:var(--red)!important"><i data-lucide="utility-pole" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div><span class="external-label">Grid</span></div>
             </section>
 
-            <section class="ops-section" style="margin-top: 50px;">
-                <h2 style="font-size:1rem; text-transform:uppercase; color:var(--tx-m); margin-bottom:20px;">Energy Storage</h2>
-                <div class="battery-viz-card">
-                    <div style="position:relative;width:100px;height:100px">
-                        <svg width="100" height="100">
-                            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-                            <circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 25;"></circle>
-                        </svg>
-                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
-                    </div>
-                    <div>
-                        <div style="font-size:1.8rem;font-weight:900">13.8 <small style="font-size:.9rem;color:var(--tx-m)">kWh</small></div>
-                        <div class="box-label">Storage Capacity</div>
-                    </div>
+            <section class="battery-viz-card">
+                <div style="position:relative;width:100px;height:100px">
+                    <svg width="100" height="100"><circle class="ring-bg" cx="50" cy="50" r="45"></circle><circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dashoffset: 22"></circle></svg>
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
                 </div>
-            </section>
-
-            <section class="ops-section" style="margin-top: 40px; padding-bottom: 50px;">
-                <h2 style="font-size:1rem; text-transform:uppercase; color:var(--tx-m); margin-bottom:20px;">Daily Accumulation</h2>
-                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:15px;">
-                    <div class="data-box">
-                        <span class="box-label">Solar Total (24h)</span>
-                        <div class="box-value">14.22 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
-                    </div>
-                    <div class="data-box">
-                        <span class="box-label">Grid Export (24h)</span>
-                        <div class="box-value blue-text">2.45 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
-                    </div>
-                </div>
+                <div><div style="font-size:1.8rem;font-weight:900">13.8 <small style="color:var(--tx-m);font-size:.9rem">kWh</small></div><div class="box-label">Storage Capacity</div></div>
             </section>
         </main>
     </div>
-
     <script>
         lucide.createIcons();
         const btn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
         btn.addEventListener('click', () => {
             sidebar.classList.toggle('open');
-            const icon = btn.querySelector('i');
-            icon.setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
+            btn.querySelector('i').setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
             lucide.createIcons();
         });
     </script>
