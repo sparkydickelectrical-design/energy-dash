@@ -1,412 +1,116 @@
-/* ==========================================================================
-   PEAKSHAVING PROFESSIONAL UI FRAMEWORK
-   Core Industrial Design System - v20.0
-   ========================================================================== 
-*/
+/* --- PEAKSHAVING PRO INDUSTRIAL DESIGN SYSTEM v23 --- */
 
 :root {
-    /* Primary Palette */
     --bg-black: #000000;
-    --bg-secondary: #0a0a0a;
-    --bg-card: #111111;
-    
-    /* Semantic Colors */
+    --bg-card: #0a0a0a;
     --accent-blue: #3b82f6;
     --accent-green: #4ade80;
     --accent-red: #ef4444;
-    --accent-purple: #a855f7;
-    --accent-orange: #f97316;
-    
-    /* Typography Colors */
-    --text-primary: #ffffff;
-    --text-muted: #94a3b8;
-    --text-dim: #64748b;
-    
-    /* Structural Borders */
-    --border-dark: #222222;
-    --border-light: #333333;
-}
-
-/* 1. Global Reset & Base Typography */
-* {
-    box-sizing: border-box;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
+    --text-muted: #64748b;
 }
 
 body {
     background-color: var(--bg-black);
-    color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    color: #ffffff;
+    font-family: -apple-system, sans-serif;
+    padding: 20px;
 }
 
-/* 2. Navigation Framework */
-.main-nav {
-    margin-bottom: 30px;
-    width: 100%;
-}
+/* Navigation */
+.main-nav { margin-bottom: 25px; }
+.brand-logo { font-weight: 900; font-size: 1.2rem; }
+.brand-logo span { color: var(--accent-green); }
+.nav-links { display: flex; gap: 15px; }
+.nav-item { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 0.85rem; }
+.nav-item.active { color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); }
 
-.nav-top {
+/* Weather Bar */
+.weather-bar { background: var(--bg-card); padding: 12px 16px; border-radius: 14px; display: flex; align-items: center; border: 1px solid #222; margin-bottom: 25px; font-size: 0.8rem; color: var(--text-muted); }
+.telemetry-group { display: flex; align-items: center; gap: 6px; }
+
+/* Headers */
+.data-header { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+.data-box { background: var(--bg-card); padding: 20px; border-radius: 20px; border: 1px solid #222; }
+.box-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+.box-value { font-size: 1.6rem; font-weight: 900; }
+
+/* Radial Hub Architecture */
+.radial-container { position: relative; width: 100%; max-width: 400px; margin: 40px auto; }
+.radial-dashboard { height: 420px; position: relative; }
+.connections-layer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+.dash-line { stroke: #1a1a1a; stroke-width: 2.5; stroke-dasharray: 6 4; }
+
+/* Node Positioning System */
+.node-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    z-index: 10;
 }
 
-.brand-logo {
-    font-size: 1.25rem;
-    font-weight: 900;
-    letter-spacing: -0.025em;
-}
-
-.brand-logo span {
-    color: var(--accent-green);
-}
-
-.nav-links {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-}
-
-.nav-item {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 700;
-    padding-bottom: 6px;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: transparent;
-    transition-property: color, border-color;
-    transition-duration: 0.2s;
-}
-
-.nav-item.active {
-    color: var(--accent-blue);
-    border-bottom-color: var(--accent-blue);
-}
-
-.logout-btn {
-    background-color: transparent;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-light);
-    color: var(--accent-red);
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    cursor: pointer;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 14px;
-    padding-right: 14px;
-}
-
-/* 3. Telemetry & Weather */
-.weather-bar {
-    background-color: var(--bg-card);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    border-radius: 16px;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    padding-left: 18px;
-    padding-right: 18px;
+.node {
+    width: 65px;
+    height: 65px;
+    background: #000;
+    border: 2px solid #222;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    width: 100%;
+    justify-content: center;
+    margin-bottom: 8px; /* Gap between node and label */
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
-.telemetry-group {
-    display: flex;
-    align-items: center;
-}
+.center-node { width: 85px; height: 85px; border-color: #333; background: #050505; }
 
-.icon-xs {
-    width: 14px;
-    height: 14px;
-    margin-right: 8px;
-}
-
-/* 4. Power Headers (Live View) */
-.data-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.data-box {
-    background-color: var(--bg-card);
-    border-radius: 24px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.box-label {
+/* External Label Styling */
+.external-label {
     font-size: 0.65rem;
     font-weight: 800;
     text-transform: uppercase;
     color: var(--text-muted);
     letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 
-.box-value {
-    font-size: 1.75rem;
-    font-weight: 900;
-    display: block;
-    margin-top: 4px;
-}
-
-.box-unit {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-/* 5. Radial Architecture (Center of Operations) */
-.radial-container {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-.radial-dashboard {
-    height: 420px;
-    position: relative;
-}
-
-.connections-layer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-}
-
-.dash-line {
-    stroke: #262626;
-    stroke-width: 2.5;
-    stroke-dasharray: 6, 4;
-}
-
-.node {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    background-color: var(--bg-black);
-    border-width: 3px;
-    border-style: solid;
-    border-color: var(--border-light);
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    text-align: center;
-}
-
-.center-node {
-    width: 100px;
-    height: 100px;
-    top: 50%;
-    left: 50%;
-    background-color: #050505;
-    border-color: #3a3a3a;
-}
-
-.node-status {
-    font-size: 0.6rem;
-    font-weight: 900;
-    color: var(--text-muted);
-    margin-top: 4px;
-}
-
-/* Peripheral Positions (Calculated coordinates) */
-.solar-node { top: 50px; left: 200px; width: 80px; height: 80px; }
-.wind-node { top: 100px; left: 340px; width: 80px; height: 80px; }
-.battery-node { top: 220px; left: 360px; width: 80px; height: 80px; }
-.home-node { top: 350px; left: 280px; width: 80px; height: 80px; }
-.charger-node { top: 350px; left: 120px; width: 80px; height: 80px; }
-.heatpump-node { top: 220px; left: 40px; width: 80px; height: 80px; }
-.grid-node { top: 100px; left: 60px; width: 80px; height: 80px; }
-
-.node .v { font-size: 1rem; font-weight: 900; margin-top: 2px; }
-.node .l { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
-
-/* 6. Daily Energy (ESS) Display */
-.daily-header {
-    margin-top: 35px;
-    margin-bottom: 15px;
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-top-color: var(--border-dark);
-    padding-top: 20px;
-}
-
-.daily-header h2 {
+/* Internal Value Styling */
+.node .v {
     font-size: 1.1rem;
-    font-weight: 800;
-    display: block;
-    width: 100%;
-}
-
-.daily-card {
-    background-color: var(--bg-card);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    border-radius: 28px;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-.battery-gauge {
-    width: 100%;
-    height: 10px;
-    background-color: #1a1a1a;
-    border-radius: 5px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.gauge-fill {
-    height: 100%;
-    background-color: var(--accent-green);
-    border-radius: 5px;
-}
-
-.bms-stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-}
-
-.stat-tile {
-    display: flex;
-    flex-direction: column;
-}
-
-.s-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-.s-value { font-size: 0.9rem; font-weight: 800; margin-top: 2px; }
-
-/* 7. Accumulation Grid (Modules) */
-.accumulation-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.acc-card {
-    background-color: var(--bg-card);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    border-radius: 24px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.acc-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-}
-
-.solar-accent .acc-icon { background-color: rgba(249, 115, 22, 0.1); color: var(--accent-orange); }
-.home-accent .acc-icon { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-blue); }
-.moon-accent .acc-icon { background-color: rgba(148, 163, 184, 0.1); color: var(--text-muted); }
-.peak-accent .acc-icon { background-color: rgba(239, 68, 68, 0.1); color: var(--accent-red); }
-
-/* 8. Financial / Savings View */
-.savings-hero-block {
-    background-color: var(--bg-secondary);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    border-radius: 36px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.savings-total-value {
-    font-size: 3.5rem;
     font-weight: 900;
-    color: var(--accent-green);
-    letter-spacing: -0.05em;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    letter-spacing: -0.02em;
 }
 
-.metric-split-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 30px;
-}
+/* Coordinate Mapping */
+.center-pos { top: 50%; left: 50%; }
+.solar-pos { top: 50px; left: 200px; }
+.wind-pos { top: 100px; left: 340px; }
+.battery-pos { top: 220px; left: 360px; }
+.home-pos { top: 350px; left: 280px; }
+.charger-pos { top: 350px; left: 120px; }
+.heatpump-pos { top: 220px; left: 40px; }
+.grid-pos { top: 100px; left: 60px; }
 
-.split-box {
-    background-color: var(--bg-card);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--border-dark);
-    padding-top: 24px;
-    padding-bottom: 24px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 24px;
-    border-left-width: 6px;
-    border-left-style: solid;
-}
-
-/* 9. Utility & Color Classes */
-.border-blue { border-left-color: var(--accent-blue); }
-.border-green { border-left-color: var(--accent-green); }
-.border-red { border-left-color: var(--accent-red); }
-
+/* Utils */
+.border-blue { border-color: var(--accent-blue) !important; }
+.border-green { border-color: var(--accent-green) !important; }
+.border-red { border-color: var(--accent-red) !important; }
 .green-text { color: var(--accent-green); }
-.blue-text { color: var(--accent-blue); }
 .red-text { color: var(--accent-red); }
+.blue-text { color: var(--accent-blue); }
 
-.scroll-content {
-    padding-bottom: 120px;
-}
+/* Health & Accumulation */
+.daily-header { margin: 30px 0 15px 0; border-top: 1px solid #111; padding-top: 20px; }
+.health-card { padding: 25px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 24px; }
+.status-pill { background: rgba(74, 222, 128, 0.1); color: var(--accent-green); padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+.battery-gauge { width: 100%; height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden; margin-top: 15px; margin-bottom: 20px; }
+.gauge-fill { height: 100%; background: var(--accent-green); }
+.tech-spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.spec-item { display: flex; flex-direction: column; }
+.spec-item span { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+.spec-item strong { font-size: 1rem; font-weight: 800; }
+
+.accumulation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.acc-card { background: #0a0a0a; border: 1px solid #111; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.scroll-content { padding-bottom: 100px; }
