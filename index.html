@@ -2,171 +2,159 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dynamic Energy Hub</title>
+    <title>Dynamic Energy Hub | Fixed</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg: #000; --side-bg: #080808; --card: #0d0d0d;
+            --bg: #000; --card: #0d0d0d;
             --green: #4ade80; --blue: #3b82f6; --red: #ef4444;
         }
-        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; display: flex; height: 100vh; }
         
-        /* Sidebar */
-        .sidebar { width: 75px; background: var(--side-bg); border-right: 1px solid #1a1a1a; display: flex; flex-direction: column; align-items: center; padding: 30px 0; }
-        .nav-item { color: #444; margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
-        .nav-item.active { color: var(--blue); }
-        .nav-item span { font-size: 0.6rem; font-weight: bold; }
+        .sidebar { width: 70px; background: #080808; border-right: 1px solid #111; display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+        .main { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; }
 
-        /* Layout */
-        .main { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        .tel-bar { display: flex; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #111; margin-bottom: 20px; }
+        /* Hub Section */
+        .hub-area { position: relative; width: 400px; height: 350px; margin-bottom: 20px; }
+        .svg-box { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
         
-        /* Radial Hub */
-        .hub-container { position: relative; width: 400px; height: 380px; margin: 0 auto; }
-        .svg-layer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; }
-        .dash-line { stroke: #222; stroke-width: 2.5; stroke-dasharray: 6; fill: none; transition: stroke 0.3s; }
-        
-        /* Animations */
-        .flow-in { animation: f-in 2s linear infinite; }
-        .flow-out { animation: f-out 2s linear infinite; }
+        /* Dashed Lines */
+        .line { stroke: #222; stroke-width: 3; stroke-dasharray: 6; fill: none; transition: stroke 0.3s; }
+        .flow-in { animation: f-in 1s linear infinite; }
+        .flow-out { animation: f-out 1s linear infinite; }
         @keyframes f-in { from { stroke-dashoffset: 20; } to { stroke-dashoffset: 0; } }
         @keyframes f-out { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 20; } }
 
-        /* Nodes */
-        .node { position: absolute; transform: translate(-50%, -50%); z-index: 10; text-align: center; width: 80px; }
-        .circle { width: 60px; height: 60px; background: #000; border: 2px solid #222; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 5px; }
-        .circle i { width: 18px; height: 18px; color: #444; }
-        .circle .val { font-size: 0.8rem; font-weight: 900; }
-        .tag { font-size: 0.6rem; color: #666; font-weight: bold; text-transform: uppercase; }
+        /* Node Styling */
+        .node { position: absolute; transform: translate(-50%, -50%); text-align: center; }
+        .circ { width: 55px; height: 55px; background: #000; border: 2px solid #222; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .circ i { width: 16px; height: 16px; color: #444; margin-bottom: 2px; }
+        .circ span { font-size: 0.8rem; font-weight: bold; }
+        .lbl { font-size: 0.6rem; color: #666; margin-top: 5px; font-weight: bold; }
 
-        /* Positions */
+        /* Node Positions */
         .p-center { top: 50%; left: 50%; }
-        .p-solar { top: 12.5%; left: 50%; }
-        .p-wind { top: 25%; left: 83%; }
-        .p-batt { top: 55%; left: 88%; }
-        .p-home { top: 85%; left: 70%; }
-        .p-ev { top: 85%; left: 30%; }
-        .p-hp { top: 55%; left: 12%; }
-        .p-grid { top: 25%; left: 17.5%; }
+        .p-solar { top: 10%; left: 50%; }
+        .p-wind { top: 25%; left: 85%; }
+        .p-hp { top: 55%; left: 15%; }
+        .p-batt { top: 55%; left: 85%; }
+        .p-home { top: 85%; left: 75%; }
+        .p-ev { top: 85%; left: 25%; }
+        .p-grid { top: 25%; left: 15%; }
 
-        /* Controls */
-        .controls { background: var(--card); padding: 20px; border-radius: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .s-group { display: flex; flex-direction: column; gap: 5px; }
-        .s-header { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; }
-        input[type=range] { accent-color: var(--blue); cursor: pointer; }
+        /* Sliders */
+        .controls { background: var(--card); padding: 20px; border-radius: 12px; width: 500px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .s-box { display: flex; flex-direction: column; gap: 4px; }
+        .s-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <i data-lucide="zap" style="color:var(--green)"></i>
-        <a href="#" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>HUB</span></a>
-    </div>
+    <div class="sidebar"><i data-lucide="zap" style="color:var(--green)"></i></div>
 
     <div class="main">
-        <div class="tel-bar">
-            <div><div style="color:#888; font-size: 0.8rem;">Grid Balance</div><div id="tel-grid" style="font-weight: 900;">0.0 kW</div></div>
-            <div><div style="color:#888; font-size: 0.8rem;">Renewables</div><div id="tel-renew" style="color:var(--green); font-weight: 900;">0.0 kW</div></div>
-        </div>
-
-        <div class="hub-container">
-            <svg class="svg-layer" viewBox="0 0 400 400">
-                <line id="l-solar" x1="200" y1="200" x2="200" y2="50" class="dash-line" />
-                <line id="l-wind" x1="200" y1="200" x2="330" y2="100" class="dash-line" />
-                <line id="l-batt" x1="200" y1="200" x2="350" y2="220" class="dash-line" />
-                <line id="l-home" x1="200" y1="200" x2="280" y2="340" class="dash-line" />
-                <line id="l-ev" x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                <line id="l-hp" x1="200" y1="200" x2="50" y2="220" class="dash-line" />
-                <line id="l-grid" x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+        <div class="hub-area">
+            <svg class="svg-box" viewBox="0 0 400 350">
+                <line id="l-solar" x1="200" y1="175" x2="200" y2="35" class="line" />
+                <line id="l-wind" x1="200" y1="175" x2="340" y2="87" class="line" />
+                <line id="l-hp" x1="200" y1="175" x2="60" y2="192" class="line" />
+                <line id="l-batt" x1="200" y1="175" x2="340" y2="192" class="line" />
+                <line id="l-home" x1="200" y1="175" x2="300" y2="297" class="line" />
+                <line id="l-ev" x1="200" y1="175" x2="100" y2="297" class="line" />
+                <line id="l-grid" x1="200" y1="175" x2="60" y2="87" class="line" />
             </svg>
 
-            <div class="node p-center"><div class="circle" style="border-color:var(--blue)"><i data-lucide="cpu" style="color:var(--blue)"></i></div><div class="tag">CORE</div></div>
-            <div class="node p-solar"><div class="circle" id="n-solar"><i data-lucide="sun"></i><span class="val">0.0</span></div><div class="tag">SOLAR</div></div>
-            <div class="node p-wind"><div class="circle" id="n-wind"><i data-lucide="wind"></i><span class="val">0.0</span></div><div class="tag">WIND</div></div>
-            <div class="node p-batt"><div class="circle" id="n-batt"><i data-lucide="battery"></i><span class="val">0.0</span></div><div class="tag">BATT</div></div>
-            <div class="node p-home"><div class="circle" id="n-home"><i data-lucide="home"></i><span class="val">0.0</span></div><div class="tag">HOME</div></div>
-            <div class="node p-ev"><div class="circle" id="n-ev"><i data-lucide="car"></i><span class="val">0.0</span></div><div class="tag">EV</div></div>
-            <div class="node p-hp"><div class="circle" id="n-hp"><i data-lucide="thermometer"></i><span class="val">0.0</span></div><div class="tag">HP</div></div>
-            <div class="node p-grid"><div class="circle" id="n-grid"><i data-lucide="utility-pole"></i><span class="val">0.0</span></div><div class="tag">GRID</div></div>
+            <div class="node p-center"><div class="circ" style="border-color:var(--blue)"><i data-lucide="cpu" style="color:var(--blue)"></i></div></div>
+            
+            <div class="node p-solar"><div class="circ" id="n-solar"><i data-lucide="sun"></i><span id="txt-solar">0.0</span></div><div class="lbl">SOLAR</div></div>
+            <div class="node p-wind"><div class="circ" id="n-wind"><i data-lucide="wind"></i><span id="txt-wind">0.0</span></div><div class="lbl">WIND</div></div>
+            <div class="node p-hp"><div class="circ" id="n-hp"><i data-lucide="thermometer"></i><span id="txt-hp">0.0</span></div><div class="lbl">HEAT PUMP</div></div>
+            <div class="node p-batt"><div class="circ" id="n-batt"><i data-lucide="battery"></i><span id="txt-batt">0.0</span></div><div class="lbl">BATT</div></div>
+            <div class="node p-home"><div class="circ" id="n-home"><i data-lucide="home"></i><span id="txt-home">0.0</span></div><div class="lbl">HOME</div></div>
+            <div class="node p-ev"><div class="circ" id="n-ev"><i data-lucide="car"></i><span id="txt-ev">0.0</span></div><div class="lbl">EV</div></div>
+            <div class="node p-grid"><div class="circ" id="n-grid"><i data-lucide="utility-pole"></i><span id="txt-grid">0.0</span></div><div class="lbl">GRID</div></div>
         </div>
 
         <div class="controls">
-            <div class="s-group"><div class="s-header"><span>Solar</span><span id="v-solar">4.0</span></div><input type="range" id="i-solar" min="0" max="10" step="0.1" value="4.0"></div>
-            <div class="s-group"><div class="s-header"><span>Wind</span><span id="v-wind">1.5</span></div><input type="range" id="i-wind" min="0" max="10" step="0.1" value="1.5"></div>
-            <div class="s-group"><div class="s-header"><span>Heat Pump</span><span id="v-hp">2.0</span></div><input type="range" id="i-hp" min="0" max="5" step="0.1" value="2.0"></div>
-            <div class="s-group"><div class="s-header"><span>Battery</span><span id="v-batt">0.5</span></div><input type="range" id="i-batt" min="-5" max="5" step="0.1" value="0.5"></div>
-            <div class="s-group"><div class="s-header"><span>Home</span><span id="v-home">2.5</span></div><input type="range" id="i-home" min="0" max="10" step="0.1" value="2.5"></div>
-            <div class="s-group"><div class="s-header"><span>EV</span><span id="v-ev">0.0</span></div><input type="range" id="i-ev" min="0" max="7" step="0.1" value="0.0"></div>
+            <div class="s-box"><div class="s-label">Solar <span id="val-solar">0.0</span></div><input type="range" class="slider" id="in-solar" min="0" max="10" step="0.1" value="5"></div>
+            <div class="s-box"><div class="s-label">Wind <span id="val-wind">0.0</span></div><input type="range" class="slider" id="in-wind" min="0" max="10" step="0.1" value="2"></div>
+            <div class="s-box"><div class="s-label">HP <span id="val-hp">0.0</span></div><input type="range" class="slider" id="in-hp" min="0" max="5" step="0.1" value="1"></div>
+            <div class="s-box"><div class="s-label">Battery <span id="val-batt">0.0</span></div><input type="range" class="slider" id="in-batt" min="-5" max="5" step="0.1" value="0"></div>
+            <div class="s-box"><div class="s-label">Home <span id="val-home">0.0</span></div><input type="range" class="slider" id="in-home" min="0" max="10" step="0.1" value="3"></div>
+            <div class="s-box"><div class="s-label">EV <span id="val-ev">0.0</span></div><input type="range" class="slider" id="in-ev" min="0" max="7" step="0.1" value="0"></div>
         </div>
     </div>
 
     <script>
-        lucide.createIcons();
-        const sliders = {
-            solar: document.getElementById('i-solar'), wind: document.getElementById('i-wind'),
-            hp: document.getElementById('i-hp'), batt: document.getElementById('i-batt'),
-            home: document.getElementById('i-home'), ev: document.getElementById('i-ev')
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            const ids = ['solar', 'wind', 'hp', 'batt', 'home', 'ev'];
+            const inputs = {};
+            ids.forEach(id => inputs[id] = document.getElementById('in-' + id));
 
-        function update() {
-            const v = {
-                s: +sliders.solar.value, w: +sliders.wind.value, hp: +sliders.hp.value,
-                b: +sliders.batt.value, h: +sliders.home.value, ev: +sliders.ev.value
-            };
+            function refresh() {
+                const v = {};
+                ids.forEach(id => v[id] = parseFloat(inputs[id].value));
 
-            // 1. Math: Production offsets Demand
-            const production = v.s + v.w + v.hp + v.b;
-            const demand = v.h + v.ev;
-            const grid = demand - production;
+                // Formula: Renewables (Solar+Wind+HP+Batt) vs Demand (Home+EV)
+                const production = v.solar + v.wind + v.hp + v.batt;
+                const demand = v.home + v.ev;
+                const grid = demand - production;
 
-            // 2. Update Sliders & Node Values
-            for (let key in sliders) {
-                const val = (key === 'solar') ? v.s : (key === 'wind') ? v.w : (key === 'hp') ? v.hp : (key === 'batt') ? v.b : (key === 'home') ? v.h : v.ev;
-                document.getElementById(`v-${key}`).innerText = val.toFixed(1);
-                document.getElementById(`n-${key}`).querySelector('.val').innerText = val.toFixed(1);
-                
-                // Set Colors/Flow
-                const color = (key === 'home') ? 'var(--blue)' : (key === 'ev' && val === 0) ? 'var(--red)' : 'var(--green)';
-                const isRenewable = ['solar', 'wind', 'hp', 'batt'].includes(key);
-                
-                const line = document.getElementById(`l-${key}`);
-                const node = document.getElementById(`n-${key}`);
-                
-                if (Math.abs(val) > 0.1) {
-                    line.style.stroke = color;
-                    line.className = (isRenewable) ? 'dash-line flow-in' : 'dash-line flow-out';
-                    line.style.animationDuration = (2 / Math.abs(val)) + 's';
-                    node.style.borderColor = color;
-                    node.querySelector('i').style.color = color;
+                // Update text and colors for standard nodes
+                ids.forEach(id => {
+                    const val = v[id];
+                    document.getElementById('val-' + id).innerText = val.toFixed(1);
+                    document.getElementById('txt-' + id).innerText = val.toFixed(1);
+                    
+                    const line = document.getElementById('l-' + id);
+                    const circ = document.getElementById('n-' + id);
+                    const icon = circ.querySelector('i');
+
+                    // logic for color and flow
+                    let color = 'var(--blue)';
+                    if (['solar', 'wind', 'hp'].includes(id)) color = 'var(--green)';
+                    if (id === 'ev') color = val > 0 ? 'var(--green)' : 'var(--red)';
+
+                    if (Math.abs(val) > 0.05) {
+                        line.style.stroke = color;
+                        // Renewables flow IN, Home/EV flow OUT
+                        line.className = ['solar', 'wind', 'hp', 'batt'].includes(id) ? 'line flow-in' : 'line flow-out';
+                        circ.style.borderColor = color;
+                        icon.style.color = color;
+                    } else {
+                        line.style.stroke = '#222';
+                        line.className = 'line';
+                        circ.style.borderColor = '#222';
+                        icon.style.color = '#444';
+                    }
+                });
+
+                // Update Grid Node
+                const gLine = document.getElementById('l-grid');
+                const gCirc = document.getElementById('n-grid');
+                const gTxt = document.getElementById('txt-grid');
+                const gIcon = gCirc.querySelector('i');
+                const gColor = grid > 0 ? 'var(--red)' : 'var(--green)';
+
+                gTxt.innerText = grid.toFixed(1);
+                if (Math.abs(grid) > 0.05) {
+                    gLine.style.stroke = gColor;
+                    gLine.className = grid > 0 ? 'line flow-in' : 'line flow-out';
+                    gCirc.style.borderColor = gColor;
+                    gIcon.style.color = gColor;
                 } else {
-                    line.style.stroke = '#222'; line.className = 'dash-line';
-                    node.style.borderColor = '#222'; node.querySelector('i').style.color = '#444';
+                    gLine.style.stroke = '#222';
+                    gLine.className = 'line';
+                    gCirc.style.borderColor = '#222';
+                    gIcon.style.color = '#444';
                 }
             }
 
-            // 3. Grid Node Logic
-            const gNode = document.getElementById('n-grid');
-            const gLine = document.getElementById('l-grid');
-            const gColor = grid > 0 ? 'var(--red)' : 'var(--green)';
-            
-            gNode.querySelector('.val').innerText = grid.toFixed(1);
-            document.getElementById('tel-grid').innerText = grid.toFixed(1) + " kW";
-            document.getElementById('tel-grid').style.color = gColor;
-            document.getElementById('tel-renew').innerText = production.toFixed(1) + " kW";
-
-            if (Math.abs(grid) > 0.1) {
-                gLine.style.stroke = gColor;
-                gLine.className = grid > 0 ? 'dash-line flow-in' : 'dash-line flow-out';
-                gNode.style.borderColor = gColor;
-                gNode.querySelector('i').style.color = gColor;
-            } else {
-                gLine.style.stroke = '#222'; gLine.className = 'dash-line';
-                gNode.style.borderColor = '#222'; gNode.querySelector('i').style.color = '#444';
-            }
-        }
-
-        Object.values(sliders).forEach(s => s.oninput = update);
-        update();
+            ids.forEach(id => inputs[id].addEventListener('input', refresh));
+            refresh(); // initial run
+        });
     </script>
 </body>
 </html>
