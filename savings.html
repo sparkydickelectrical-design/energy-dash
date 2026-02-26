@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>if (localStorage.getItem('peakShavingAuth') !== 'true') { window.location.href = "login.html"; }</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Savings | PeakShaving Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=6.0">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="savings.html" class="nav-item active">Savings</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="#" onclick="logout()" class="nav-item" style="color:#ef4444">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="scroll-content">
+        <section class="savings-hero-card">
+            <div class="hero-label">Estimated Monthly Savings</div>
+            <div class="hero-value">£142.50</div>
+            <div id="dst-status" class="hero-subtext">Meter Sync: GMT Mode</div>
+        </section>
+
+        <div class="stats-mini-grid">
+            <div class="mini-box border-green"><i data-lucide="trending-down" class="green-text"></i><div class="mini-info"><strong>£84.20</strong><span>Avoided Peak</span></div></div>
+            <div class="mini-box border-blue"><i data-lucide="leaf" class="blue-text"></i><div class="mini-info"><strong>12.4 <small>kg</small></strong><span>CO2 Offset</span></div></div>
+        </div>
+
+        <div class="daily-header"><h2>Economy 7 Schedule</h2></div>
+        <div class="financial-section">
+            <div class="tariff-card">
+                <div class="tariff-split">
+                    <div class="rate-box" id="day-box"><div class="rate-label">Day</div><div class="rate-price">28.5p</div><div class="rate-period">08:00 — 01:00</div></div>
+                    <div class="rate-box" id="night-box"><div class="rate-label">Night</div><div class="rate-price green-text">7.5p</div><div class="rate-period">01:00 — 08:00</div></div>
+                </div>
+            </div>
+            <div class="daily-card border-green">
+                <div class="daily-top"><i data-lucide="zap" class="orange-text"></i><div class="stat-ring">88%</div></div>
+                <p class="card-description">Load shifted away from peak hours.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+        function logout() { localStorage.removeItem('peakShavingAuth'); window.location.href = "login.html"; }
+        function updateRates() {
+            const h = new Date().getHours();
+            if (h >= 1 && h < 8) { document.getElementById('night-box').classList.add('active-glow'); }
+            else { document.getElementById('day-box').classList.add('active-glow'); }
+        }
+        updateRates();
+    </script>
+</body>
+</html>

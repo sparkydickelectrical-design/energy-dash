@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>if (localStorage.getItem('peakShavingAuth') !== 'true') { window.location.href = "login.html"; }</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Analytics | PeakShaving Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css?v=5.7">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>Energy Hub</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="savings.html" class="nav-item">Savings</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="#" onclick="logout()" class="nav-item" style="color:#ef4444">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="scroll-content">
+        <div class="data-header">
+            <div class="data-box" style="border-left-color: #3b82f6;"><span class="box-label">Efficiency</span><span class="box-value">94.2%</span></div>
+            <div class="data-box" style="border-left-color: #a855f7;"><span class="box-label">Peak Load</span><span class="box-value">4.2 <small>kW</small></span></div>
+        </div>
+
+        <div class="daily-header"><h2>Energy Trends (7 Days)</h2></div>
+        <div class="daily-card"><canvas id="trendsChart" height="200"></canvas></div>
+
+        <div class="daily-header"><h2>System Event Log</h2></div>
+        <div class="daily-card" style="padding:0;">
+            <table>
+                <thead><tr><th>Time</th><th>Event</th><th style="text-align:right;">Status</th></tr></thead>
+                <tbody>
+                    <tr><td>01:00</td><td>Night Rate Entry</td><td style="text-align:right;" class="green-text">Active</td></tr>
+                    <tr><td>00:42</td><td>High Load Alert</td><td style="text-align:right; color:#ef4444;">Mitigated</td></tr>
+                    <tr><td>Yesterday</td><td>Solar Peak Yield</td><td style="text-align:right; color:#3b82f6;">3.4kW</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+        function logout() { localStorage.removeItem('peakShavingAuth'); window.location.href = "login.html"; }
+        const ctx = document.getElementById('trendsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{ label: 'Solar', data: [12, 19, 15, 8, 22, 24, 18], borderColor: '#4ade80', backgroundColor: 'rgba(74, 222, 128, 0.1)', fill: true, tension: 0.4 },
+                           { label: 'Usage', data: [15, 12, 18, 20, 14, 11, 13], borderColor: '#3b82f6', borderDash: [5, 5], tension: 0.4 }]
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#222' }, ticks: { color: '#64748b' } }, x: { grid: { display: false }, ticks: { color: '#64748b' } } } }
+        });
+    </script>
+</body>
+</html>

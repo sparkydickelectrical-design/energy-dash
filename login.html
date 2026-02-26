@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Login | PeakShaving Hub</title>
+    <link rel="stylesheet" href="style.css?v=5.7">
+    <style>
+        .login-wrap { height: 90vh; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: #111; border: 1px solid #222; padding: 40px; border-radius: 30px; width: 100%; max-width: 380px; text-align: center; }
+        .login-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 16px; border-radius: 15px; color: #fff; margin: 12px 0; font-size: 1rem; outline: none; transition: 0.3s; }
+        .login-input:focus { border-color: #4ade80; box-shadow: 0 0 10px rgba(74, 222, 128, 0.1); }
+        .login-btn { width: 100%; background: #4ade80; color: #000; padding: 16px; border-radius: 15px; font-weight: 800; border: none; cursor: pointer; margin-top: 20px; }
+        #error { color: #ef4444; font-size: 0.8rem; margin-top: 15px; display: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="login-card">
+            <div class="brand-logo" style="font-size: 1.8rem; margin-bottom: 30px;">PeakShaving <span>Hub</span></div>
+            <input type="text" id="user" class="login-input" placeholder="Username">
+            <input type="password" id="pass" class="login-input" placeholder="Password">
+            <button class="login-btn" onclick="auth()">Unlock Dashboard</button>
+            <p id="error">Incorrect credentials. Please try again.</p>
+        </div>
+    </div>
+    <script>
+        function auth() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(u === "admin" && p === "bangor123") {
+                localStorage.setItem('peakShavingAuth', 'true');
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
