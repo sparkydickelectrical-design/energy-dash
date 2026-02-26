@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Critical Security: Authentication Persistence Gate
+        if (localStorage.getItem('peakShavingAuth') !== 'true') { 
+            window.location.href = "login.html"; 
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Master Hub | PeakShaving Pro</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=12.0">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>Professional</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item active">Home</a>
+                <a href="savings.html" class="nav-item">Savings</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="#" onclick="logout()" class="nav-item" style="color:#ef4444">Logout</a>
+            </div>
+        </div>
+        <div id="weather-widget" class="weather-bar">
+            <i data-lucide="map-pin"></i>
+            <span id="weather-summary">Bangor, UK: Establishing Connection...</span>
+        </div>
+    </nav>
+
+    <header class="data-header">
+        <div class="data-box grid-box">
+            <span class="box-label">Grid Import Rate</span>
+            <span class="box-value">0.85 <small>kW</small></span>
+        </div>
+        <div class="data-box renewable-box">
+            <span class="box-label">Total Renewable Yield</span>
+            <span class="box-value">3.10 <small>kW</small></span>
+        </div>
+    </header>
+
+    <div class="radial-dashboard">
+        <svg class="connections-layer" viewBox="0 0 400 400">
+            <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
+            <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
+            <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+            <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
+            <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+        </svg>
+
+        <div class="node center-node">
+            <i data-lucide="zap" class="green-text"></i>
+        </div>
+        
+        <div class="node solar-node">
+            <i data-lucide="sun"></i><div class="node-value">2.4</div><div class="node-label-bottom">Solar Array</div>
+        </div>
+        <div class="node wind-node">
+            <i data-lucide="wind"></i><div class="node-value">0.7</div><div class="node-label-bottom">Turbine</div>
+        </div>
+        <div class="node battery-node">
+            <i data-lucide="battery"></i><div class="node-value">-0.5</div><div class="node-label-bottom">BMS Storage</div>
+        </div>
+        <div class="node home-node">
+            <i data-lucide="home"></i><div class="node-value">1.1</div><div class="node-label-bottom">Critical Load</div>
+        </div>
+        <div class="node charger-node">
+            <i data-lucide="car"></i><div class="node-value">0.0</div><div class="node-label-bottom">EV Charge</div>
+        </div>
+        <div class="node heatpump-node">
+            <i data-lucide="thermometer"></i><div class="node-value">0.6</div><div class="node-label-bottom">Heat Pump</div>
+        </div>
+        <div class="node grid-node">
+            <i data-lucide="utility-pole"></i><div class="node-value">0.8</div><div class="node-label-bottom">UK Grid</div>
+        </div>
+    </div>
+
+    <div class="scroll-content">
+        <div class="daily-header"><h2>Energy Storage System (ESS)</h2></div>
+        <div class="daily-card border-green">
+            <div class="daily-top">
+                <i data-lucide="shield-check" class="green-text"></i>
+                <div class="card-title">Battery State of Charge</div>
+                <div class="stat-ring">92%</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 92%;"></div>
+            </div>
+            <p class="card-description">
+                <strong>Status:</strong> Night Charge Optimization Active.<br>
+                Importing at 3.2kW. Voltage: 54.2V. Temp: 24°C. Estimated full charge at 07:45 GMT.
+            </p>
+        </div>
+
+        <div class="daily-header"><h2>Daily Cumulative Flux</h2></div>
+        <div class="energy-grid-wrapper">
+            <div class="grid-col">
+                <div class="white-box">
+                    <div class="icon-circle sun-bg"><i data-lucide="sun"></i></div>
+                    <div class="box-text"><span class="box-value">14.2<small>kWh</small></span><span class="box-label">Solar Gen</span></div>
+                </div>
+                <div class="white-box">
+                    <div class="icon-circle home-bg"><i data-lucide="home"></i></div>
+                    <div class="box-text"><span class="box-value">8.4<small>kWh</small></span><span class="box-label">House Load</span></div>
+                </div>
+            </div>
+            <div class="grid-col">
+                <div class="white-box">
+                    <div class="icon-circle moon-bg"><i data-lucide="moon"></i></div>
+                    <div class="box-text"><span class="box-value">2.1<small>kWh</small></span><span class="box-label">Off-Peak</span></div>
+                </div>
+                <div class="white-box">
+                    <div class="icon-circle peak-bg"><i data-lucide="zap-off"></i></div>
+                    <div class="box-text"><span class="box-value">0.5<small>kWh</small></span><span class="box-label">Peak Cost</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="daily-header"><h2>Live Telemetry Stream</h2></div>
+        <div class="daily-card system-log">
+            <div>[01:00:01] Economy 7 window opened. Grid relay engaged.</div>
+            <div>[01:05:22] ESS: Charging initiated at 3.2kW. No thermal throttling.</div>
+            <div>[01:15:00] IOT: EV Charger handshake detected. Scheduling start for 02:00.</div>
+            <div>[01:31:07] Load: Heat Pump entered Phase 2 stabilization.</div>
+            <div>[01:43:13] API: Master Hub synchronized with cloud node. Latency: 42ms.</div>
+            <div>[01:55:00] ESS: String voltage balanced across all 16 cells.</div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function logout() { localStorage.removeItem('peakShavingAuth'); window.location.href = "login.html"; }
+        async function updateWeather() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=54.6611&longitude=-5.6669&current=temperature_2m,wind_speed_10m');
+                const data = await res.json();
+                document.getElementById('weather-summary').innerText = `Bangor: ${Math.round(data.current.temperature_2m)}°C • Wind: ${Math.round(data.current.wind_speed_10m)} mph`;
+            } catch (e) { document.getElementById('weather-summary').innerText = "Bangor: 8°C • Local Sync"; }
+        }
+        updateWeather();
+        setInterval(updateWeather, 600000);
+    </script>
+</body>
+</html>
