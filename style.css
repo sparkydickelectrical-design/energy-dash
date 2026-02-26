@@ -1,277 +1,59 @@
 :root {
-    /* Color Palette */
-    --b: #000;
-    --d: #050505;
-    --c: #0a0a0a;
-    --blue: #3b82f6;
-    --green: #4ade80;
-    --red: #ef4444;
-    --gold: #f59e0b;
-    --tx: #fff;
-    --tx-m: #64748b;
-    --bd: #1a1a1a;
-    
-    /* Effects */
-    --sh: 0 10px 25px rgba(0,0,0,.9);
-    --rd: 16px;
-    --ts: 0.3s ease;
+    --b: #000; --d: #050505; --c: #0a0a0a;
+    --blue: #3b82f6; --green: #4ade80; --red: #ef4444; --gold: #f59e0b;
+    --tx: #fff; --tx-m: #64748b; --bd: #1a1a1a;
+    --sh: 0 10px 25px rgba(0,0,0,.9); --rd: 16px; --ts: 0.3s ease;
 }
 
-/* Global Reset */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    background: var(--b); 
-    color: var(--tx); 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-    overflow-x: hidden; 
-}
+body { background: var(--b); color: var(--tx); font-family: -apple-system, sans-serif; overflow-x: hidden; }
 
-/* App Layout */
 .app-container { display: flex; min-height: 100vh; }
+.sidebar { width: 260px; background: var(--c); border-right: 1px solid var(--bd); display: flex; flex-direction: column; padding: 30px 20px; position: fixed; height: 100vh; z-index: 1000; }
+.main-content { flex-grow: 1; margin-left: 260px; padding: 40px; display: flex; flex-direction: column; align-items: center; }
 
-/* Sidebar Navigation */
-.sidebar {
-    width: 260px; 
-    background: var(--c); 
-    border-right: 1px solid var(--bd);
-    display: flex; 
-    flex-direction: column; 
-    padding: 30px 20px;
-    position: fixed; 
-    height: 100vh; 
-    z-index: 1000;
-}
+/* TOTAL LOAD DISPLAY */
+.load-summary { width: 100%; max-width: 800px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.stat-card { background: var(--c); border: 1px solid var(--bd); padding: 15px; border-radius: 12px; }
+.stat-val { font-size: 1.5rem; font-weight: 900; }
+.stat-lbl { font-size: 0.6rem; color: var(--tx-m); text-transform: uppercase; font-weight: 800; }
 
-.nav-brand { 
-    font-weight: 900; 
-    text-transform: uppercase; 
-    font-size: 1.1rem; 
-    margin-bottom: 40px; 
-    letter-spacing: 1px; 
-}
+.weather-bar { width: 100%; max-width: 800px; background: var(--c); border: 1px solid var(--bd); padding: 12px; border-radius: 12px; display: flex; justify-content: space-around; margin-bottom: 20px; font-size: 0.7rem; color: var(--tx-m); font-weight: 700; }
 
-.nav-menu { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+/* HUB ENGINE */
+.radial-container { position: relative; width: 450px; height: 450px; margin: 20px 0; }
+.connections-layer { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.dash-line { stroke: #222; stroke-width: 2.5; stroke-dasharray: 8; transition: 0.4s; }
 
-.nav-link {
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    padding: 12px 16px;
-    color: var(--tx-m); 
-    text-decoration: none; 
-    font-weight: 700; 
-    font-size: 0.85rem;
-    border-radius: 12px; 
-    transition: var(--ts);
-}
-
-.nav-link:hover, .nav-link.active { 
-    background: rgba(59, 130, 246, 0.1); 
-    color: var(--blue); 
-}
-
-.nav-link.active { border-left: 3px solid var(--blue); }
-
-/* Main Content Area */
-.main-content { 
-    flex-grow: 1; 
-    margin-left: 260px; 
-    padding: 40px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-}
-
-/* Top Weather Bar */
-.weather-bar { 
-    width: 100%; 
-    max-width: 800px; 
-    background: var(--c); 
-    border: 1px solid var(--bd); 
-    padding: 15px 25px; 
-    border-radius: 14px; 
-    display: flex; 
-    justify-content: space-around; 
-    margin-bottom: 20px; 
-    font-size: 0.75rem; 
-    color: var(--tx-m); 
-    font-weight: 700;
-}
-
-/* The Radial Hub */
-.radial-container { 
-    position: relative; 
-    width: 450px; 
-    height: 450px; 
-    margin: 20px 0; 
-}
-
-.connections-layer { 
-    position: absolute; 
-    inset: 0; 
-    width: 100%; 
-    height: 100%; 
-    z-index: 1; 
-}
-
-/* SVG Line Styles */
-.dash-line { 
-    stroke: #222; 
-    stroke-width: 2.5; 
-    stroke-dasharray: 8; 
-    transition: stroke 0.4s, opacity 0.4s, stroke-dashoffset 0.1s; 
-}
-
-/* Animation Engine */
 @keyframes flow-fwd { to { stroke-dashoffset: -16; } }
 @keyframes flow-rev { to { stroke-dashoffset: 16; } }
-
 .fwd { animation: flow-fwd 1s linear infinite; }
 .rev { animation: flow-rev 1s linear infinite; }
 
-/* Dynamic Flow Classes used by JS */
-.flow-charge { stroke: var(--green) !important; animation: flow-fwd 1s linear infinite !important; }
-.flow-discharge { stroke: var(--blue) !important; animation: flow-rev 1s linear infinite !important; }
-.flow-heat { stroke: var(--blue) !important; animation: flow-rev 1s linear infinite !important; }
+.node-wrapper { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10; width: 100px; }
+.node { width: 80px; height: 80px; background: var(--b); border: 2px solid var(--bd); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--sh); margin-bottom: 8px; transition: var(--ts); }
+.node.hub { width: 100px; height: 100px; border-color: #333; }
+.node .v { font-size: 1rem; font-weight: 900; }
+.node .u { font-size: 0.5rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; }
+.external-label { font-size: 0.6rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; text-align: center; }
 
-/* Nodes Layout */
-.node-wrapper { 
-    position: absolute; 
-    transform: translate(-50%, -50%); 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    z-index: 10; 
-    width: 100px; 
-}
+/* POSITIONS */
+.p-center { top: 50%; left: 50%; }
+.p-n { top: 10%; left: 50%; }
+.p-ne { top: 25%; left: 85%; }
+.p-se { top: 75%; left: 85%; }
+.p-s { top: 90%; left: 50%; }
+.p-sw { top: 75%; left: 15%; }
+.p-hp { top: 50%; left: 10%; }
+.p-nw { top: 25%; left: 15%; }
 
-.node { 
-    width: 82px; 
-    height: 82px; 
-    background: var(--b); 
-    border: 2px solid var(--bd); 
-    border-radius: 50%; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    box-shadow: var(--sh); 
-    margin-bottom: 8px; 
-    transition: var(--ts); 
-}
+/* SIM LAB */
+.sim-lab { width: 100%; max-width: 800px; margin-top: 40px; background: var(--c); padding: 25px; border-radius: var(--rd); border: 1px dashed #333; }
+.sim-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+.sim-group label { display: block; font-size: 0.6rem; color: var(--tx-m); margin-bottom: 8px; font-weight: 800; text-transform: uppercase; }
+input[type="range"] { width: 100%; accent-color: var(--blue); }
 
-/* Specific Node Types */
-.node.hub { 
-    width: 100px; 
-    height: 100px; 
-    border-color: #333; 
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); 
-}
-
-.node .v { font-size: 1.1rem; font-weight: 900; letter-spacing: -0.5px; }
-.node .u { 
-    font-size: 0.5rem; 
-    font-weight: 800; 
-    color: var(--tx-m); 
-    text-transform: uppercase; 
-}
-
-.external-label { 
-    font-size: 0.6rem; 
-    font-weight: 800; 
-    color: var(--tx-m); 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    text-align: center;
-}
-
-/* Node States */
+.green { color: var(--green); } .blue { color: var(--blue); } .red { color: var(--red); } .gold { color: var(--gold); }
 .node-active-green { border-color: var(--green) !important; box-shadow: 0 0 15px rgba(74, 222, 128, 0.2); }
 .node-active-blue { border-color: var(--blue) !important; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
 .node-idle { border-color: var(--red) !important; opacity: 0.5; }
-
-/* Colors */
-.green { color: var(--green); }
-.blue { color: var(--blue); }
-.red { color: var(--red); }
-.gold { color: var(--gold); }
-
-/* Absolute Positioning (Hex-Radial) */
-.p-center { top: 50%; left: 50%; }
-.p-n { top: 10%; left: 50%; }      /* Solar */
-.p-ne { top: 25%; left: 85%; }     /* Wind */
-.p-se { top: 70%; left: 90%; }     /* Battery */
-.p-s { top: 90%; left: 50%; }      /* Home Load */
-.p-sw { top: 70%; left: 10%; }     /* EV Charger */
-.p-hp { top: 50%; left: 10%; }     /* Heat Pump (Manual adjustment) */
-.p-nw { top: 25%; left: 15%; }     /* Grid */
-
-/* Simulation Lab UI */
-.sim-lab { 
-    width: 100%; 
-    max-width: 800px; 
-    margin-top: 40px; 
-    background: var(--c); 
-    padding: 25px; 
-    border-radius: var(--rd); 
-    border: 1px dashed #333; 
-}
-
-.sim-header {
-    font-size: 0.7rem; 
-    font-weight: 900; 
-    color: var(--blue); 
-    text-transform: uppercase; 
-    margin-bottom: 20px; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px;
-}
-
-.sim-controls { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-    gap: 25px; 
-}
-
-.sim-group label { 
-    display: block; 
-    font-size: 0.65rem; 
-    color: var(--tx-m); 
-    margin-bottom: 10px; 
-    font-weight: 800; 
-    text-transform: uppercase; 
-}
-
-/* Inputs */
-input[type="range"] { 
-    width: 100%; 
-    accent-color: var(--blue); 
-    cursor: pointer; 
-    background: transparent;
-}
-
-select { 
-    width: 100%; 
-    background: var(--b); 
-    color: #fff; 
-    border: 1px solid var(--bd); 
-    padding: 8px; 
-    border-radius: 6px; 
-    outline: none;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-/* Status Indicator */
-.status-container { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--bd); }
-.status-pill { display: flex; align-items: center; gap: 8px; font-size: 0.65rem; font-weight: 800; color: var(--tx-m); }
-.indicator-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); }
-
-/* Mobile Adaptability */
-@media (max-width: 768px) {
-    .sidebar { width: 70px; padding: 20px 10px; }
-    .nav-brand, .nav-link span, .status-container { display: none; }
-    .main-content { margin-left: 70px; padding: 20px; }
-    .radial-container { transform: scale(0.7); margin-top: -50px; }
-}
