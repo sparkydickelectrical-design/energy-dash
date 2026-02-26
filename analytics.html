@@ -8,38 +8,28 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <button class="mobile-toggle" id="menuBtn"><i data-lucide="menu"></i></button>
     <div class="app-container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="nav-brand">PeakShaving <span class="green-text">PRO</span></div>
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
                 <a href="savings.html" class="nav-link"><i data-lucide="banknote"></i> Savings</a>
                 <a href="analytics.html" class="nav-link active"><i data-lucide="bar-chart-3"></i> Analytics</a>
             </nav>
+            <div class="status-container"><div class="status-pill"><div class="indicator-dot"></div> System Online</div></div>
         </aside>
-
         <main class="main-content">
             <h1 style="margin-bottom:30px">System Analytics</h1>
-
-            
-
-            <div style="background:var(--c); padding:30px; border-radius:var(--rl); border:1px solid var(--bd); height:400px; margin-bottom:30px">
+            <div style="background:var(--c); padding:30px; border-radius:var(--rd); border:1px solid var(--bd); height:400px; margin-bottom:30px">
                 <canvas id="analyticsChart"></canvas>
             </div>
-
             <div class="data-header">
-                <div class="data-box">
-                    <span class="box-label">Self-Consumption</span>
-                    <div class="box-value">84%</div>
-                </div>
-                <div class="data-box">
-                    <span class="box-label">Peak Shaved</span>
-                    <div class="box-value blue-text">12.5 <small style="font-size:0.8rem">kW</small></div>
-                </div>
+                <div class="data-box"><span class="box-label">Self-Sufficiency</span><div class="box-value">84%</div></div>
+                <div class="data-box"><span class="box-label">Grid Avoidance</span><div class="box-value blue-text">12.5 kW</div></div>
             </div>
         </main>
     </div>
-
     <script>
         lucide.createIcons();
         const ctx = document.getElementById('analyticsChart').getContext('2d');
@@ -47,23 +37,9 @@
             type: 'line',
             data: {
                 labels: ['6am', '9am', '12pm', '3pm', '6pm', '9pm'],
-                datasets: [{ 
-                    label: 'Solar', 
-                    data: [0, 1.2, 3.5, 2.8, 0.4, 0], 
-                    borderColor: '#4ade80', 
-                    backgroundColor: 'rgba(74, 222, 128, 0.1)',
-                    fill: true,
-                    tension: 0.4 
-                }]
+                datasets: [{ label: 'Solar', data: [0, 1.2, 3.5, 2.8, 0.4, 0], borderColor: '#4ade80', backgroundColor: 'rgba(74, 222, 128, 0.1)', fill: true, tension: 0.4 }]
             },
-            options: { 
-                maintainAspectRatio: false, 
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: '#1a1a1a' }, ticks: { color: '#64748b' } },
-                    x: { grid: { display: false }, ticks: { color: '#64748b' } }
-                }
-            }
+            options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#1a1a1a' } }, x: { grid: { display: false } } } }
         });
     </script>
 </body>
