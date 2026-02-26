@@ -7,7 +7,22 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="industrial-theme">
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="brand">
+                <i data-lucide="zap" class="green-text"></i>
+                <span>PeakShaving <strong>PRO</strong></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Hub</a>
+                <a href="savings.html">Savings</a>
+                <a href="analytics.html">Analytics</a>
+            </div>
+        </div>
+    </nav>
+
     <header class="telemetry-header">
         <div class="tel-item">
             <i data-lucide="arrow-down-left" class="red-text"></i>
@@ -71,14 +86,14 @@
 
     <main class="scroll-content">
         <section class="section-group">
-            <h1 class="section-title">Energy Storage System (ESS) Metrics</h1>
+            <h2 class="section-title">Energy Storage System (ESS) Metrics</h2>
             <div class="ess-card">
                 <div class="bms-status">
                     <i data-lucide="shield-check" class="green-text"></i>
                     <span>BMS Status: Nominal</span>
                 </div>
                 <div class="ess-metrics-list">
-                    <p id="ess-soc">92% Charge</p>
+                    <p>92% Charge</p>
                     <p>DC Voltage 54.21 V</p>
                     <p>Internal Temp 24.5 °C</p>
                     <p>Cycle Count 122</p>
@@ -95,7 +110,7 @@
                     <div class="acc-meta"><i data-lucide="sun" class="orange-text"></i> SOLAR GENERATION</div>
                 </div>
                 <div class="acc-card">
-                    <span class="acc-val" id="acc-home">8.45</span>
+                    <span class="acc-val">8.45</span>
                     <span class="acc-unit">kWh</span>
                     <div class="acc-meta"><i data-lucide="home" class="blue-text"></i> HOUSEHOLD DEMAND</div>
                 </div>
@@ -111,35 +126,24 @@
                 </div>
             </div>
         </section>
-        
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="savings.html" style="color: var(--green); text-decoration: none; font-weight: 800; font-size: 0.8rem;">VIEW SAVINGS ANALYSIS →</a>
-        </div>
     </main>
 
     <script>
         lucide.createIcons();
         
-        function runSimulation() {
-            // Update Solar Node and Accumulation
-            const solarNode = document.getElementById('sim-solar').querySelector('.v');
-            const accSolar = document.getElementById('acc-solar');
-            const headerYield = document.getElementById('header-yield');
+        // Simulation Script
+        setInterval(() => {
+            const nodes = ['sim-solar', 'sim-wind', 'sim-batt', 'sim-home', 'sim-hp', 'sim-grid'];
+            nodes.forEach(id => {
+                const el = document.getElementById(id).querySelector('.v');
+                let val = parseFloat(el.innerText);
+                el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
+            });
             
-            let currentSolar = parseFloat(solarNode.innerText);
-            let totalSolar = parseFloat(accSolar.innerText);
-            
-            // Generate fluctuations
-            let flux = (Math.random() * 0.4 - 0.2);
-            let newSolar = Math.max(0, currentSolar + flux);
-            
-            // Apply Updates
-            solarNode.innerText = newSolar.toFixed(1);
-            headerYield.innerText = (newSolar + 0.7).toFixed(2) + " kW"; // Solar + Wind constant
-            accSolar.innerText = (totalSolar + (newSolar / 3600)).toFixed(2); // Simulating kWh gain
-        }
-
-        setInterval(runSimulation, 2000);
+            // Link Solar to Header
+            const sVal = document.getElementById('sim-solar').querySelector('.v').innerText;
+            document.getElementById('header-yield').innerText = (parseFloat(sVal) + 0.7).toFixed(2) + " kW";
+        }, 3000);
     </script>
 </body>
 </html>
