@@ -22,20 +22,18 @@
     <div class="main-content">
         <header class="telemetry-bar">
             <div class="tel-row">
-                <i data-lucide="arrow-down-left" class="red-text"></i>
                 <span class="tel-lbl">Grid Import Status</span>
-                <span class="tel-val" id="top-grid">0.85 kW</span>
+                <span class="tel-val red-text" id="top-grid">0.85 kW</span>
             </div>
             <div class="tel-row">
-                <i data-lucide="zap" class="green-text"></i>
                 <span class="tel-lbl">Active Renewable Yield</span>
-                <span class="tel-val" id="top-yield">3.10 kW</span>
+                <span class="tel-val green-text" id="top-yield">3.10 kW</span>
             </div>
         </header>
 
         <section class="radial-section">
             <div class="radial-hub">
-                <svg class="svg-layer" viewBox="0 0 400 400">
+                <svg class="svg-layer" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
                     <line x1="200" y1="200" x2="200" y2="50" class="dash-line anim-flow" />
                     <line x1="200" y1="200" x2="330" y2="100" class="dash-line anim-flow" />
                     <line x1="200" y1="200" x2="350" y2="220" class="dash-line anim-flow" />
@@ -81,7 +79,7 @@
             </div>
         </section>
 
-        <main class="scroll-area">
+        <main class="data-stack">
             <h2 class="grp-title">Energy Storage System (ESS) Metrics</h2>
             <div class="ess-block">
                 <div class="bms-status"><i data-lucide="shield-check" class="green-text"></i> BMS Status: Nominal</div>
@@ -96,7 +94,7 @@
             <h2 class="grp-title">24h System Accumulation</h2>
             <div class="acc-grid">
                 <div class="acc-box">
-                    <span class="acc-num">14.22</span><span class="acc-unit">kWh</span>
+                    <span class="acc-num" id="acc-solar">14.22</span><span class="acc-unit">kWh</span>
                     <div class="acc-lbl">SOLAR GENERATION</div>
                 </div>
                 <div class="acc-box">
@@ -124,6 +122,9 @@
                 let val = parseFloat(el.innerText);
                 el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
             });
+            // Link header renewable to solar simulation
+            const sVal = parseFloat(document.getElementById('n-solar').querySelector('.val').innerText);
+            document.getElementById('top-yield').innerText = (sVal + 0.7).toFixed(2) + " kW";
         }, 2500);
     </script>
 </body>
