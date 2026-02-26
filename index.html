@@ -2,164 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Master Hub | PeakShaving Pro</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="sidebar-layout">
+<body class="dashboard-root">
 
     <aside class="sidebar">
-        <div class="side-brand">
-            <i data-lucide="zap" class="green-text"></i>
-            <span class="brand-text">PS<strong>PRO</strong></span>
-        </div>
-        
-        <nav class="side-nav">
-            <a href="index.html" class="nav-item active">
-                <i data-lucide="layout-dashboard"></i>
-                <span class="side-label">HUB</span>
-            </a>
-            <a href="savings.html" class="nav-item">
-                <i data-lucide="trending-up"></i>
-                <span class="side-label">SAVINGS</span>
-            </a>
-            <a href="analytics.html" class="nav-item">
-                <i data-lucide="bar-chart-3"></i>
-                <span class="side-label">DATA</span>
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i data-lucide="settings"></i>
-                <span class="side-label">AUTO</span>
-            </a>
+        <div class="side-logo"><i data-lucide="zap" class="green-text"></i></div>
+        <nav class="side-links">
+            <a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>HUB</span></a>
+            <a href="savings.html" class="nav-item"><i data-lucide="trending-up"></i><span>SAVINGS</span></a>
+            <a href="analytics.html" class="nav-item"><i data-lucide="bar-chart-3"></i><span>DATA</span></a>
+            <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>AUTO</span></a>
         </nav>
-
-        <div class="side-footer">
-            <button class="icon-btn"><i data-lucide="power"></i></button>
-        </div>
     </aside>
 
-    <div class="dashboard-content">
-        
-        <header class="telemetry-header">
-            <div class="tel-item">
-                <span class="tel-label">GRID IMPORT</span>
-                <span class="tel-val red-text" id="header-grid">0.85 kW</span>
+    <div class="main-content">
+        <header class="telemetry-bar">
+            <div class="tel-row">
+                <i data-lucide="arrow-down-left" class="red-text"></i>
+                <span class="tel-lbl">Grid Import Status</span>
+                <span class="tel-val" id="top-grid">0.85 kW</span>
             </div>
-            <div class="tel-item">
-                <span class="tel-label">RENEWABLE</span>
-                <span class="tel-val green-text" id="header-yield">3.10 kW</span>
+            <div class="tel-row">
+                <i data-lucide="zap" class="green-text"></i>
+                <span class="tel-lbl">Active Renewable Yield</span>
+                <span class="tel-val" id="top-yield">3.10 kW</span>
             </div>
         </header>
 
-        <section class="radial-container">
-            <div class="radial-dashboard">
-                <svg class="connections-layer" viewBox="0 0 400 400">
-                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
-                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
-                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
-                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
-                    <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
-                    <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+        <section class="radial-section">
+            <div class="radial-hub">
+                <svg class="svg-layer" viewBox="0 0 400 400">
+                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="120" y2="340" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line anim-flow" />
+                    <line x1="200" y1="200" x2="70" y2="100" class="dash-line anim-flow" />
                 </svg>
 
-                <div class="node-wrapper center-pos">
-                    <div class="node center-node"><i data-lucide="cpu" class="blue-text"></i></div>
-                    <span class="ext-label">CORE ACTIVE</span>
+                <div class="node-box pos-center">
+                    <div class="node-circle core-node pulse-blue"><i data-lucide="cpu" class="blue-text"></i></div>
+                    <span class="node-tag">CORE ACTIVE</span>
                 </div>
 
-                <div class="node-wrapper solar-pos">
-                    <div class="node" id="sim-solar"><span class="v">2.4</span></div>
-                    <span class="ext-label">SOLAR PV</span>
+                <div class="node-box pos-n1">
+                    <div class="node-circle" id="n-solar"><span class="val">2.4</span></div>
+                    <span class="node-tag">SOLAR PV</span>
                 </div>
-                <div class="node-wrapper wind-pos">
-                    <div class="node" id="sim-wind"><span class="v">0.7</span></div>
-                    <span class="ext-label">WIND</span>
+                <div class="node-box pos-n2">
+                    <div class="node-circle" id="n-wind"><span class="val">0.7</span></div>
+                    <span class="node-tag">WIND</span>
                 </div>
-                <div class="node-wrapper battery-pos">
-                    <div class="node" id="sim-batt"><span class="v">-0.5</span></div>
-                    <span class="ext-label">STORAGE</span>
+                <div class="node-box pos-n3">
+                    <div class="node-circle" id="n-batt"><span class="val">-0.5</span></div>
+                    <span class="node-tag">STORAGE</span>
                 </div>
-                <div class="node-wrapper home-pos">
-                    <div class="node border-blue" id="sim-home"><span class="v">1.1</span></div>
-                    <span class="ext-label">HOME LOAD</span>
+                <div class="node-box pos-n4">
+                    <div class="node-circle b-blue" id="n-home"><span class="val">1.1</span></div>
+                    <span class="node-tag">HOME LOAD</span>
                 </div>
-                <div class="node-wrapper charger-pos">
-                    <div class="node border-green" id="sim-ev"><span class="v">0.0</span></div>
-                    <span class="ext-label">EV CHARGER</span>
+                <div class="node-box pos-n5">
+                    <div class="node-circle b-green" id="n-ev"><span class="val">0.0</span></div>
+                    <span class="node-tag">EV CHARGER</span>
                 </div>
-                <div class="node-wrapper heatpump-pos">
-                    <div class="node" id="sim-hp"><span class="v">0.6</span></div>
-                    <span class="ext-label">HEAT PUMP</span>
+                <div class="node-box pos-n6">
+                    <div class="node-circle" id="n-hp"><span class="val">0.6</span></div>
+                    <span class="node-tag">HEAT PUMP</span>
                 </div>
-                <div class="node-wrapper grid-pos">
-                    <div class="node border-red" id="sim-grid"><span class="v">0.8</span></div>
-                    <span class="ext-label">UTILITY</span>
+                <div class="node-box pos-n7">
+                    <div class="node-circle b-red" id="n-grid"><span class="val">0.8</span></div>
+                    <span class="node-tag">UTILITY</span>
                 </div>
             </div>
         </section>
 
-        <main class="bottom-metrics">
-            <section class="section-group">
-                <h2 class="section-title">Energy Storage System (ESS) Metrics</h2>
-                <div class="ess-card">
-                    <div class="bms-header">
-                        <i data-lucide="shield-check" class="green-text"></i>
-                        <span>BMS Status: Nominal</span>
-                    </div>
-                    <div class="ess-metrics-list">
-                        <p>92% Charge</p>
-                        <p>DC Voltage 54.21 V</p>
-                        <p>Internal Temp 24.5 °C</p>
-                        <p>Cycle Count 122</p>
-                    </div>
-                </div>
-            </section>
+        <main class="scroll-area">
+            <h2 class="grp-title">Energy Storage System (ESS) Metrics</h2>
+            <div class="ess-block">
+                <div class="bms-status"><i data-lucide="shield-check" class="green-text"></i> BMS Status: Nominal</div>
+                <ul class="ess-list">
+                    <li>92% Charge</li>
+                    <li>DC Voltage 54.21 V</li>
+                    <li>Internal Temp 24.5 °C</li>
+                    <li>Cycle Count 122</li>
+                </ul>
+            </div>
 
-            <section class="section-group">
-                <h2 class="section-title">24h System Accumulation</h2>
-                <div class="acc-grid">
-                    <div class="acc-card">
-                        <span class="acc-val" id="acc-solar">14.22</span>
-                        <span class="acc-unit">kWh</span>
-                        <div class="acc-meta">SOLAR GENERATION</div>
-                    </div>
-                    <div class="acc-card">
-                        <span class="acc-val">8.45</span>
-                        <span class="acc-unit">kWh</span>
-                        <div class="acc-meta">HOUSEHOLD DEMAND</div>
-                    </div>
-                    <div class="acc-card">
-                        <span class="acc-val">2.10</span>
-                        <span class="acc-unit">kWh</span>
-                        <div class="acc-meta">OFF-PEAK IMPORT</div>
-                    </div>
-                    <div class="acc-card">
-                        <span class="acc-val">0.52</span>
-                        <span class="acc-unit">kWh</span>
-                        <div class="acc-meta">PEAK COST IMPORT</div>
-                    </div>
+            <h2 class="grp-title">24h System Accumulation</h2>
+            <div class="acc-grid">
+                <div class="acc-box">
+                    <span class="acc-num">14.22</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">SOLAR GENERATION</div>
                 </div>
-            </section>
+                <div class="acc-box">
+                    <span class="acc-num">8.45</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">HOUSEHOLD DEMAND</div>
+                </div>
+                <div class="acc-box">
+                    <span class="acc-num">2.10</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">OFF-PEAK IMPORT</div>
+                </div>
+                <div class="acc-box">
+                    <span class="acc-num">0.52</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">PEAK COST IMPORT</div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
         lucide.createIcons();
-        
-        // Live Simulation Logic
         setInterval(() => {
-            const nodes = ['sim-solar', 'sim-wind', 'sim-batt', 'sim-home', 'sim-hp', 'sim-grid'];
+            const nodes = ['n-solar', 'n-wind', 'n-batt', 'n-home', 'n-hp', 'n-grid'];
             nodes.forEach(id => {
-                const el = document.getElementById(id).querySelector('.v');
+                const el = document.getElementById(id).querySelector('.val');
                 let val = parseFloat(el.innerText);
                 el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
             });
-            
-            const sVal = parseFloat(document.getElementById('sim-solar').querySelector('.v').innerText);
-            document.getElementById('header-yield').innerText = (sVal + 0.7).toFixed(2) + " kW";
-        }, 3000);
+        }, 2500);
     </script>
 </body>
 </html>
