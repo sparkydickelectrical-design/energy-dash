@@ -9,46 +9,50 @@
         :root{--b:#000;--c:#0a0a0a;--blue:#3b82f6;--green:#4ade80;--red:#ef4444;--gold:#f59e0b;--tx:#fff;--tx-m:#64748b;--bd:#1a1a1a;--sh:0 10px 25px rgba(0,0,0,.9);--rd:16px;--rl:24px}
         body{background:var(--b);color:var(--tx);font-family:-apple-system,system-ui,sans-serif;margin:0;padding:20px;overflow-x:hidden}
         
-        /* Navigation & KPIs */
+        /* Navigation */
         .main-nav{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto 30px}
         .brand-logo{font-weight:900;text-transform:uppercase;letter-spacing:-1px;font-size:1.2rem}.brand-logo span{color:var(--green)}
         .nav-links a{color:var(--tx-m);text-decoration:none;font-weight:700;font-size:.8rem;margin-left:15px}
-        .data-header{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;max-width:1200px;margin:0 auto 40px}
-        .data-box{background:var(--c);border:1px solid var(--bd);padding:20px;border-radius:var(--rd)}
-        .box-label{font-size:.65rem;font-weight:800;color:var(--tx-m);text-transform:uppercase;margin-bottom:8px;display:block}
-        .box-value{font-size:1.8rem;font-weight:900}.box-unit{font-size:.9rem;color:var(--tx-m)}
 
         /* THE RADIAL HUB */
-        .radial-container{position:relative;width:400px;height:400px;margin:60px auto}
+        .radial-container{position:relative;width:400px;height:400px;margin:40px auto 80px}
         .connections-layer{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;opacity:.15}
         .dash-line{stroke:#fff;stroke-width:2;stroke-dasharray:5}
         .node-wrapper{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:10;width:100px}
-        .node{width:82px;height:82px;background:var(--b);border:3px solid var(--bd);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;margin-bottom:8px;box-shadow:var(--sh)}
-        .node svg{width:20px;height:20px;stroke-width:2.5}
-        .node .v{font-size:1.1rem;font-weight:900;line-height:1}
+        .node{width:86px;height:86px;background:var(--b);border:3px solid var(--bd);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;margin-bottom:8px;box-shadow:var(--sh)}
+        .node svg{width:18px;height:18px;stroke-width:2.5}
+        .node .v{font-size:1rem;font-weight:900;line-height:1}
+        .node .u{font-size:0.6rem;font-weight:700;color:var(--tx-m);text-transform:uppercase}
         .external-label{font-size:.6rem;font-weight:800;color:var(--tx-m);text-transform:uppercase;letter-spacing:1px;text-align:center}
         
         /* Positions */
         .center-pos{top:50%;left:50%}.solar-pos{top:10%;left:50%}.wind-pos{top:25%;left:85%}.battery-pos{top:55%;left:90%}.home-pos{top:85%;left:70%}.charger-pos{top:85%;left:30%}.heatpump-pos{top:55%;left:10%}.grid-pos{top:25%;left:15%}
         .center-node{width:95px;height:95px;border-color:#333}
 
-        /* SIMPLIFIED BATTERY & MODULES */
+        /* GRAPHICAL BATTERY SECTION */
         .scroll-content{max-width:1200px;margin:0 auto 100px}
         .ops-section{margin-bottom:40px}
         .daily-header h2{font-size:1rem;text-transform:uppercase;color:var(--tx-m);margin-bottom:20px;letter-spacing:1px}
-        .health-card{background:var(--c);border:1px solid var(--bd);padding:25px;border-radius:var(--rd)}
-        .battery-gauge{width:100%;height:14px;background:#111;border-radius:7px;margin:20px 0;overflow:hidden}
-        .gauge-fill{height:100%;background:var(--green);width:92%;box-shadow:0 0 15px var(--green)}
-        .batt-stats{display:flex;justify-content:space-between;align-items:baseline}
-        .batt-perc{font-size:2.2rem;font-weight:900;color:var(--tx)}
-        .batt-kwh{font-size:1.2rem;font-weight:700;color:var(--tx-m)}
-
-        .accumulation-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-        .acc-card{background:var(--c);border:1px solid var(--bd);padding:20px;border-radius:var(--rd)}
         
+        .battery-viz-card{background:var(--c);border:1px solid var(--bd);padding:30px;border-radius:var(--rl);display:flex;align-items:center;gap:40px;position:relative;overflow:hidden}
+        .battery-circle-wrap{position:relative;width:140px;height:140px;flex-shrink:0}
+        .battery-svg-ring{transform:rotate(-90deg)}
+        .ring-bg{fill:none;stroke:#111;stroke-width:12}
+        .ring-fill{fill:none;stroke:var(--green);stroke-width:12;stroke-dasharray:377;stroke-dashoffset:30;stroke-linecap:round;filter:drop-shadow(0 0 8px var(--green))}
+        .perc-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+        .perc-val{font-size:2rem;font-weight:900;display:block;line-height:1}
+        .perc-unit{font-size:.8rem;color:var(--tx-m);font-weight:800}
+
+        .batt-info{flex-grow:1}
+        .batt-main-stat{font-size:2.5rem;font-weight:900;margin-bottom:5px}
+        .batt-sub-stat{color:var(--tx-m);font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+        .status-badge{display:inline-block;padding:4px 12px;background:rgba(74,222,128,0.1);color:var(--green);border-radius:20px;font-size:0.7rem;font-weight:900;margin-top:15px}
+
         /* Utils */
         .gold-text{color:var(--gold)}.blue-text{color:var(--blue)}.green-text{color:var(--green)}.red-text{color:var(--red)}
         .border-blue{border-color:var(--blue)!important}.border-green{border-color:var(--green)!important}.border-red{border-color:var(--red)!important}
+        
+        @media (max-width:600px){.battery-viz-card{flex-direction:column;text-align:center}}
     </style>
 </head>
 <body>
@@ -61,17 +65,6 @@
         </div>
     </nav>
 
-    <header class="data-header">
-        <div class="data-box">
-            <span class="box-label">Grid Import</span>
-            <div class="box-value">0.85 <span class="box-unit">kW</span></div>
-        </div>
-        <div class="data-box">
-            <span class="box-label">Solar Yield</span>
-            <div class="box-value green-text">3.10 <span class="box-unit">kW</span></div>
-        </div>
-    </header>
-
     <section class="radial-container">
         <svg class="connections-layer" viewBox="0 0 400 400">
             <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
@@ -82,36 +75,44 @@
             <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
             <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
         </svg>
+
         <div class="node-wrapper center-pos">
             <div class="node center-node"><i data-lucide="zap" class="blue-text"></i></div>
             <span class="external-label">Master Hub</span>
         </div>
+
         <div class="node-wrapper solar-pos">
-            <div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span></div>
+            <div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span><span class="u">kW</span></div>
             <span class="external-label">Solar PV</span>
         </div>
+
         <div class="node-wrapper wind-pos">
-            <div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span></div>
+            <div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span><span class="u">kW</span></div>
             <span class="external-label">Wind Gen</span>
         </div>
+
         <div class="node-wrapper battery-pos">
-            <div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92%</span></div>
-            <span class="external-label">Battery SOC</span>
+            <div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div>
+            <span class="external-label">Storage</span>
         </div>
+
         <div class="node-wrapper home-pos">
-            <div class="node border-blue"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span></div>
+            <div class="node border-blue"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span><span class="u">kW</span></div>
             <span class="external-label">Home Load</span>
         </div>
+
         <div class="node-wrapper charger-pos">
-            <div class="node border-green"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span></div>
+            <div class="node border-green"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span><span class="u">kW</span></div>
             <span class="external-label">EV Charger</span>
         </div>
+
         <div class="node-wrapper heatpump-pos">
-            <div class="node"><i data-lucide="thermometer-snowflake" class="blue-text"></i><span class="v">0.6</span></div>
+            <div class="node"><i data-lucide="thermometer-snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div>
             <span class="external-label">Heat Pump</span>
         </div>
+
         <div class="node-wrapper grid-pos">
-            <div class="node border-red"><i data-lucide="landmark" class="red-text"></i><span class="v">0.8</span></div>
+            <div class="node border-red"><i data-lucide="landmark" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div>
             <span class="external-label">Utility Grid</span>
         </div>
     </section>
@@ -119,28 +120,39 @@
     <main class="scroll-content">
         <section class="ops-section">
             <div class="daily-header"><h2>Energy Storage</h2></div>
-            <div class="health-card">
-                <div class="batt-stats">
-                    <div class="batt-perc">92<span style="font-size: 1rem; color: var(--green);">%</span></div>
-                    <div class="batt-kwh">13.8 <small style="font-size: .8rem">kWh</small></div>
+            
+            
+            
+            <div class="battery-viz-card">
+                <div class="battery-circle-wrap">
+                    <svg class="battery-svg-ring" width="140" height="140">
+                        <circle class="ring-bg" cx="70" cy="70" r="60"></circle>
+                        <circle class="ring-fill" cx="70" cy="70" r="60"></circle>
+                    </svg>
+                    <div class="perc-overlay">
+                        <span class="perc-val">92</span>
+                        <span class="perc-unit">PERCENT</span>
+                    </div>
                 </div>
-                <div class="battery-gauge"><div class="gauge-fill"></div></div>
-                <div style="font-size: .7rem; color: var(--tx-m); text-transform: uppercase; letter-spacing: 1px;">
-                    System Status: <span class="green-text">Discharging (Eco Mode)</span>
+                
+                <div class="batt-info">
+                    <div class="batt-main-stat">13.8 <span style="font-size: 1.2rem; color: var(--tx-m)">kWh</span></div>
+                    <div class="batt-sub-stat">Current Capacity</div>
+                    <div class="status-badge">OPTIMIZED BY AI</div>
                 </div>
             </div>
         </section>
 
         <section class="ops-section">
             <div class="daily-header"><h2>Daily Accumulation</h2></div>
-            <div class="accumulation-grid">
-                <div class="acc-card">
-                    <span class="box-label">Solar Total</span>
-                    <div style="font-size:1.4rem;font-weight:800">14.2 <small style="font-size:.7rem">kWh</small></div>
+            <div style="display:grid; grid-template-columns: repeat(2,1fr); gap:15px;">
+                <div style="background:var(--c); border:1px solid var(--bd); padding:20px; border-radius:var(--rd);">
+                    <span style="font-size:.65rem; color:var(--tx-m); text-transform:uppercase; font-weight:800;">Solar Total</span>
+                    <div style="font-size:1.6rem; font-weight:900; margin-top:5px;">14.22 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
                 </div>
-                <div class="acc-card">
-                    <span class="box-label">Load Total</span>
-                    <div style="font-size:1.4rem;font-weight:800">8.4 <small style="font-size:.7rem">kWh</small></div>
+                <div style="background:var(--c); border:1px solid var(--bd); padding:20px; border-radius:var(--rd);">
+                    <span style="font-size:.65rem; color:var(--tx-m); text-transform:uppercase; font-weight:800;">Load Total</span>
+                    <div style="font-size:1.6rem; font-weight:900; margin-top:5px;">8.45 <small style="font-size:.8rem; color:var(--tx-m)">kWh</small></div>
                 </div>
             </div>
         </section>
