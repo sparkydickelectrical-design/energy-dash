@@ -2,34 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Savings | PeakShaving Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Analysis</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <button class="mobile-toggle" id="menuBtn"><i data-lucide="menu"></i></button>
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="nav-brand">PeakShaving <span class="green-text">PRO</span></div>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
-                <a href="savings.html" class="nav-link active"><i data-lucide="banknote"></i> Savings</a>
-                <a href="analytics.html" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
-            </nav>
-            <div class="status-container"><div class="status-pill"><div class="indicator-dot"></div> System Online</div></div>
-        </aside>
-        <main class="main-content">
-            <h1 style="margin-bottom:30px">Financial Overview</h1>
-            <div class="data-header">
-                <div class="data-box"><span class="box-label">Daily Savings</span><div class="box-value">£4.12</div></div>
-                <div class="data-box"><span class="box-label">Estimated Monthly</span><div class="box-value green-text">£128.40</div></div>
-            </div>
-            <div style="background:var(--c); padding:30px; border-radius:var(--rd); border:1px solid var(--bd)">
-                <h3 style="margin-bottom:20px; font-size:0.7rem; color:var(--tx-m); text-transform:uppercase">Tariff Optimization</h3>
-                <div style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid var(--bd)"><span>Off-Peak Rate</span><span class="green-text">£0.07 / kWh</span></div>
-                <div style="display:flex; justify-content:space-between; padding:15px"><span>Peak Rate</span><span class="red-text">£0.32 / kWh</span></div>
-            </div>
-        </main>
+    <div class="savings-hero">
+        <span class="hero-label">ROLLING MONTHLY SAVINGS</span>
+        <h1 class="hero-val">£142.50</h1>
+        <p class="hero-sub">Grid Protocol: Economy 7 Active</p>
+    </div>
+
+    <div class="yield-info">
+        <div class="yield-bar green-bar">
+            <strong>£84.20</strong>
+            <span class="y-label">Direct Arbitrage Yield</span>
+        </div>
+        <div class="yield-bar blue-bar">
+            <strong>12.4kg</strong>
+            <span class="y-label">Total CO2 Offset</span>
+        </div>
+    </div>
+
+    <h2 class="section-title">Tariff Window Analysis</h2>
+    <div class="tariff-box">
+        <div class="t-row">
+            <span class="t-label">Standard Rate</span>
+            <span class="t-price">28.5p</span>
+        </div>
+        <span class="t-time">08:00 — 01:00</span>
+    </div>
+    
+    <div class="tariff-box economy-border">
+        <div class="t-row">
+            <span class="t-label green-text">Economy 7</span>
+            <span class="t-price">9.2p</span>
+        </div>
+        <span class="t-time">01:00 — 08:00</span>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="index.html" style="color: #444; text-decoration: none; font-weight: 700;">← BACK TO HUB</a>
     </div>
     <script>lucide.createIcons();</script>
 </body>
