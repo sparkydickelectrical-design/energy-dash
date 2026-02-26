@@ -12,12 +12,12 @@
         <div class="tel-item">
             <i data-lucide="arrow-down-left" class="red-text"></i>
             <span class="tel-label">Grid Import Status</span>
-            <span class="tel-val">0.85 kW</span>
+            <span class="tel-val" id="header-grid">0.85 kW</span>
         </div>
         <div class="tel-item">
             <i data-lucide="zap" class="green-text"></i>
             <span class="tel-label">Active Renewable Yield</span>
-            <span class="tel-val">3.10 kW</span>
+            <span class="tel-val" id="header-yield">3.10 kW</span>
         </div>
     </header>
 
@@ -78,7 +78,7 @@
                     <span>BMS Status: Nominal</span>
                 </div>
                 <div class="ess-metrics-list">
-                    <p>92% Charge</p>
+                    <p id="ess-soc">92% Charge</p>
                     <p>DC Voltage 54.21 V</p>
                     <p>Internal Temp 24.5 °C</p>
                     <p>Cycle Count 122</p>
@@ -90,12 +90,12 @@
             <h2 class="section-title">24h System Accumulation</h2>
             <div class="acc-grid">
                 <div class="acc-card">
-                    <span class="acc-val">14.22</span>
+                    <span class="acc-val" id="acc-solar">14.22</span>
                     <span class="acc-unit">kWh</span>
                     <div class="acc-meta"><i data-lucide="sun" class="orange-text"></i> SOLAR GENERATION</div>
                 </div>
                 <div class="acc-card">
-                    <span class="acc-val">8.45</span>
+                    <span class="acc-val" id="acc-home">8.45</span>
                     <span class="acc-unit">kWh</span>
                     <div class="acc-meta"><i data-lucide="home" class="blue-text"></i> HOUSEHOLD DEMAND</div>
                 </div>
@@ -111,20 +111,35 @@
                 </div>
             </div>
         </section>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="savings.html" style="color: var(--green); text-decoration: none; font-weight: 800; font-size: 0.8rem;">VIEW SAVINGS ANALYSIS →</a>
+        </div>
     </main>
 
     <script>
         lucide.createIcons();
         
-        // Simulation Script for Node Values
-        setInterval(() => {
-            const nodes = ['sim-solar', 'sim-wind', 'sim-batt', 'sim-home', 'sim-hp', 'sim-grid'];
-            nodes.forEach(id => {
-                const el = document.getElementById(id).querySelector('.v');
-                let val = parseFloat(el.innerText);
-                el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
-            });
-        }, 3000);
+        function runSimulation() {
+            // Update Solar Node and Accumulation
+            const solarNode = document.getElementById('sim-solar').querySelector('.v');
+            const accSolar = document.getElementById('acc-solar');
+            const headerYield = document.getElementById('header-yield');
+            
+            let currentSolar = parseFloat(solarNode.innerText);
+            let totalSolar = parseFloat(accSolar.innerText);
+            
+            // Generate fluctuations
+            let flux = (Math.random() * 0.4 - 0.2);
+            let newSolar = Math.max(0, currentSolar + flux);
+            
+            // Apply Updates
+            solarNode.innerText = newSolar.toFixed(1);
+            headerYield.innerText = (newSolar + 0.7).toFixed(2) + " kW"; // Solar + Wind constant
+            accSolar.innerText = (totalSolar + (newSolar / 3600)).toFixed(2); // Simulating kWh gain
+        }
+
+        setInterval(runSimulation, 2000);
     </script>
 </body>
 </html>
