@@ -1,177 +1,4 @@
-/* PEAKSHAVING PRO - MASTER INDUSTRIAL STYLESHEET 
-    Integrated: Sidebar + Radial Hub + Data Blocks
-*/
-
-:root {
-    --bg: #000000;
-    --side-bg: #080808;
-    --card-bg: #0d0d0d;
-    --green: #4ade80;
-    --blue: #3b82f6;
-    --red: #ef4444;
-    --orange: #f97316;
-    --text-muted: #666666;
-    --border-dim: #1a1a1a;
-    --node-border: #222222;
-}
-
-/* --- Global Reset --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background: var(--bg);
-    color: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    display: flex; /* Establish Sidebar/Content Split */
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* --- 1. SIDEBAR NAVIGATION --- */
-.sidebar {
-    width: 75px;
-    background: var(--side-bg);
-    border-right: 1px solid var(--border-dim);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 0;
-    flex-shrink: 0;
-    z-index: 100;
-}
-
-.side-logo {
-    margin-bottom: 50px;
-}
-
-.side-links {
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    flex-grow: 1;
-}
-
-.nav-item {
-    color: #444444;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.2s ease;
-}
-
-.nav-item i {
-    width: 22px;
-    height: 22px;
-}
-
-.nav-item span {
-    font-size: 0.5rem;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-}
-
-.nav-item.active {
-    color: var(--blue);
-}
-
-.nav-item:hover {
-    color: #ffffff;
-}
-
-/* --- 2. MAIN VIEWPORT & SCROLLING --- */
-.main-content {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 20px;
-    position: relative;
-    scrollbar-width: none; /* Hide scrollbar for clean look */
-}
-
-.main-content::-webkit-scrollbar {
-    display: none;
-}
-
-/* --- 3. TOP TELEMETRY --- */
-.telemetry-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #111111;
-    padding-bottom: 15px;
-}
-
-.tel-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.tel-lbl {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-.tel-val {
-    font-weight: 900;
-    font-size: 1rem;
-}
-
-/* --- 4. RADIAL HUB & ANIMATED LINES --- */
-.radial-section {
-    position: relative;
-    height: 400px;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto 40px auto;
-}
-
-.radial-hub {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.svg-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.dash-line {
-    stroke: #333333;
-    stroke-width: 2;
-    stroke-dasharray: 6;
-}
-
-/* Animation for the "Flowing" Energy Lines */
-.anim-flow {
-    animation: flowLine 8s linear infinite;
-}
-
-@keyframes flowLine {
-    from { stroke-dashoffset: 100; }
-    to { stroke-dashoffset: 0; }
-}
-
-/* --- 5. NODES & POSITIONING --- */
-.node-box {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 10;
-}
-
+/* NODE INTERNAL LAYOUT */
 .node-circle {
     width: 62px;
     height: 62px;
@@ -179,152 +6,35 @@ body {
     border: 2px solid var(--node-border);
     border-radius: 50%;
     display: flex;
+    flex-direction: column; /* Stack Icon and Value */
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    gap: 2px; /* Small space between icon and number */
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-.node-tag {
-    font-size: 0.55rem;
-    color: var(--text-muted);
-    font-weight: 800;
-    margin-top: 8px;
-    display: block;
-    text-transform: uppercase;
+.node-circle i {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+    color: #444; /* Muted icon color until active */
 }
 
-/* Exact Coordinates for the 7-Node Grid */
-.pos-center { top: 50%; left: 50%; }
-.pos-n1     { top: 12%; left: 60%; } /* Solar */
-.pos-n2     { top: 28%; left: 88%; } /* Wind */
-.pos-n3     { top: 58%; left: 92%; } /* Storage */
-.pos-n4     { top: 88%; left: 78%; } /* Home */
-.pos-n5     { top: 88%; left: 35%; } /* EV */
-.pos-n6     { top: 62%; left: 10%; } /* Heat Pump */
-.pos-n7     { top: 28%; left: 15%; } /* Grid */
-
-/* Center Pulse Animation */
-.pulse-blue {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
-    animation: pulseCore 2s infinite;
+/* Specific core node sizing */
+.core-node i {
+    width: 24px;
+    height: 24px;
 }
 
-@keyframes pulseCore {
-    70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-}
-
-/* --- 6. DATA BLOCKS (BOTTOM STACK) --- */
-.grp-title {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin: 35px 0 15px;
-    letter-spacing: -0.5px;
-}
-
-.ess-block {
-    background: var(--card-bg);
-    border-radius: 26px;
-    padding: 25px;
-    border: 1px solid var(--border-dim);
-}
-
-.bms-status {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.ess-list {
-    list-style: none;
-    padding: 0;
-}
-
-.ess-list li {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-dim);
-    font-size: 1.05rem;
-}
-
-.ess-list li:last-child {
-    border-bottom: none;
-}
-
-/* 24h Accumulation Grid */
-.acc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.acc-box {
-    background: var(--card-bg);
-    border-radius: 22px;
-    padding: 22px;
-    text-align: center;
-    border: 1px solid var(--border-dim);
-}
-
-.acc-num {
-    font-size: 2.1rem;
-    font-weight: 900;
-    display: block;
+.node-circle .val {
     line-height: 1;
 }
 
-.acc-unit {
-    font-size: 0.8rem;
-    margin-left: 4px;
-    color: var(--text-muted);
-    font-weight: 700;
-}
-
-.acc-lbl {
-    font-size: 0.6rem;
-    color: #444444;
-    font-weight: 800;
-    margin-top: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* --- 7. UTILITIES & COLOR STATES --- */
-.green-text { color: var(--green); }
-.blue-text  { color: var(--blue); }
-.red-text   { color: var(--red); }
-.orange-text { color: var(--orange); }
-.muted-text { color: var(--text-muted); }
-
-.b-blue  { border-color: var(--blue); }
-.b-green { border-color: var(--green); }
-.b-red   { border-color: var(--red); }
-
-/* Placeholder/Empty State Utility */
-.empty-state-placeholder {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    border: 1px dashed #222222;
-    border-radius: 30px;
-    color: #444444;
-}
-
-.page-header {
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--border-dim);
-    padding-bottom: 20px;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 480px) {
-    .acc-num { font-size: 1.6rem; }
-    .node-circle { width: 55px; height: 55px; }
-    .radial-section { height: 350px; }
-}
+/* Ensure icons in nodes match the border color when active */
+.b-blue i { color: var(--blue); }
+.b-green i { color: var(--green); }
+.b-red i { color: var(--red); }
+#n-solar i { color: var(--orange); }
+#n-wind i { color: var(--blue); }
