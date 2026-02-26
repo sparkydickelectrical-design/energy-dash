@@ -20,15 +20,26 @@
 
         <main class="main-content">
             <h1 style="margin-bottom:30px">System Analytics</h1>
+
+            
+
             <div style="background:var(--c); padding:30px; border-radius:var(--rl); border:1px solid var(--bd); height:400px; margin-bottom:30px">
                 <canvas id="analyticsChart"></canvas>
             </div>
+
             <div class="data-header">
-                <div class="data-box"><span class="box-label">Self-Consumption</span><div class="box-value">84%</div></div>
-                <div class="data-box"><span class="box-label">Peak Shaved</span><div class="box-value blue-text">12.5kW</div></div>
+                <div class="data-box">
+                    <span class="box-label">Self-Consumption</span>
+                    <div class="box-value">84%</div>
+                </div>
+                <div class="data-box">
+                    <span class="box-label">Peak Shaved</span>
+                    <div class="box-value blue-text">12.5 <small style="font-size:0.8rem">kW</small></div>
+                </div>
             </div>
         </main>
     </div>
+
     <script>
         lucide.createIcons();
         const ctx = document.getElementById('analyticsChart').getContext('2d');
@@ -36,9 +47,23 @@
             type: 'line',
             data: {
                 labels: ['6am', '9am', '12pm', '3pm', '6pm', '9pm'],
-                datasets: [{ label: 'Solar', data: [0, 1.2, 3.5, 2.8, 0.4, 0], borderColor: '#4ade80', tension: 0.4 }]
+                datasets: [{ 
+                    label: 'Solar', 
+                    data: [0, 1.2, 3.5, 2.8, 0.4, 0], 
+                    borderColor: '#4ade80', 
+                    backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                    fill: true,
+                    tension: 0.4 
+                }]
             },
-            options: { maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            options: { 
+                maintainAspectRatio: false, 
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#1a1a1a' }, ticks: { color: '#64748b' } },
+                    x: { grid: { display: false }, ticks: { color: '#64748b' } }
+                }
+            }
         });
     </script>
 </body>
