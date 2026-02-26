@@ -1,172 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        if (localStorage.getItem('peakShavingAuth') !== 'true') { 
-            window.location.replace("login.html"); 
-        }
-    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Analytics | PeakShaving Professional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | PeakShaving Pro</title>
     
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=75.0">
+    <style>
+        :root{--b:#000;--d:#050505;--c:#0a0a0a;--blue:#3b82f6;--green:#4ade80;--red:#ef4444;--gold:#f59e0b;--tx:#fff;--tx-m:#64748b;--bd:#1a1a1a;--rd:16px;--rl:24px;--gl:rgba(255,255,255,0.03)}
+        body{background:var(--d);color:var(--tx);font-family:-apple-system,sans-serif;margin:0;padding:20px}
+        .main-nav{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto 30px}
+        .nav-links a{color:var(--tx-m);text-decoration:none;font-weight:700;font-size:.8rem;margin-left:15px}
+        
+        /* ANALYTICS HERO BOX */
+        .main-chart-box{background:var(--c);border:1px solid var(--bd);border-radius:var(--rl);padding:30px;max-width:1200px;margin:0 auto 40px;box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+        .canvas-wrapper{position:relative;height:350px;width:100%}
+        
+        /* BOTTOM GRID FORMATTING */
+        .accumulation-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;max-width:1200px;margin:0 auto}
+        .saas-card{background:var(--gl);border:1px solid var(--bd);padding:25px;border-radius:var(--rd);transition:0.3s}
+        .saas-card:hover{background:rgba(255,255,255,0.06);border-color:var(--tx-m)}
+        
+        .acc-top{display:flex;align-items:center;gap:10px;margin-bottom:15px;color:var(--tx-m);font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+        .acc-main strong{font-size:1.8rem;font-weight:900;display:block}
+        .acc-main small{font-size:.8rem;color:var(--tx-m);font-weight:400}
+        .trend-label{font-size:.7rem;margin-top:10px;display:block}
+        
+        /* UTILS */
+        .green-text{color:var(--green)}.blue-text{color:var(--blue)}.gold-text{color:var(--gold)}
+        @media (max-width:768px){.accumulation-grid{grid-template-columns:1fr}}
+    </style>
 </head>
-<body class="saas-theme">
+<body>
 
     <nav class="main-nav">
-        <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Professional</span></div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home Dashboard</a>
-                <a href="savings.html" class="nav-item">Financial Savings</a>
-                <a href="analytics.html" class="nav-item active">System Analytics</a>
-                <button onclick="logout()" class="logout-btn">Logout</button>
-            </div>
+        <div style="font-weight:900;text-transform:uppercase">PeakShaving <span style="color:var(--green)">PRO</span></div>
+        <div class="nav-links">
+            <a href="index.html">DASHBOARD</a>
+            <a href="savings.html">SAVINGS</a>
         </div>
     </nav>
 
-    <main class="scroll-content">
-        
+    <main style="max-width:1200px; margin:0 auto;">
         <section class="main-chart-box">
-            <div class="box-meta" style="margin-bottom: 30px;">
-                <i data-lucide="activity" class="blue-text"></i>
-                <span class="box-label">Real-Time Power Balance (24h)</span>
-            </div>
-            
+            <div class="acc-top"><i data-lucide="activity"></i> Power Balance (24h)</div>
             <div class="canvas-wrapper">
                 <canvas id="powerChart"></canvas>
             </div>
         </section>
 
-        <div class="accumulation-grid">
+        
+
+        <section class="accumulation-grid">
             <div class="saas-card">
-                <div class="acc-top">
-                    <i data-lucide="trending-up" class="green-text"></i>
-                    <span>Self-Consumption</span>
-                </div>
+                <div class="acc-top"><i data-lucide="trending-up" class="green-text"></i> Self-Consumption</div>
                 <div class="acc-main">
-                    <strong>88.4</strong> <small>%</small>
+                    <strong>88.4<small>%</small></strong>
+                    <span class="trend-label green-text">↑ 2.4% this week</span>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
-                    +2.4% from last week
-                </p>
             </div>
 
             <div class="saas-card">
-                <div class="acc-top">
-                    <i data-lucide="leaf" class="green-text"></i>
-                    <span>Carbon Offset</span>
-                </div>
+                <div class="acc-top"><i data-lucide="leaf" class="green-text"></i> Carbon Offset</div>
                 <div class="acc-main">
-                    <strong>412</strong> <small>kg CO2</small>
+                    <strong>412<small>kg CO2</small></strong>
+                    <span class="trend-label" style="color:var(--tx-m)">Total life cycle</span>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
-                    Equivalent to 18 trees
-                </p>
             </div>
 
             <div class="saas-card">
-                <div class="acc-top">
-                    <i data-lucide="Zap" class="gold-text"></i>
-                    <span>Peak Shaved</span>
-                </div>
+                <div class="acc-top"><i data-lucide="zap" class="gold-text"></i> Peak Shaved</div>
                 <div class="acc-main">
-                    <strong>12.5</strong> <small>kWh</small>
+                    <strong>12.5<small>kWh</small></strong>
+                    <span class="trend-label gold-text">Optimized by AI</span>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
-                    Shifted to Off-Peak
-                </p>
             </div>
 
             <div class="saas-card">
-                <div class="acc-top">
-                    <i data-lucide="shield-check" class="blue-text"></i>
-                    <span>Grid Reliability</span>
-                </div>
+                <div class="acc-top"><i data-lucide="shield-check" class="blue-text"></i> Grid Health</div>
                 <div class="acc-main">
-                    <strong>99.9</strong> <small>%</small>
+                    <strong>99.9<small>%</small></strong>
+                    <span class="trend-label blue-text">Voltage Nominal</span>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px;">
-                    Uptime nominal
-                </p>
             </div>
-        </div>
-
-        <div style="height: 100px;"></div>
+        </section>
     </main>
 
+    <div style="height:100px"></div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Init Icons
         lucide.createIcons();
 
-        // Logout Logic
-        function logout() { 
-            localStorage.removeItem('peakShavingAuth'); 
-            window.location.href = "login.html"; 
-        }
-
-        // Chart Initialization
         const ctx = document.getElementById('powerChart').getContext('2d');
-        
-        // Gradient for Area Chart
-        const blueGrad = ctx.createLinearGradient(0, 0, 0, 400);
-        blueGrad.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
-        blueGrad.addColorStop(1, 'rgba(59, 130, 246, 0)');
-
-        const greenGrad = ctx.createLinearGradient(0, 0, 0, 400);
-        greenGrad.addColorStop(0, 'rgba(74, 222, 128, 0.4)');
-        greenGrad.addColorStop(1, 'rgba(74, 222, 128, 0)');
-
-        
-
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
-                datasets: [
-                    {
-                        label: 'Home Load',
-                        data: [0.5, 0.4, 1.2, 0.8, 2.5, 1.8, 0.7],
-                        borderColor: '#3b82f6',
-                        backgroundColor: blueGrad,
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 0
-                    },
-                    {
-                        label: 'Solar Yield',
-                        data: [0, 0, 0.5, 3.1, 1.8, 0.2, 0],
-                        borderColor: '#4ade80',
-                        backgroundColor: greenGrad,
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3,
-                        pointRadius: 0
-                    }
-                ]
+                labels: ['00:00', '06:00', '12:00', '18:00', '23:59'],
+                datasets: [{
+                    label: 'Load',
+                    data: [0.5, 0.8, 1.5, 2.8, 0.6],
+                    borderColor: '#3b82f6',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }, {
+                    label: 'Solar',
+                    data: [0, 0.2, 3.5, 0.5, 0],
+                    borderColor: '#4ade80',
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(74, 222, 128, 0.1)'
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: { color: '#64748b', font: { weight: '800', size: 10 } }
-                    }
-                },
+                plugins: { legend: { display: false } },
                 scales: {
-                    y: {
-                        grid: { color: 'rgba(255,255,255,0.05)' },
-                        ticks: { color: '#475569' }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#475569' }
-                    }
+                    x: { grid: { display: false }, ticks: { color: '#64748b' } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } }
                 }
             }
         });
