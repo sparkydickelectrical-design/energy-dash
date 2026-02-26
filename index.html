@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Master Hub | PeakShaving Pro</title>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         :root {
             --bg: #000;
@@ -16,92 +17,161 @@
             --orange: #f97316;
         }
 
+        /* 1. CORE LAYOUT */
         body {
             background: var(--bg);
             color: #fff;
-            font-family: -apple-system, sans-serif;
-            margin: 0; display: flex; height: 100vh; overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden;
         }
 
-        /* --- SIDEBAR --- */
+        /* 2. SIDEBAR */
         .sidebar {
-            width: 75px; background: var(--side-bg); border-right: 1px solid #1a1a1a;
-            display: flex; flex-direction: column; align-items: center; padding: 30px 0; flex-shrink: 0;
+            width: 75px; 
+            background: var(--side-bg); 
+            border-right: 1px solid #1a1a1a;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 30px 0; 
+            flex-shrink: 0;
+            z-index: 100;
         }
-        .side-links { display: flex; flex-direction: column; gap: 35px; margin-top: 20px; }
-        .nav-item { color: #444; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .side-logo { margin-bottom: 50px; }
+        .side-links { display: flex; flex-direction: column; gap: 35px; flex-grow: 1; }
+        .nav-item {
+            color: #444; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px;
+            transition: color 0.2s ease;
+        }
         .nav-item i { width: 22px; height: 22px; }
-        .nav-item span { font-size: 0.5rem; font-weight: 800; }
+        .nav-item span { font-size: 0.5rem; font-weight: 800; letter-spacing: 0.5px; }
         .nav-item.active { color: var(--blue); }
+        .nav-item:hover { color: #fff; }
 
-        /* --- MAIN CONTENT --- */
-        .main-content { flex-grow: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+        /* 3. MAIN CONTENT */
+        .main-content { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 20px; 
+            scrollbar-width: none;
+        }
         .main-content::-webkit-scrollbar { display: none; }
 
-        .telemetry-bar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 15px; }
+        .telemetry-bar { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-bottom: 25px; 
+            border-bottom: 1px solid #111; 
+            padding-bottom: 15px; 
+        }
         .tel-row { display: flex; justify-content: space-between; align-items: center; }
         .tel-lbl { font-size: 0.85rem; color: #888; font-weight: 600; }
-        .tel-val { font-weight: 900; }
+        .tel-val { font-weight: 900; font-size: 1rem; }
 
-        /* --- RADIAL HUB --- */
-        .radial-section { position: relative; height: 380px; width: 400px; margin: 0 auto 30px auto; }
+        /* 4. RADIAL HUB & SVG */
+        .radial-section { 
+            position: relative; 
+            height: 380px; 
+            width: 400px; 
+            margin: 0 auto 30px auto; 
+        }
         .radial-hub { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .svg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        .dash-line { stroke: #333; stroke-width: 2.5; stroke-dasharray: 6; fill: none; }
+
+        .svg-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+        }
+        .dash-line {
+            stroke: #333; stroke-width: 2.5; stroke-dasharray: 6; fill: none;
+        }
         .anim-flow { animation: flowLine 10s linear infinite; }
         @keyframes flowLine { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
+        /* 5. NODES */
         .node-box { position: absolute; transform: translate(-50%, -50%); text-align: center; z-index: 10; width: 80px; }
         .node-circle {
-            width: 60px; height: 60px; background: #000; border: 2px solid #222; border-radius: 50%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto;
+            width: 62px; height: 62px; background: #000; border: 2px solid #222; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
         .node-circle i { width: 16px; height: 16px; color: #555; margin-bottom: 2px; }
-        .node-circle .val { font-weight: 900; font-size: 0.85rem; }
-        .node-tag { font-size: 0.55rem; color: #666; font-weight: 800; margin-top: 6px; display: block; }
+        .node-circle .val { font-weight: 900; font-size: 0.85rem; line-height: 1; }
+        .node-tag { font-size: 0.55rem; color: #666; font-weight: 800; margin-top: 8px; display: block; white-space: nowrap; }
 
         /* Positions */
         .pos-center { top: 50%; left: 50%; }
-        .pos-n1 { top: 12%; left: 60%; } .pos-n2 { top: 28%; left: 88%; } .pos-n3 { top: 58%; left: 92%; }
-        .pos-n4 { top: 88%; left: 78%; } .pos-n5 { top: 88%; left: 35%; } .pos-n6 { top: 62%; left: 10%; } .pos-n7 { top: 28%; left: 15%; }
+        .pos-n1 { top: 12%; left: 60%; } /* Solar */
+        .pos-n2 { top: 28%; left: 88%; } /* Wind */
+        .pos-n3 { top: 58%; left: 92%; } /* Storage */
+        .pos-n4 { top: 88%; left: 78%; } /* Home */
+        .pos-n5 { top: 88%; left: 35%; } /* EV */
+        .pos-n6 { top: 62%; left: 10%; } /* Heat Pump */
+        .pos-n7 { top: 28%; left: 15%; } /* Grid */
 
-        /* --- CONTROL SLIDERS PANEL --- */
-        .control-panel { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #1a1a1a; margin-top: 10px; margin-bottom: 40px; }
-        .control-panel h2 { font-size: 1rem; margin-bottom: 20px; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; }
+        /* 6. CONTROL PANEL */
+        .control-panel { 
+            background: var(--card); 
+            border-radius: 20px; 
+            padding: 20px; 
+            border: 1px solid #1a1a1a; 
+            margin-top: 10px; 
+            margin-bottom: 40px; 
+        }
+        .control-panel h2 { 
+            font-size: 0.9rem; 
+            margin-bottom: 20px; 
+            color: var(--blue); 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
         .slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .slider-group { margin-bottom: 5px; }
-        .slider-header { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 8px; color: #888; font-weight: 700; text-transform: uppercase; }
+        .slider-header { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 0.7rem; 
+            margin-bottom: 8px; 
+            color: #888; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+        }
         input[type=range] { width: 100%; cursor: pointer; accent-color: var(--blue); }
 
-        /* UI Colors */
-        .blue-text { color: var(--blue); } .green-text { color: var(--green); } .red-text { color: var(--red); }
+        /* Colors & States */
+        .green-text { color: var(--green); } .blue-text { color: var(--blue); } .red-text { color: var(--red); }
+        .pulse-blue { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); animation: pulse 2s infinite; }
+        @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+
+        /* Utilities */
         .b-blue { border-color: var(--blue); } .b-blue i { color: var(--blue); }
         .b-green { border-color: var(--green); } .b-green i { color: var(--green); }
         .b-red { border-color: var(--red); } .b-red i { color: var(--red); }
-        .pulse { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); animation: p 2s infinite; }
-        @keyframes p { 70% { box-shadow: 0 0 0 10px rgba(0,0,0,0); } }
     </style>
 </head>
+
 <body>
 
     <aside class="sidebar">
         <div class="side-logo"><i data-lucide="zap" class="green-text"></i></div>
         <nav class="side-links">
             <a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>HUB</span></a>
-            <a href="savings.html" class="nav-item"><i data-lucide="trending-up"></i><span>SAVINGS</span></a>
-            <a href="analytics.html" class="nav-item"><i data-lucide="bar-chart-3"></i><span>DATA</span></a>
-            <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>AUTO</span></a>
+            <a href="#" class="nav-item"><i data-lucide="trending-up"></i><span>SAVINGS</span></a>
+            <a href="#" class="nav-item"><i data-lucide="bar-chart-3"></i><span>DATA</span></a>
+            <a href="#" class="nav-item"><i data-lucide="settings"></i><span>AUTO</span></a>
         </nav>
     </aside>
 
     <div class="main-content">
         <header class="telemetry-bar">
             <div class="tel-row">
-                <span class="tel-lbl">Current Utility Load</span>
+                <span class="tel-lbl">Grid Import/Export</span>
                 <span class="tel-val" id="tel-grid">0.0 kW</span>
             </div>
             <div class="tel-row">
-                <span class="tel-lbl">System Generation</span>
+                <span class="tel-lbl">Total Renewable Production</span>
                 <span class="tel-val green-text" id="tel-yield">0.0 kW</span>
             </div>
         </header>
@@ -119,99 +189,112 @@
                 </svg>
 
                 <div class="node-box pos-center">
-                    <div class="node-circle pulse"><i data-lucide="cpu" class="blue-text"></i></div>
+                    <div class="node-circle pulse-blue"><i data-lucide="cpu" class="blue-text"></i></div>
                     <span class="node-tag">HUB CORE</span>
                 </div>
 
                 <div class="node-box pos-n1"><div class="node-circle" id="node-solar"><i data-lucide="sun"></i><span class="val">0.0</span></div><span class="node-tag">SOLAR PV</span></div>
-                <div class="node-box pos-n2"><div class="node-circle" id="node-wind"><i data-lucide="wind"></i><span class="val">0.0</span></div><span class="node-tag">WIND</span></div>
+                <div class="node-box pos-n2"><div class="node-circle" id="node-wind"><i data-lucide="wind"></i><span class="val">0.0</span></div><span class="node-tag">WIND YIELD</span></div>
                 <div class="node-box pos-n3"><div class="node-circle" id="node-batt"><i data-lucide="battery"></i><span class="val">0.0</span></div><span class="node-tag">STORAGE</span></div>
-                <div class="node-box pos-n4"><div class="node-circle b-blue" id="node-home"><i data-lucide="home"></i><span class="val">0.0</span></div><span class="node-tag">HOME</span></div>
-                <div class="node-box pos-n5"><div class="node-circle b-green" id="node-ev"><i data-lucide="car"></i><span class="val">0.0</span></div><span class="node-tag">EV CHARGE</span></div>
+                <div class="node-box pos-n4"><div class="node-circle b-blue" id="node-home"><i data-lucide="home"></i><span class="val">0.0</span></div><span class="node-tag">HOME LOAD</span></div>
+                <div class="node-box pos-n5"><div class="node-circle b-green" id="node-ev"><i data-lucide="car"></i><span class="val">0.0</span></div><span class="node-tag">EV CHARGER</span></div>
                 <div class="node-box pos-n6"><div class="node-circle" id="node-hp"><i data-lucide="thermometer"></i><span class="val">0.0</span></div><span class="node-tag">HEAT PUMP</span></div>
-                <div class="node-box pos-n7"><div class="node-circle b-red" id="node-grid"><i data-lucide="utility-pole"></i><span class="val">0.0</span></div><span class="node-tag">UTILITY</span></div>
+                <div class="node-box pos-n7"><div class="node-circle" id="node-grid"><i data-lucide="utility-pole"></i><span class="val">0.0</span></div><span class="node-tag">UTILITY</span></div>
             </div>
         </section>
 
         <div class="control-panel">
-            <h2>Telemetry Simulation</h2>
+            <h2>System Simulation (Renewable Balance)</h2>
             <div class="slider-grid">
                 <div class="slider-group">
-                    <div class="slider-header"><span>Solar PV</span><span id="v-solar">0.0 kW</span></div>
+                    <div class="slider-header"><span>Solar PV</span><span id="v-solar">3.5 kW</span></div>
                     <input type="range" class="sim-input" id="s-solar" min="0" max="10" step="0.1" value="3.5">
                 </div>
                 <div class="slider-group">
-                    <div class="slider-header"><span>Wind Yield</span><span id="v-wind">0.0 kW</span></div>
-                    <input type="range" class="sim-input" id="s-wind" min="0" max="5" step="0.1" value="0.8">
+                    <div class="slider-header"><span>Wind Power</span><span id="v-wind">1.2 kW</span></div>
+                    <input type="range" class="sim-input" id="s-wind" min="0" max="10" step="0.1" value="1.2">
                 </div>
                 <div class="slider-group">
-                    <div class="slider-header"><span>Battery (Net)</span><span id="v-batt">0.0 kW</span></div>
-                    <input type="range" class="sim-input" id="s-batt" min="-5" max="5" step="0.1" value="-0.5">
+                    <div class="slider-header"><span>Heat Pump (Renewable)</span><span id="v-hp">2.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-hp" min="0" max="5" step="0.1" value="2.0">
                 </div>
                 <div class="slider-group">
-                    <div class="slider-header"><span>Home Load</span><span id="v-home">0.0 kW</span></div>
-                    <input type="range" class="sim-input" id="s-home" min="0" max="10" step="0.1" value="1.2">
+                    <div class="slider-header"><span>Battery (Discharge)</span><span id="v-batt">0.5 kW</span></div>
+                    <input type="range" class="sim-input" id="s-batt" min="-5" max="5" step="0.1" value="0.5">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>Home Consumption</span><span id="v-home">2.5 kW</span></div>
+                    <input type="range" class="sim-input" id="s-home" min="0" max="10" step="0.1" value="2.5">
                 </div>
                 <div class="slider-group">
                     <div class="slider-header"><span>EV Charger</span><span id="v-ev">0.0 kW</span></div>
                     <input type="range" class="sim-input" id="s-ev" min="0" max="7.4" step="0.1" value="0.0">
-                </div>
-                <div class="slider-group">
-                    <div class="slider-header"><span>Heat Pump</span><span id="v-hp">0.0 kW</span></div>
-                    <input type="range" class="sim-input" id="s-hp" min="0" max="5" step="0.1" value="0.6">
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Initialize Icons
         lucide.createIcons();
         
+        // Define Inputs
         const inputs = {
             solar: document.getElementById('s-solar'),
             wind: document.getElementById('s-wind'),
+            hp: document.getElementById('s-hp'),
             batt: document.getElementById('s-batt'),
             home: document.getElementById('s-home'),
-            ev: document.getElementById('s-ev'),
-            hp: document.getElementById('s-hp')
+            ev: document.getElementById('s-ev')
         };
 
         const updateSimulation = () => {
             const vals = {
                 solar: parseFloat(inputs.solar.value),
                 wind: parseFloat(inputs.wind.value),
+                hp: parseFloat(inputs.hp.value),
                 batt: parseFloat(inputs.batt.value),
                 home: parseFloat(inputs.home.value),
-                ev: parseFloat(inputs.ev.value),
-                hp: parseFloat(inputs.hp.value)
+                ev: parseFloat(inputs.ev.value)
             };
 
-            // Update UI Labels & Node Numbers
+            // Update UI Labels & Node Value Text
             for (let key in vals) {
                 document.getElementById(`v-${key}`).innerText = vals[key].toFixed(1) + " kW";
                 document.getElementById(`node-${key}`).querySelector('.val').innerText = vals[key].toFixed(1);
             }
 
-            // Calculate Grid Balance: Demand - Production
-            // Production = Solar + Wind - Battery (if battery is negative, it's charging/consuming)
-            const production = vals.solar + vals.wind;
-            const consumption = vals.home + vals.ev + vals.hp - vals.batt; 
+            /* LOGIC: 
+               Production = Solar + Wind + Heat Pump + Battery help
+               Consumption = Home Load + EV Charger
+               Grid = Consumption - Production
+            */
+            const production = vals.solar + vals.wind + vals.hp + vals.batt;
+            const consumption = vals.home + vals.ev;
             const gridBalance = consumption - production;
 
-            const gridEl = document.getElementById('node-grid').querySelector('.val');
-            gridEl.innerText = gridBalance.toFixed(1);
-            
-            // Header Telemetry
-            document.getElementById('tel-yield').innerText = production.toFixed(1) + " kW";
+            // Update Top Telemetry
+            document.getElementById('tel-yield').innerText = (vals.solar + vals.wind + vals.hp).toFixed(1) + " kW";
             const telGrid = document.getElementById('tel-grid');
             telGrid.innerText = gridBalance.toFixed(1) + " kW";
-            telGrid.className = gridBalance > 0 ? "tel-val red-text" : "tel-val green-text";
+            
+            // Grid Node Styling
+            const gridNode = document.getElementById('node-grid');
+            const gridValDisplay = gridNode.querySelector('.val');
+            gridValDisplay.innerText = gridBalance.toFixed(1);
+            
+            const statusColor = gridBalance > 0 ? "var(--red)" : "var(--green)";
+            gridValDisplay.style.color = statusColor;
+            gridNode.style.borderColor = statusColor;
+            telGrid.style.color = statusColor;
         };
 
-        // Attach listeners
-        Object.values(inputs).forEach(input => input.oninput = updateSimulation);
-        
-        // Initial Run
+        // Attach listeners to all sliders
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', updateSimulation);
+        });
+
+        // Run once on load
         updateSimulation();
     </script>
 </body>
