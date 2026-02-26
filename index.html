@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Small addition for the mobile button */
         .mobile-toggle {
             display: none;
             position: fixed;
@@ -20,7 +19,6 @@
             border-radius: 8px;
             cursor: pointer;
         }
-
         @media (max-width: 768px) {
             .mobile-toggle { display: block; }
             .sidebar.open { transform: translateX(0); }
@@ -28,9 +26,7 @@
     </style>
 </head>
 <body>
-    <button class="mobile-toggle" id="menuBtn">
-        <i data-lucide="menu"></i>
-    </button>
+    <button class="mobile-toggle" id="menuBtn"><i data-lucide="menu"></i></button>
 
     <div class="app-container">
         <aside class="sidebar" id="sidebar">
@@ -63,16 +59,54 @@
 
             <section class="radial-container">
                 <svg class="connections-layer" viewBox="0 0 400 400">
-                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line" /><line x1="200" y1="200" x2="330" y2="100" class="dash-line" /><line x1="200" y1="200" x2="350" y2="220" class="dash-line" /><line x1="200" y1="200" x2="280" y2="340" class="dash-line" /><line x1="200" y1="200" x2="120" y2="340" class="dash-line" /><line x1="200" y1="200" x2="50" y2="220" class="dash-line" /><line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
+                    <line x1="200" y1="200" x2="200" y2="50" class="dash-line" />
+                    <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
+                    <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
+                    <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+                    <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+                    <line x1="200" y1="200" x2="50" y2="220" class="dash-line" />
+                    <line x1="200" y1="200" x2="70" y2="100" class="dash-line" />
                 </svg>
-                <div class="node-wrapper center-pos"><div class="node" style="width:95px;height:95px;border-color:#333"><i data-lucide="zap" class="blue-text"></i></div><span class="external-label">Hub</span></div>
-                <div class="node-wrapper solar-pos"><div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
-                <div class="node-wrapper wind-pos"><div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
-                <div class="node-wrapper battery-pos"><div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div><span class="external-label">Storage</span></div>
-                <div class="node-wrapper home-pos"><div class="node" style="border-color:var(--blue)!important"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
-                <div class="node-wrapper charger-pos"><div class="node" style="border-color:var(--green)!important"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span><span class="u">kW</span></div><span class="external-label">EV</span></div>
-                <div class="node-wrapper heatpump-pos"><div class="node"><i data-lucide="thermometer-snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div><span class="external-label">Heat Pump</span></div>
-                <div class="node-wrapper grid-pos"><div class="node" style="border-color:var(--red)!important"><i data-lucide="landmark" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div><span class="external-label">Grid</span></div>
+
+                <div class="node-wrapper center-pos">
+                    <div class="node" style="width:95px;height:95px;border-color:#333"><i data-lucide="zap" class="blue-text"></i></div>
+                    <span class="external-label">Hub</span>
+                </div>
+
+                <div class="node-wrapper solar-pos">
+                    <div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v">2.4</span><span class="u">kW</span></div>
+                    <span class="external-label">Solar</span>
+                </div>
+
+                <div class="node-wrapper wind-pos">
+                    <div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v">0.7</span><span class="u">kW</span></div>
+                    <span class="external-label">Wind</span>
+                </div>
+
+                <div class="node-wrapper battery-pos">
+                    <div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div>
+                    <span class="external-label">Storage</span>
+                </div>
+
+                <div class="node-wrapper home-pos">
+                    <div class="node" style="border-color:var(--blue)!important"><i data-lucide="home" class="blue-text"></i><span class="v">1.1</span><span class="u">kW</span></div>
+                    <span class="external-label">Home</span>
+                </div>
+
+                <div class="node-wrapper charger-pos">
+                    <div class="node" style="border-color:var(--green)!important"><i data-lucide="car" class="green-text"></i><span class="v">0.0</span><span class="u">kW</span></div>
+                    <span class="external-label">EV</span>
+                </div>
+
+                <div class="node-wrapper heatpump-pos">
+                    <div class="node"><i data-lucide="snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div>
+                    <span class="external-label">Heat Pump</span>
+                </div>
+
+                <div class="node-wrapper grid-pos">
+                    <div class="node" style="border-color:var(--red)!important"><i data-lucide="utility-pole" class="red-text"></i><span class="v">0.8</span><span class="u">kW</span></div>
+                    <span class="external-label">Grid</span>
+                </div>
             </section>
 
             <section class="ops-section" style="margin-top: 50px;">
@@ -81,7 +115,7 @@
                     <div style="position:relative;width:100px;height:100px">
                         <svg width="100" height="100">
                             <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-                            <circle class="ring-fill" id="battRing" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 25;"></circle>
+                            <circle class="ring-fill" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 25;"></circle>
                         </svg>
                         <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:900">92%</div>
                     </div>
@@ -110,20 +144,12 @@
 
     <script>
         lucide.createIcons();
-
-        // Toggle Sidebar on Mobile
         const btn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
-        
         btn.addEventListener('click', () => {
             sidebar.classList.toggle('open');
-            // Change icon
             const icon = btn.querySelector('i');
-            if(sidebar.classList.contains('open')) {
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                icon.setAttribute('data-lucide', 'menu');
-            }
+            icon.setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
             lucide.createIcons();
         });
     </script>
