@@ -1,66 +1,263 @@
+/* --- 1. CORE SYSTEM VARIABLES --- */
 :root {
-    --b: #000; --d: #050505; --c: #0a0a0a;
-    --blue: #3b82f6; --green: #4ade80; --red: #ef4444; --gold: #f59e0b;
-    --tx: #fff; --tx-m: #64748b; --bd: #1a1a1a;
-    --sh: 0 10px 25px rgba(0,0,0,.9); --rd: 16px; --rl: 24px;
+    --b: #000;           /* Background */
+    --d: #050505;        /* Sub-background */
+    --c: #0a0a0a;        /* Card Background */
+    --blue: #3b82f6;     /* Primary Action */
+    --green: #4ade80;    /* Success/Solar */
+    --red: #ef4444;      /* Alert/Grid */
+    --gold: #f59e0b;     /* Warning/Sun */
+    --tx: #fff;          /* Main Text */
+    --tx-m: #64748b;     /* Muted Text */
+    --bd: #1a1a1a;       /* Border Color */
+    --sh: 0 10px 25px rgba(0,0,0,.9); /* Depth Shadow */
+    --rd: 16px;          /* Standard Radius */
+    --rl: 24px;          /* Large Radius */
+    --ts: 0.3s ease;     /* Standard Transition */
 }
 
+/* --- 2. GLOBAL RESET --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--b); color: var(--tx); font-family: -apple-system, sans-serif; overflow-x: hidden; }
+body { 
+    background: var(--b); 
+    color: var(--tx); 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    overflow-x: hidden;
+}
 
-/* SIDEBAR LAYOUT */
-.app-container { display: flex; min-height: 100vh; }
+/* --- 3. APP STRUCTURE (SIDEBAR + MAIN) --- */
+.app-container { 
+    display: flex; 
+    min-height: 100vh; 
+}
+
 .sidebar {
-    width: 260px; background: var(--c); border-right: 1px solid var(--bd);
-    display: flex; flex-direction: column; padding: 30px 20px;
-    position: fixed; height: 100vh; z-index: 1000;
+    width: 260px;
+    background: var(--c);
+    border-right: 1px solid var(--bd);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
 }
-.nav-brand { font-weight: 900; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 40px; }
-.nav-menu { display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+
+.main-content {
+    flex-grow: 1;
+    margin-left: 260px; /* Offset for fixed sidebar */
+    padding: 30px;
+    height: 100vh;
+    overflow-y: auto; /* Ensures scrollability to reach bottom modules */
+}
+
+/* --- 4. NAVIGATION & BRANDING --- */
+.nav-brand {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+}
+
+.nav-menu { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    flex-grow: 1; 
+}
+
 .nav-link {
-    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-    color: var(--tx-m); text-decoration: none; font-weight: 700; font-size: 0.85rem;
-    border-radius: 12px; transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--tx-m);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    transition: var(--ts);
 }
-.nav-link:hover, .nav-link.active { background: rgba(59, 130, 246, 0.1); color: var(--blue); }
-.nav-link.active { border-left: 3px solid var(--blue); }
 
-/* MAIN CONTENT AREA */
-.main-content { flex-grow: 1; margin-left: 260px; padding: 30px; }
-
-/* WEATHER & TOP CARDS */
-.weather-bar {
-    background: var(--c); border: 1px solid var(--bd); padding: 12px 18px;
-    border-radius: 12px; display: flex; gap: 20px; margin-bottom: 25px;
-    font-size: 0.75rem; color: var(--tx-m);
+.nav-link:hover, .nav-link.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--blue);
 }
-.data-header { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
-.data-box { background: var(--c); border: 1px solid var(--bd); padding: 20px; border-radius: var(--rd); }
-.box-label { font-size: .6rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; display: block; margin-bottom: 5px; }
-.box-value { font-size: 1.8rem; font-weight: 900; }
 
-/* RADIAL HUB TRIPLE-STACK */
-.radial-container { position: relative; width: 400px; height: 400px; margin: 40px auto 60px; }
-.connections-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; }
-.dash-line { stroke: #fff; stroke-width: 2; stroke-dasharray: 5; }
-.node-wrapper { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; width: 100px; }
+.nav-link.active {
+    border-left: 3px solid var(--blue);
+}
+
+/* --- 5. SYSTEM STATUS INDICATOR --- */
+.status-container {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--bd);
+}
+
+.status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--tx-m);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* --- 6. RADIAL HUB (TRIPLE STACK) --- */
+.radial-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 40px auto 60px;
+}
+
+.connections-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.dash-line { 
+    stroke: #fff; 
+    stroke-width: 2; 
+    stroke-dasharray: 5; 
+}
+
+.node-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    z-index: 10;
+}
+
 .node {
-    width: 86px; height: 86px; background: var(--b); border: 3px solid var(--bd);
-    border-radius: 50%; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 1px; margin-bottom: 8px; box-shadow: var(--sh);
+    width: 86px;
+    height: 86px;
+    background: var(--b);
+    border: 3px solid var(--bd);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    margin-bottom: 8px;
+    box-shadow: var(--sh);
 }
+
 .node svg { width: 18px; height: 18px; stroke-width: 2.5; }
 .node .v { font-size: 1.1rem; font-weight: 900; line-height: 1; }
 .node .u { font-size: 0.55rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; }
-.external-label { font-size: .6rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
 
-/* HUB POSITIONS */
+.external-label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--tx-m);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* Hub Positions */
 .center-pos{top:50%;left:50%}.solar-pos{top:10%;left:50%}.wind-pos{top:25%;left:85%}.battery-pos{top:55%;left:90%}.home-pos{top:85%;left:70%}.charger-pos{top:85%;left:30%}.heatpump-pos{top:55%;left:10%}.grid-pos{top:25%;left:15%}
 
-/* BATTERY GRAPHIC */
-.battery-viz-card { background: var(--c); border: 1px solid var(--bd); padding: 30px; border-radius: var(--rl); display: flex; align-items: center; gap: 40px; }
-.ring-fill { fill: none; stroke: var(--green); stroke-width: 10; stroke-dasharray: 377; stroke-dashoffset: 30; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; filter: drop-shadow(0 0 5px var(--green)); }
-.ring-bg { fill: none; stroke: #111; stroke-width: 10; }
+/* --- 7. DATA CARDS & WEATHER BAR --- */
+.weather-bar {
+    background: var(--c);
+    border: 1px solid var(--bd);
+    padding: 12px 18px;
+    border-radius: 12px;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    font-size: 0.75rem;
+    color: var(--tx-m);
+}
 
-/* UTILS */
-.green-text { color: var(--green); } .blue-text { color: var(--blue); } .gold-text { color: var(--gold); } .red-text { color: var(--red); }
+.data-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.data-box {
+    background: var(--c);
+    border: 1px solid var(--bd);
+    padding: 20px;
+    border-radius: var(--rd);
+}
+
+.box-label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--tx-m);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.box-value { font-size: 1.8rem; font-weight: 900; }
+.box-unit { font-size: 0.8rem; color: var(--tx-m); margin-left: 4px; }
+
+/* --- 8. GRAPHICAL BATTERY RING --- */
+.battery-viz-card {
+    background: var(--c);
+    border: 1px solid var(--bd);
+    padding: 30px;
+    border-radius: var(--rl);
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.ring-bg { fill: none; stroke: #111; stroke-width: 10; }
+.ring-fill {
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 10;
+    stroke-dasharray: 283; /* 2 * PI * Radius (45) */
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    filter: drop-shadow(0 0 5px var(--green));
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+/* --- 9. UTILITIES --- */
+.green-text { color: var(--green); }
+.blue-text { color: var(--blue); }
+.gold-text { color: var(--gold); }
+.red-text { color: var(--red); }
+
+/* --- 10. RESPONSIVE --- */
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); width: 220px; }
+    .main-content { margin-left: 0; padding: 20px; }
+    .data-header { grid-template-columns: 1fr; }
+    .radial-container { transform: scale(0.85); margin: 0 auto; }
+}
