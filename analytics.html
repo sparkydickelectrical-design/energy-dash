@@ -3,56 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Analytics | PeakShaving Professional</title>
+    <title>Advanced Analytics | PeakShaving Pro</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=19.0">
+    <link rel="stylesheet" href="style.css?v=22.0">
 </head>
-<body>
-    <nav class="main-nav">
-        <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Professional</span></div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="savings.html" class="nav-item">Savings</a>
-                <a href="analytics.html" class="nav-item active">Analytics</a>
-            </div>
+<body class="saas-bg">
+    <nav class="saas-nav">
+        <div class="nav-brand"><div class="icon-box"><i data-lucide="zap"></i></div> <span>Analytics Engine</span></div>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="savings.html">Savings</a>
+            <a href="analytics.html" class="active">Performance</a>
         </div>
     </nav>
 
-    <main class="scroll-content">
-        <div class="analytics-top-row">
-            <div class="kpi-mini-card">
-                <span class="kpi-label">Inverter Efficiency</span>
-                <span class="kpi-val">98.42%</span>
-                <span class="kpi-trend green-text">▲ 0.12% Optimal</span>
+    <main class="analytics-wrapper">
+        <header class="analytics-header">
+            <h1>System Performance</h1>
+            <p>High-fidelity telemetry and grid interaction logs.</p>
+        </header>
+
+        <div class="saas-grid">
+            <div class="saas-card">
+                <span class="l">Inverter Efficiency</span>
+                <div class="v">98.4% <span class="trend up">+0.2%</span></div>
             </div>
-            <div class="kpi-mini-card">
-                <span class="kpi-label">Self-Sufficiency Ratio</span>
-                <span class="kpi-val">84.1%</span>
-                <span class="kpi-trend green-text">MAX AUTONOMY</span>
+            <div class="saas-card">
+                <span class="l">Grid Autonomy</span>
+                <div class="v">84.1% <span class="trend stable">Optimal</span></div>
+            </div>
+            <div class="saas-card">
+                <span class="l">Avoided Peak</span>
+                <div class="v">£42.10 <span class="trend up">Save</span></div>
             </div>
         </div>
 
-        <div class="daily-header">
-            <h2>Power Flux Correlation (24h)</h2>
-        </div>
-        <div class="daily-card chart-wrapper">
-            <canvas id="proAnalyticsChart"></canvas>
+        <div class="chart-container-pro">
+            <div class="chart-head"><h3>Power Flux Correlation</h3></div>
+            <div class="canvas-height"><canvas id="proChart"></canvas></div>
         </div>
 
-        <div class="daily-header">
-            <h2>Inverter Phase Audit</h2>
-        </div>
-        <div class="daily-card table-container">
-            <table class="industrial-table">
-                <thead>
-                    <tr><th>Ref</th><th>Voltage</th><th>Current</th><th>Status</th></tr>
-                </thead>
+        <div class="saas-card table-card">
+            <table class="saas-table">
+                <thead><tr><th>Phase</th><th>Voltage</th><th>Current</th><th>Status</th></tr></thead>
                 <tbody>
-                    <tr><td>L1 Master</td><td>231.4V</td><td>4.21A</td><td><span class="status-sync">SYNCED</span></td></tr>
-                    <tr><td>L2 Slave</td><td>230.8V</td><td>3.82A</td><td><span class="status-sync">SYNCED</span></td></tr>
-                    <tr><td>L3 Aux</td><td>232.1V</td><td>4.11A</td><td><span class="status-sync">SYNCED</span></td></tr>
+                    <tr><td>L1 (Primary)</td><td>231.4V</td><td>4.21A</td><td><span class="pill-ok">Synced</span></td></tr>
+                    <tr><td>L2 (Secondary)</td><td>230.8V</td><td>3.82A</td><td><span class="pill-ok">Synced</span></td></tr>
                 </tbody>
             </table>
         </div>
@@ -60,41 +57,27 @@
 
     <script>
         lucide.createIcons();
-        const ctx = document.getElementById('proAnalyticsChart').getContext('2d');
+        const ctx = document.getElementById('proChart').getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, 0, 400);
+        grad.addColorStop(0, 'rgba(74, 222, 128, 0.2)');
+        grad.addColorStop(1, 'rgba(74, 222, 128, 0)');
+
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
-                datasets: [
-                    {
-                        label: 'Solar Yield (kW)',
-                        data: [0, 0, 1.2, 5.4, 3.8, 0.2, 0],
-                        borderColor: '#4ade80',
-                        backgroundColor: 'rgba(74, 222, 128, 0.05)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3
-                    },
-                    {
-                        label: 'House Load (kW)',
-                        data: [0.8, 0.6, 2.5, 1.4, 2.8, 4.5, 1.1],
-                        borderColor: '#3b82f6',
-                        borderDash: [5, 5],
-                        tension: 0.4,
-                        borderWidth: 2
-                    }
-                ]
+                labels: ['00:00','04:00','08:00','12:00','16:00','20:00','23:59'],
+                datasets: [{
+                    label: 'Solar (kW)', data: [0,0,1.5,5.2,3.1,0.2,0],
+                    borderColor: '#4ade80', backgroundColor: grad, fill: true, tension: 0.4, borderWidth: 3, pointRadius: 0
+                },{
+                    label: 'Load (kW)', data: [0.8,0.6,2.8,1.4,3.5,4.2,1.1],
+                    borderColor: '#3b82f6', borderDash: [5,5], tension: 0.4, borderWidth: 2, pointRadius: 0
+                }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { grid: { color: '#1a1a1a' }, ticks: { color: '#666' } },
-                    x: { grid: { display: false }, ticks: { color: '#666' } }
-                },
-                plugins: {
-                    legend: { labels: { color: '#94a3b8', font: { weight: '700' } } }
-                }
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', align: 'end', labels: { color: '#64748b', font: { weight: '600'} } } },
+                scales: { y: { grid: { color: '#111' }, ticks: { color: '#444' } }, x: { grid: { display: false }, ticks: { color: '#444' } } }
             }
         });
     </script>
