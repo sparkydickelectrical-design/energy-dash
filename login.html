@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Login | PeakShaving Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=5.1">
+    <style>
+        .login-container { display: flex; align-items: center; justify-content: center; min-height: 90vh; padding: 20px; }
+        .login-card { background: #111; padding: 40px 30px; border-radius: 28px; border: 1px solid #222; width: 100%; max-width: 360px; text-align: center; }
+        .login-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 16px; border-radius: 14px; color: #fff; margin: 10px 0; font-size: 1rem; outline: none; }
+        .login-input:focus { border-color: #4ade80; }
+        .login-btn { width: 100%; background: #4ade80; color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: 800; margin-top: 20px; cursor: pointer; transition: opacity 0.2s; }
+        .login-btn:active { opacity: 0.8; }
+        #error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 15px; display: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="brand-logo" style="font-size: 1.6rem; margin-bottom: 30px;">PeakShaving <span>Hub</span></div>
+            <input type="text" id="username" class="login-input" placeholder="Username" autocomplete="off">
+            <input type="password" id="password" class="login-input" placeholder="Password">
+            <button class="login-btn" onclick="handleLogin()">Unlock Dashboard</button>
+            <p id="error-msg">Incorrect username or password.</p>
+        </div>
+    </div>
+    <script>
+        function handleLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            // Access credentials
+            if (user === "admin" && pass === "bangor123") {
+                localStorage.setItem('peakShavingAuth', 'true');
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
