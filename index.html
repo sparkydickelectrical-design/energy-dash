@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // Security Gate: Ensure user is authenticated before rendering
+        if (localStorage.getItem('peakShavingAuth') !== 'true') { 
+            window.location.replace("login.html"); 
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Master Hub | PeakShaving Professional</title>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=19.0">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>Professional</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item active">Home</a>
+                <a href="savings.html" class="nav-item">Savings</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="weather-bar">
+            <div class="telemetry-group">
+                <i data-lucide="map-pin" class="icon-xs"></i>
+                <span id="geo-location-text">Detecting Coordinates...</span>
+            </div>
+            <div class="telemetry-group" style="margin-left: auto;">
+                <i data-lucide="thermometer" class="icon-xs"></i>
+                <span id="ambient-temp">--°C</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="data-header">
+        <div class="data-box grid-import-box">
+            <div class="box-meta">
+                <i data-lucide="arrow-down-left" class="red-text"></i>
+                <span class="box-label">Grid Import Status</span>
+            </div>
+            <div class="box-value-wrap">
+                <span class="box-value">0.85</span>
+                <span class="box-unit">kW</span>
+            </div>
+        </div>
+        
+        <div class="data-box renewable-yield-box">
+            <div class="box-meta">
+                <i data-lucide="zap" class="green-text"></i>
+                <span class="box-label">Active Renewable Yield</span>
+            </div>
+            <div class="box-value-wrap">
+                <span class="box-value">3.10</span>
+                <span class="box-unit">kW</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="radial-container">
+        <div class="radial-dashboard">
+            <svg class="connections-layer" viewBox="0 0 400 400">
+                <line x1="200" y1="200" x2="200" y2="50"  class="dash-line" />
+                <line x1="200" y1="200" x2="330" y2="100" class="dash-line" />
+                <line x1="200" y1="200" x2="350" y2="220" class="dash-line" />
+                <line x1="200" y1="200" x2="280" y2="340" class="dash-line" />
+                <line x1="200" y1="200" x2="120" y2="340" class="dash-line" />
+                <line x1="200" y1="200" x2="50"  y2="220" class="dash-line" />
+                <line x1="200" y1="200" x2="70"  y2="100" class="dash-line" />
+            </svg>
+
+            <div class="node center-node">
+                <i data-lucide="zap" class="blue-text"></i>
+                <span class="node-status">CORE ACTIVE</span>
+            </div>
+
+            <div class="node solar-node">
+                <i data-lucide="sun"></i>
+                <div class="node-data"><span class="v">2.4</span><span class="l">Solar PV</span></div>
+            </div>
+
+            <div class="node wind-node">
+                <i data-lucide="wind"></i>
+                <div class="node-data"><span class="v">0.7</span><span class="l">Wind</span></div>
+            </div>
+
+            <div class="node battery-node">
+                <i data-lucide="battery-charging"></i>
+                <div class="node-data"><span class="v">-0.5</span><span class="l">Storage</span></div>
+            </div>
+
+            <div class="node home-node border-blue">
+                <i data-lucide="home"></i>
+                <div class="node-data"><span class="v">1.1</span><span class="l">Home Load</span></div>
+            </div>
+
+            <div class="node charger-node border-green">
+                <i data-lucide="car"></i>
+                <div class="node-data"><span class="v">0.0</span><span class="l">EV Charger</span></div>
+            </div>
+
+            <div class="node heatpump-node">
+                <i data-lucide="thermometer"></i>
+                <div class="node-data"><span class="v">0.6</span><span class="l">Heat Pump</span></div>
+            </div>
+
+            <div class="node grid-node border-red">
+                <i data-lucide="utility-pole"></i>
+                <div class="node-data"><span class="v">0.8</span><span class="l">Utility Grid</span></div>
+            </div>
+        </div>
+    </section>
+
+    <main class="scroll-content">
+        <section class="ops-section">
+            <div class="daily-header">
+                <h2>Daily Energy <span class="green-text" style="float:right">92% Charge</span></h2>
+            </div>
+            <div class="daily-card bms-card">
+                <div class="bms-header">
+                    <i data-lucide="shield-check" class="green-text"></i>
+                    <span>BMS Status: Nominal</span>
+                </div>
+                <div class="battery-gauge">
+                    <div class="gauge-fill" style="width: 92%;"></div>
+                </div>
+                <div class="bms-stats-grid">
+                    <div class="stat-tile">
+                        <span class="s-label">DC Voltage</span>
+                        <span class="s-value">54.21 V</span>
+                    </div>
+                    <div class="stat-tile">
+                        <span class="s-label">Internal Temp</span>
+                        <span class="s-value">24.5 °C</span>
+                    </div>
+                    <div class="stat-tile">
+                        <span class="s-label">Cycle Count</span>
+                        <span class="s-value">122</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ops-section">
+            <div class="daily-header">
+                <h2>24h System Accumulation</h2>
+            </div>
+            <div class="accumulation-grid">
+                <div class="acc-card solar-accent">
+                    <div class="acc-icon"><i data-lucide="sun"></i></div>
+                    <div class="acc-content">
+                        <span class="acc-value">14.22 <small>kWh</small></span>
+                        <span class="acc-label">Solar Generation</span>
+                    </div>
+                </div>
+
+                <div class="acc-card home-accent">
+                    <div class="acc-icon"><i data-lucide="home"></i></div>
+                    <div class="acc-content">
+                        <span class="acc-value">8.45 <small>kWh</small></span>
+                        <span class="acc-label">Household Demand</span>
+                    </div>
+                </div>
+
+                <div class="acc-card moon-accent">
+                    <div class="acc-icon"><i data-lucide="moon"></i></div>
+                    <div class="acc-content">
+                        <span class="acc-value">2.10 <small>kWh</small></span>
+                        <span class="acc-label">Off-Peak Import</span>
+                    </div>
+                </div>
+
+                <div class="acc-card peak-accent">
+                    <div class="acc-icon"><i data-lucide="zap-off"></i></div>
+                    <div class="acc-content">
+                        <span class="acc-value">0.52 <small>kWh</small></span>
+                        <span class="acc-label">Peak Cost Import</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Initializing UI Assets
+        lucide.createIcons();
+
+        function logout() {
+            localStorage.removeItem('peakShavingAuth');
+            window.location.href = "login.html";
+        }
+
+        // Environment Sync Engine
+        async function fetchEnvironment() {
+            const geoText = document.getElementById('geo-location-text');
+            const tempText = document.getElementById('ambient-temp');
+
+            const updateUI = async (lat, lon) => {
+                try {
+                    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m`);
+                    const data = await res.json();
+                    geoText.innerText = "Location Verified";
+                    tempText.innerText = `${Math.round(data.current.temperature_2m)}°C`;
+                } catch (e) {
+                    geoText.innerText = "Bangor (Manual)";
+                    tempText.innerText = "8°C";
+                }
+            };
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (p) => updateUI(p.coords.latitude, p.coords.longitude),
+                    () => updateUI(54.66, -5.67)
+                );
+            }
+        }
+
+        window.onload = fetchEnvironment;
+    </script>
+</body>
+</html>
