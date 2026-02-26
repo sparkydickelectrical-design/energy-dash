@@ -2,82 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Savings | PeakShaving Pro</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=60.0">
 </head>
 <body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="nav-brand">PeakShaving <span class="green-text">PRO</span></div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="savings.html" class="nav-link active"><i data-lucide="banknote"></i> Savings</a>
+                <a href="analytics.html" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
+            </nav>
+        </aside>
 
-    <nav class="main-nav">
-        <div class="nav-top">
-            <div class="brand-logo">PeakShaving <span>Professional</span></div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home Dashboard</a>
-                <a href="savings.html" class="nav-item active">Financial Savings</a>
-                <a href="analytics.html" class="nav-item">System Analytics</a>
+        <main class="main-content">
+            <h1 style="margin-bottom:30px">Financial Performance</h1>
+            <div class="data-header">
+                <div class="data-box"><span class="box-label">Daily Savings</span><div class="box-value">£4.12</div></div>
+                <div class="data-box"><span class="box-label">Monthly Projected</span><div class="box-value green-text">£128.40</div></div>
             </div>
-        </div>
-    </nav>
-
-    <main class="scroll-content">
-        <section class="savings-hero">
-            <span class="subtitle">Estimated Annual Reduction</span>
-            <h1 class="total-val">£1,422.50</h1>
-            <div class="tag">System Efficiency: 94.2%</div>
-        </section>
-
-        <section class="ops-section">
-            <div class="daily-header">
-                <h2>Tariff Window Analysis</h2>
-            </div>
-            
-            <div class="tariff-card">
-                <div class="tariff-row accent">
-                    <div class="t-left">
-                        <span>Off-Peak (Night)</span><br>
-                        <small>00:00 - 05:00</small>
-                    </div>
-                    <strong>7.5p <small>/kWh</small></strong>
+            <div style="background:var(--c); padding:30px; border-radius:var(--rl); border:1px solid var(--bd)">
+                <h3 style="margin-bottom:20px">Tariff Optimization</h3>
+                <div style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid var(--bd)">
+                    <span>Off-Peak (Smart)</span><span class="green-text">£0.07 / kWh</span>
                 </div>
-
-                <div class="tariff-row">
-                    <div class="t-left">
-                        <span>Standard (Day)</span><br>
-                        <small>05:00 - 16:00</small>
-                    </div>
-                    <strong>28.2p <small>/kWh</small></strong>
-                </div>
-
-                <div class="tariff-row border-red">
-                    <div class="t-left">
-                        <span class="red-text">Peak Window</span><br>
-                        <small>16:00 - 19:00</small>
-                    </div>
-                    <strong>42.1p <small>/kWh</small></strong>
+                <div style="display:flex; justify-content:space-between; padding:15px">
+                    <span>Peak Rate</span><span class="red-text">£0.32 / kWh</span>
                 </div>
             </div>
-        </section>
-
-        <section class="ops-section" style="margin-top: 40px;">
-            <div class="daily-header">
-                <h2>Savings Breakdown</h2>
-            </div>
-            <div class="accumulation-grid">
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="zap"></i> Peak Avoidance</div>
-                    <div class="acc-main"><strong>£84.20</strong> <small>This Month</small></div>
-                </div>
-                <div class="acc-card">
-                    <div class="acc-top"><i data-lucide="sun"></i> Solar Export</div>
-                    <div class="acc-main"><strong>£32.15</strong> <small>This Month</small></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        lucide.createIcons();
-    </script>
+        </main>
+    </div>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
