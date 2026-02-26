@@ -33,7 +33,7 @@
 
         <section class="radial-section">
             <div class="radial-hub">
-                <svg class="svg-layer" viewBox="0 0 400 400">
+                <svg class="svg-layer" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
                     <line x1="200" y1="200" x2="200" y2="50" class="dash-line anim-flow" />
                     <line x1="200" y1="200" x2="330" y2="100" class="dash-line anim-flow" />
                     <line x1="200" y1="200" x2="350" y2="220" class="dash-line anim-flow" />
@@ -90,19 +90,44 @@
                     <li>Cycle Count 122</li>
                 </ul>
             </div>
-            </main>
+
+            <h2 class="grp-title">24h System Accumulation</h2>
+            <div class="acc-grid">
+                <div class="acc-box">
+                    <span class="acc-num" id="acc-solar">14.22</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">SOLAR GENERATION</div>
+                </div>
+                <div class="acc-box">
+                    <span class="acc-num">8.45</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">HOUSEHOLD DEMAND</div>
+                </div>
+                <div class="acc-box">
+                    <span class="acc-num">2.10</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">OFF-PEAK IMPORT</div>
+                </div>
+                <div class="acc-box">
+                    <span class="acc-num">0.52</span><span class="acc-unit">kWh</span>
+                    <div class="acc-lbl">PEAK COST IMPORT</div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        lucide.createIcons();
-        setInterval(() => {
-            const nodes = ['n-solar', 'n-wind', 'n-batt', 'n-home', 'n-hp', 'n-grid'];
-            nodes.forEach(id => {
-                const el = document.getElementById(id).querySelector('.val');
-                let val = parseFloat(el.innerText);
-                el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
-            });
-        }, 2500);
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setInterval(() => {
+                const nodes = ['n-solar', 'n-wind', 'n-batt', 'n-home', 'n-hp', 'n-grid'];
+                nodes.forEach(id => {
+                    const node = document.getElementById(id);
+                    if(node) {
+                        const el = node.querySelector('.val');
+                        let val = parseFloat(el.innerText);
+                        el.innerText = (val + (Math.random() * 0.2 - 0.1)).toFixed(1);
+                    }
+                });
+            }, 2500);
+        });
     </script>
 </body>
 </html>
