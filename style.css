@@ -1,61 +1,74 @@
 :root {
-    --b: #000; --c: #0a0a0a;
-    --blue: #3b82f6; --green: #4ade80; --red: #ef4444; --gold: #f59e0b;
-    --tx: #fff; --tx-m: #64748b; --bd: #1a1a1a;
-    --sh: 0 10px 25px rgba(0,0,0,.9); --rd: 16px;
+    --bg: #000;
+    --card-bg: #0d0d0d;
+    --green: #4ade80;
+    --blue: #3b82f6;
+    --red: #ef4444;
+    --text-muted: #888;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--b); color: var(--tx); font-family: sans-serif; overflow-x: hidden; }
+body {
+    background: var(--bg);
+    color: #fff;
+    font-family: -apple-system, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
 
-/* Layout */
-.app-container { display: flex; min-height: 100vh; }
-.sidebar { width: 260px; background: var(--c); border-right: 1px solid var(--bd); padding: 30px 20px; position: fixed; height: 100vh; z-index: 100; }
-.main-content { flex-grow: 1; margin-left: 260px; padding: 40px; display: flex; flex-direction: column; align-items: center; }
-
-/* Summary Cards */
-.load-summary { width: 100%; max-width: 800px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-.stat-card { background: var(--c); border: 1px solid var(--bd); padding: 15px; border-radius: 12px; text-align: center; }
-.stat-val { font-size: 1.5rem; font-weight: 900; }
-.stat-val small { font-size: 0.6rem; margin-left: 4px; color: var(--tx-m); }
-.stat-lbl { font-size: 0.6rem; color: var(--tx-m); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+/* Header Telemetry */
+.telemetry-header { margin-bottom: 30px; }
+.tel-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 0.95rem; }
+.tel-label { color: #fff; }
+.tel-val { font-weight: 800; margin-left: auto; }
 
 /* Radial Hub Positioning */
-.radial-container { position: relative; width: 500px; height: 500px; margin: 20px auto; }
-.node-wrapper { position: absolute; transform: translate(-50%, -50%); width: 100px; display: flex; flex-direction: column; align-items: center; z-index: 10; }
-.p-center { top: 50%; left: 50%; }
-.p-n { top: 10%; left: 50%; }
-.p-ne { top: 25%; left: 85%; }
-.p-se { top: 75%; left: 85%; }
-.p-s { top: 90%; left: 50%; }
-.p-sw { top: 75%; left: 15%; }
-.p-hp { top: 50%; left: 8%; }
-.p-nw { top: 25%; left: 15%; }
+.radial-container { position: relative; height: 400px; margin-bottom: 40px; }
+.connections-layer { position: absolute; width: 100%; height: 100%; opacity: 0.3; }
+.dash-line { stroke: #444; stroke-width: 2; stroke-dasharray: 5,5; }
 
-.node { width: 80px; height: 80px; background: var(--b); border: 2px solid var(--bd); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--sh); margin-bottom: 8px; transition: 0.3s; }
-.node.hub { width: 100px; height: 100px; border-color: #333; }
-.external-label { font-size: 0.6rem; font-weight: 800; color: var(--tx-m); text-transform: uppercase; white-space: nowrap; }
+.node-wrapper { position: absolute; transform: translate(-50%, -50%); text-align: center; }
+.node {
+    width: 65px;
+    height: 65px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.node i { width: 18px; margin-bottom: 2px; }
+.node .v { font-size: 0.9rem; font-weight: 900; }
+.ext-label { font-size: 0.55rem; color: var(--text-muted); font-weight: 800; margin-top: 5px; display: block; }
 
-/* SVG Flow Lines */
-.connections-layer { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-.dash-line { stroke: #222; stroke-width: 2.5; stroke-dasharray: 8; transition: 0.4s; }
-@keyframes flow { to { stroke-dashoffset: 16; } }
-.fwd { animation: flow 1s linear infinite reverse; }
-.rev { animation: flow 1s linear infinite; }
+/* Node Coords */
+.center-pos { top: 50%; left: 50%; }
+.solar-pos { top: 12%; left: 58%; }
+.wind-pos { top: 28%; left: 88%; }
+.battery-pos { top: 58%; left: 92%; }
+.home-pos { top: 88%; left: 78%; }
+.charger-pos { top: 88%; left: 35%; }
+.heatpump-pos { top: 62%; left: 10%; }
+.grid-pos { top: 28%; left: 15%; }
 
-/* Sim Lab & Telemetry */
-.sim-lab, .telemetry-section { width: 100%; max-width: 800px; background: var(--c); padding: 25px; border-radius: var(--rd); border: 1px solid var(--bd); margin-top: 20px; }
-.sim-header { font-size: 0.7rem; font-weight: 900; color: var(--blue); text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-.sim-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-.sim-group label { display: block; font-size: 0.6rem; color: var(--tx-m); margin-bottom: 8px; font-weight: 800; }
-input[type="range"] { width: 100%; accent-color: var(--blue); cursor: pointer; }
+/* Bottom Metrics Cards */
+.section-title { font-size: 1.6rem; font-weight: 700; margin: 30px 0 15px; }
+.ess-card { background: var(--card-bg); border-radius: 30px; padding: 30px; }
+.bms-status { display: flex; align-items: center; gap: 12px; font-weight: 700; margin-bottom: 15px; }
+.ess-metrics-list p { margin: 8px 0; font-size: 1.1rem; }
 
-.telemetry-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.tele-row { display: flex; justify-content: space-between; background: var(--b); padding: 12px; border-radius: 8px; border: 1px solid var(--bd); }
-.tele-row span { font-size: 0.65rem; color: var(--tx-m); font-weight: 800; text-transform: uppercase; }
-.tele-row strong { font-family: monospace; color: var(--blue); }
+.acc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.acc-card { background: var(--card-bg); border-radius: 25px; padding: 25px; text-align: center; }
+.acc-val { font-size: 2.2rem; font-weight: 900; display: block; }
+.acc-unit { font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: block; }
+.acc-meta { font-size: 0.6rem; color: var(--text-muted); font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-.green { color: var(--green); } .blue { color: var(--blue); } .red { color: var(--red); } .gold { color: var(--gold); }
-.node-active-green { border-color: var(--green) !important; }
-.node-active-blue { border-color: var(--blue) !important; }
-.node-idle { border-color: var(--red) !important; opacity: 0.4; }
+/* Global Utilities */
+.green-text { color: var(--green); }
+.blue-text { color: var(--blue); }
+.red-text { color: var(--red); }
+.orange-text { color: #f97316; }
+.border-blue { border-color: var(--blue); }
+.border-green { border-color: var(--green); }
+.border-red { border-color: var(--red); }
