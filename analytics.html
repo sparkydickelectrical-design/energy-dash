@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        // High-Security Auth Guard
+        if (localStorage.getItem('peakShavingAuth') !== 'true') { window.location.href = "login.html"; }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Professional Operations Suite | PeakShaving Hub</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css?v=13.0">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-top">
+            <div class="brand-logo">PeakShaving <span>OPS CENTER</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Dashboard</a>
+                <a href="savings.html" class="nav-item">Financials</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="#" onclick="logout()" class="nav-item" style="color:#ef4444">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="scroll-content">
+        <div class="analytics-grid">
+            <div class="stat-card">
+                <span class="stat-label">Inverter Performance Ratio</span>
+                <span class="stat-value">98.42%</span>
+                <span class="stat-trend green-text">▲ 0.12% (Optimized)</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Peak Discharge Depth</span>
+                <span class="stat-value">82.1 <small>%</small></span>
+                <span class="stat-trend blue-text">Cycles: 1,242</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Grid THD (Voltage)</span>
+                <span class="stat-value">1.4 <small>%</small></span>
+                <span class="stat-trend green-text">Clean Waveform</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Thermal Delta</span>
+                <span class="stat-value">+4.2°C</span>
+                <span class="stat-trend">Ambient Sync OK</span>
+            </div>
+        </div>
+
+        <div class="daily-header"><h2>Energy Correlation & System Flux</h2></div>
+        
+        <div class="daily-card" style="height: 450px; padding: 25px; background: #080808; border-color: #1a1a1a;">
+            <canvas id="opsChart"></canvas>
+        </div>
+
+        <div class="daily-header"><h2>Phase Balancing & Load Distribution</h2></div>
+        <div class="daily-card" style="padding: 25px;">
+            <div class="phase-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                <div class="phase-box" style="background:#111; padding:15px; border-radius:15px; border:1px solid #222; text-align:center;">
+                    <div style="font-size:0.65rem; color:#94a3b8; font-weight:800;">L1 VOLTAGE</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#4ade80;">231.4V</div>
+                    <div style="font-size:0.6rem; color:#64748b;">Current: 4.2A</div>
+                </div>
+                <div class="phase-box" style="background:#111; padding:15px; border-radius:15px; border:1px solid #222; text-align:center;">
+                    <div style="font-size:0.65rem; color:#94a3b8; font-weight:800;">L2 VOLTAGE</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#4ade80;">230.8V</div>
+                    <div style="font-size:0.6rem; color:#64748b;">Current: 3.8A</div>
+                </div>
+                <div class="phase-box" style="background:#111; padding:15px; border-radius:15px; border:1px solid #222; text-align:center;">
+                    <div style="font-size:0.65rem; color:#94a3b8; font-weight:800;">L3 VOLTAGE</div>
+                    <div style="font-size:1.4rem; font-weight:900; color:#4ade80;">232.1V</div>
+                    <div style="font-size:0.6rem; color:#64748b;">Current: 4.1A</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="daily-header"><h2>Advanced Telemetry Audit</h2></div>
+        <div class="daily-card" style="padding: 0; overflow: hidden; border-radius: 24px;">
+            <table class="audit-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp (GMT)</th>
+                        <th>Device Instance</th>
+                        <th>Event Severity</th>
+                        <th style="text-align:right;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>26/02 01:00:05</td><td>GRID-GATEWAY-01</td><td>Tariff Switch: NIGHT_ECONOMY</td><td style="text-align:right;" class="green-text">OPERATIONAL</td></tr>
+                    <tr><td>26/02 01:02:44</td><td>BMS-STRING-A</td><td>Charge Init: 3500W @ 54.4V</td><td style="text-align:right;" class="blue-text">CHARGING</td></tr>
+                    <tr><td>25/02 18:45:11</td><td>INV-MASTER-04</td><td>Peak Shaving Engaged: 4.2kW</td><td style="text-align:right;">ACTIVE</td></tr>
+                    <tr><td>25/02 14:12:33</td><td>PV-MPPT-1</td><td>Max Power Tracking: 4420W</td><td style="text-align:right; color:#f97316;">PEAK_YIELD</td></tr>
+                    <tr><td>25/02 12:00:00</td><td>SYS-CORE</td><td>Cloud Telemetry Sync: 100%</td><td style="text-align:right;">VERIFIED</td></tr>
+                    <tr><td>25/02 08:30:15</td><td>IOT-HEAT-PUMP</td><td>Load Shedding: Protocol Alpha</td><td style="text-align:right; color:#3b82f6;">REDUCED</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        function logout() { localStorage.removeItem('peakShavingAuth'); window.location.href = "login.html"; }
+
+        // Professional Multi-Axis Operations Chart
+        const ctx = document.getElementById('opsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '23:59'],
+                datasets: [
+                    {
+                        label: 'Battery SoC (%)',
+                        data: [20, 85, 100, 92, 70, 45, 25],
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168, 85, 247, 0.08)',
+                        fill: true,
+                        yAxisID: 'ySOC',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Renewable Yield (kW)',
+                        data: [0, 0, 1.4, 5.2, 4.1, 0.6, 0],
+                        borderColor: '#4ade80',
+                        yAxisID: 'yPower',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 2
+                    },
+                    {
+                        label: 'House Demand (kW)',
+                        data: [0.8, 0.6, 2.5, 1.8, 4.8, 3.6, 1.2],
+                        borderColor: '#3b82f6',
+                        borderDash: [5, 5],
+                        yAxisID: 'yPower',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', align: 'end', labels: { color: '#64748b', usePointStyle: true, font: { size: 11, weight: 'bold' } } }
+                },
+                scales: {
+                    yPower: { 
+                        type: 'linear', display: true, position: 'left',
+                        grid: { color: 'rgba(255,255,255,0.03)' },
+                        ticks: { color: '#64748b', font: { size: 10 } },
+                        title: { display: true, text: 'POWER (kW)', color: '#64748b', font: { size: 10, weight: 'bold' } }
+                    },
+                    ySOC: { 
+                        type: 'linear', display: true, position: 'right',
+                        min: 0, max: 100,
+                        grid: { drawOnChartArea: false },
+                        ticks: { color: '#a855f7', font: { size: 10 } },
+                        title: { display: true, text: 'CHARGE (%)', color: '#a855f7', font: { size: 10, weight: 'bold' } }
+                    },
+                    x: { 
+                        ticks: { color: '#64748b', font: { size: 10 } },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
