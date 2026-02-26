@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Master Hub | Simulation Pro</title>
+    <title>Master Hub | PeakShaving Pro</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
@@ -35,11 +35,12 @@
         .nav-item.active { color: var(--blue); }
 
         /* --- MAIN CONTENT --- */
-        .main-content { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+        .main-content::-webkit-scrollbar { display: none; }
 
         .telemetry-bar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 15px; }
         .tel-row { display: flex; justify-content: space-between; align-items: center; }
-        .tel-lbl { font-size: 0.85rem; color: #888; }
+        .tel-lbl { font-size: 0.85rem; color: #888; font-weight: 600; }
         .tel-val { font-weight: 900; }
 
         /* --- RADIAL HUB --- */
@@ -64,14 +65,15 @@
         .pos-n1 { top: 12%; left: 60%; } .pos-n2 { top: 28%; left: 88%; } .pos-n3 { top: 58%; left: 92%; }
         .pos-n4 { top: 88%; left: 78%; } .pos-n5 { top: 88%; left: 35%; } .pos-n6 { top: 62%; left: 10%; } .pos-n7 { top: 28%; left: 15%; }
 
-        /* --- CONTROL SLIDERS (The Missing Bit) --- */
-        .control-panel { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #1a1a1a; margin-top: 20px; }
-        .control-panel h2 { font-size: 1rem; margin-bottom: 15px; color: var(--blue); }
-        .slider-group { margin-bottom: 15px; }
-        .slider-header { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; color: #888; }
+        /* --- CONTROL SLIDERS PANEL --- */
+        .control-panel { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #1a1a1a; margin-top: 10px; margin-bottom: 40px; }
+        .control-panel h2 { font-size: 1rem; margin-bottom: 20px; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; }
+        .slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .slider-group { margin-bottom: 5px; }
+        .slider-header { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 8px; color: #888; font-weight: 700; text-transform: uppercase; }
         input[type=range] { width: 100%; cursor: pointer; accent-color: var(--blue); }
 
-        /* Colors */
+        /* UI Colors */
         .blue-text { color: var(--blue); } .green-text { color: var(--green); } .red-text { color: var(--red); }
         .b-blue { border-color: var(--blue); } .b-blue i { color: var(--blue); }
         .b-green { border-color: var(--green); } .b-green i { color: var(--green); }
@@ -95,12 +97,12 @@
     <div class="main-content">
         <header class="telemetry-bar">
             <div class="tel-row">
-                <span class="tel-lbl">Grid Status</span>
-                <span class="tel-val red-text" id="tel-grid">0.8 kW</span>
+                <span class="tel-lbl">Current Utility Load</span>
+                <span class="tel-val" id="tel-grid">0.0 kW</span>
             </div>
             <div class="tel-row">
-                <span class="tel-lbl">Total Yield</span>
-                <span class="tel-val green-text" id="tel-yield">3.1 kW</span>
+                <span class="tel-lbl">System Generation</span>
+                <span class="tel-val green-text" id="tel-yield">0.0 kW</span>
             </div>
         </header>
 
@@ -121,45 +123,96 @@
                     <span class="node-tag">HUB CORE</span>
                 </div>
 
-                <div class="node-box pos-n1"><div class="node-circle" id="node-solar"><i data-lucide="sun"></i><span class="val">2.4</span></div><span class="node-tag">SOLAR PV</span></div>
-                <div class="node-box pos-n2"><div class="node-circle" id="node-wind"><i data-lucide="wind"></i><span class="val">0.7</span></div><span class="node-tag">WIND</span></div>
-                <div class="node-box pos-n3"><div class="node-circle" id="node-batt"><i data-lucide="battery"></i><span class="val">-0.5</span></div><span class="node-tag">STORAGE</span></div>
-                <div class="node-box pos-n4"><div class="node-circle b-blue" id="node-home"><i data-lucide="home"></i><span class="val">1.1</span></div><span class="node-tag">HOME</span></div>
-                <div class="node-box pos-n5"><div class="node-circle b-green" id="node-ev"><i data-lucide="car"></i><span class="val">0.0</span></div><span class="node-tag">EV</span></div>
-                <div class="node-box pos-n6"><div class="node-circle" id="node-hp"><i data-lucide="thermometer"></i><span class="val">0.6</span></div><span class="node-tag">HEAT PUMP</span></div>
-                <div class="node-box pos-n7"><div class="node-circle b-red" id="node-grid"><i data-lucide="utility-pole"></i><span class="val">0.8</span></div><span class="node-tag">UTILITY</span></div>
+                <div class="node-box pos-n1"><div class="node-circle" id="node-solar"><i data-lucide="sun"></i><span class="val">0.0</span></div><span class="node-tag">SOLAR PV</span></div>
+                <div class="node-box pos-n2"><div class="node-circle" id="node-wind"><i data-lucide="wind"></i><span class="val">0.0</span></div><span class="node-tag">WIND</span></div>
+                <div class="node-box pos-n3"><div class="node-circle" id="node-batt"><i data-lucide="battery"></i><span class="val">0.0</span></div><span class="node-tag">STORAGE</span></div>
+                <div class="node-box pos-n4"><div class="node-circle b-blue" id="node-home"><i data-lucide="home"></i><span class="val">0.0</span></div><span class="node-tag">HOME</span></div>
+                <div class="node-box pos-n5"><div class="node-circle b-green" id="node-ev"><i data-lucide="car"></i><span class="val">0.0</span></div><span class="node-tag">EV CHARGE</span></div>
+                <div class="node-box pos-n6"><div class="node-circle" id="node-hp"><i data-lucide="thermometer"></i><span class="val">0.0</span></div><span class="node-tag">HEAT PUMP</span></div>
+                <div class="node-box pos-n7"><div class="node-circle b-red" id="node-grid"><i data-lucide="utility-pole"></i><span class="val">0.0</span></div><span class="node-tag">UTILITY</span></div>
             </div>
         </section>
 
         <div class="control-panel">
-            <h2>Live System Simulation</h2>
-            <div class="slider-group">
-                <div class="slider-header"><span>Solar Intensity</span><span id="v-solar">2.4 kW</span></div>
-                <input type="range" id="s-solar" min="0" max="10" step="0.1" value="2.4">
-            </div>
-            <div class="slider-group">
-                <div class="slider-header"><span>House Load</span><span id="v-home">1.1 kW</span></div>
-                <input type="range" id="s-home" min="0" max="10" step="0.1" value="1.1">
+            <h2>Telemetry Simulation</h2>
+            <div class="slider-grid">
+                <div class="slider-group">
+                    <div class="slider-header"><span>Solar PV</span><span id="v-solar">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-solar" min="0" max="10" step="0.1" value="3.5">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>Wind Yield</span><span id="v-wind">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-wind" min="0" max="5" step="0.1" value="0.8">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>Battery (Net)</span><span id="v-batt">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-batt" min="-5" max="5" step="0.1" value="-0.5">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>Home Load</span><span id="v-home">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-home" min="0" max="10" step="0.1" value="1.2">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>EV Charger</span><span id="v-ev">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-ev" min="0" max="7.4" step="0.1" value="0.0">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span>Heat Pump</span><span id="v-hp">0.0 kW</span></div>
+                    <input type="range" class="sim-input" id="s-hp" min="0" max="5" step="0.1" value="0.6">
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-        const sliders = { solar: document.getElementById('s-solar'), home: document.getElementById('s-home') };
-        const displays = { solar: document.getElementById('v-solar'), home: document.getElementById('v-home') };
-        const nodes = { solar: document.getElementById('node-solar').querySelector('.val'), home: document.getElementById('node-home').querySelector('.val') };
-
-        const updateSim = () => {
-            displays.solar.innerText = sliders.solar.value + " kW";
-            displays.home.innerText = sliders.home.value + " kW";
-            nodes.solar.innerText = sliders.solar.value;
-            nodes.home.innerText = sliders.home.value;
-            document.getElementById('tel-yield').innerText = sliders.solar.value + " kW";
+        
+        const inputs = {
+            solar: document.getElementById('s-solar'),
+            wind: document.getElementById('s-wind'),
+            batt: document.getElementById('s-batt'),
+            home: document.getElementById('s-home'),
+            ev: document.getElementById('s-ev'),
+            hp: document.getElementById('s-hp')
         };
 
-        sliders.solar.oninput = updateSim;
-        sliders.home.oninput = updateSim;
+        const updateSimulation = () => {
+            const vals = {
+                solar: parseFloat(inputs.solar.value),
+                wind: parseFloat(inputs.wind.value),
+                batt: parseFloat(inputs.batt.value),
+                home: parseFloat(inputs.home.value),
+                ev: parseFloat(inputs.ev.value),
+                hp: parseFloat(inputs.hp.value)
+            };
+
+            // Update UI Labels & Node Numbers
+            for (let key in vals) {
+                document.getElementById(`v-${key}`).innerText = vals[key].toFixed(1) + " kW";
+                document.getElementById(`node-${key}`).querySelector('.val').innerText = vals[key].toFixed(1);
+            }
+
+            // Calculate Grid Balance: Demand - Production
+            // Production = Solar + Wind - Battery (if battery is negative, it's charging/consuming)
+            const production = vals.solar + vals.wind;
+            const consumption = vals.home + vals.ev + vals.hp - vals.batt; 
+            const gridBalance = consumption - production;
+
+            const gridEl = document.getElementById('node-grid').querySelector('.val');
+            gridEl.innerText = gridBalance.toFixed(1);
+            
+            // Header Telemetry
+            document.getElementById('tel-yield').innerText = production.toFixed(1) + " kW";
+            const telGrid = document.getElementById('tel-grid');
+            telGrid.innerText = gridBalance.toFixed(1) + " kW";
+            telGrid.className = gridBalance > 0 ? "tel-val red-text" : "tel-val green-text";
+        };
+
+        // Attach listeners
+        Object.values(inputs).forEach(input => input.oninput = updateSimulation);
+        
+        // Initial Run
+        updateSimulation();
     </script>
 </body>
 </html>
