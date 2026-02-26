@@ -16,18 +16,17 @@
             --red: #ef4444;
         }
 
-        /* 1. LAYOUT RESET */
         body {
             background: var(--bg);
             color: #fff;
             font-family: -apple-system, sans-serif;
             margin: 0; 
-            display: flex; /* Creates Sidebar/Content split */
+            display: flex; 
             height: 100vh; 
             overflow: hidden;
         }
 
-        /* 2. SIDEBAR NAVIGATION */
+        /* SIDEBAR */
         .sidebar {
             width: 75px; 
             background: var(--side-bg); 
@@ -47,12 +46,11 @@
         .nav-item span { font-size: 0.5rem; font-weight: 800; }
         .nav-item.active { color: var(--blue); }
 
-        /* 3. MAIN CONTENT AREA */
+        /* MAIN CONTENT */
         .main-content { 
             flex-grow: 1; 
             overflow-y: auto; 
             padding: 20px; 
-            position: relative; 
         }
 
         .telemetry-bar { 
@@ -67,15 +65,19 @@
         .tel-lbl { font-size: 0.85rem; color: #888; font-weight: 600; }
         .tel-val { font-weight: 900; }
 
-        /* 4. RADIAL HUB & LINES */
+        /* RADIAL HUB FIX - Absolute coordinate space */
         .radial-section { 
             position: relative; 
             height: 400px; 
-            width: 100%; 
-            max-width: 400px; 
+            width: 400px; /* Fixed width to match SVG coordinate system */
             margin: 0 auto 40px auto; 
         }
-        .radial-hub { position: relative; width: 100%; height: 100%; }
+
+        .radial-hub { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+        }
 
         .svg-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
@@ -86,31 +88,43 @@
         .anim-flow { animation: flowLine 10s linear infinite; }
         @keyframes flowLine { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 
-        /* 5. NODES */
-        .node-box { position: absolute; transform: translate(-50%, -50%); text-align: center; z-index: 10; }
+        /* NODES SPREAD OUT */
+        .node-box { 
+            position: absolute; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            z-index: 10; 
+            width: 80px; /* Container for node + label */
+        }
+
         .node-circle {
             width: 62px; height: 62px; background: #000; border: 2px solid #222; border-radius: 50%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: 0 auto;
         }
         .node-circle i { width: 18px; height: 18px; color: #555; margin-bottom: 2px; }
         .node-circle .val { font-weight: 900; font-size: 0.85rem; line-height: 1; }
-        .node-tag { font-size: 0.55rem; color: #666; font-weight: 800; margin-top: 8px; display: block; }
+        .node-tag { font-size: 0.55rem; color: #666; font-weight: 800; margin-top: 8px; display: block; white-space: nowrap; }
 
-        /* Positions */
+        /* POSITION COORDINATES - Fixed to spread nodes to ends of lines */
         .pos-center { top: 50%; left: 50%; }
-        .pos-n1 { top: 12%; left: 60%; } .pos-n2 { top: 28%; left: 88%; } .pos-n3 { top: 58%; left: 92%; }
-        .pos-n4 { top: 88%; left: 78%; } .pos-n5 { top: 88%; left: 35%; } .pos-n6 { top: 62%; left: 10%; } .pos-n7 { top: 28%; left: 15%; }
+        .pos-n1 { top: 12%; left: 60%; } /* Solar */
+        .pos-n2 { top: 28%; left: 88%; } /* Wind */
+        .pos-n3 { top: 58%; left: 92%; } /* Storage */
+        .pos-n4 { top: 88%; left: 78%; } /* Home */
+        .pos-n5 { top: 88%; left: 35%; } /* EV */
+        .pos-n6 { top: 62%; left: 10%; } /* Heat Pump */
+        .pos-n7 { top: 28%; left: 15%; } /* Grid */
 
-        /* Colors & Pulse */
+        /* COLORS & PULSE */
         .green-text { color: var(--green); } .blue-text { color: var(--blue); } .red-text { color: var(--red); }
         .b-blue { border-color: var(--blue); } .b-blue i { color: var(--blue); }
         .b-green { border-color: var(--green); } .b-green i { color: var(--green); }
         .b-red { border-color: var(--red); } .b-red i { color: var(--red); }
-        
         .pulse-blue { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); animation: pulse 2s infinite; }
         @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
 
-        /* 6. DATA BLOCKS */
+        /* DATA BLOCKS */
         .grp-title { font-size: 1.2rem; font-weight: 800; margin: 30px 0 15px; }
         .ess-block { background: var(--card); border-radius: 25px; padding: 25px; border: 1px solid #1a1a1a; margin-bottom: 30px;}
         .ess-list { list-style: none; padding: 0; margin: 0; }
@@ -138,7 +152,7 @@
         <header class="telemetry-bar">
             <div class="tel-row">
                 <span class="tel-lbl">Grid Import Status</span>
-                <span class="tel-val red-text" id="top-grid">0.85 kW</span>
+                <span class="tel-val red-text">0.85 kW</span>
             </div>
             <div class="tel-row">
                 <span class="tel-lbl">Active Renewable Yield</span>
@@ -159,8 +173,8 @@
                 </svg>
 
                 <div class="node-box pos-center">
-                    <div class="node-circle core-node pulse-blue"><i data-lucide="cpu" class="blue-text"></i></div>
-                    <span class="node-tag">CORE</span>
+                    <div class="node-circle pulse-blue"><i data-lucide="cpu" class="blue-text"></i></div>
+                    <span class="node-tag">CORE ACTIVE</span>
                 </div>
 
                 <div class="node-box pos-n1">
@@ -177,11 +191,11 @@
                 </div>
                 <div class="node-box pos-n4">
                     <div class="node-circle b-blue" id="n-home"><i data-lucide="home"></i><span class="val">1.1</span></div>
-                    <span class="node-tag">HOME</span>
+                    <span class="node-tag">HOME LOAD</span>
                 </div>
                 <div class="node-box pos-n5">
                     <div class="node-circle b-green" id="n-ev"><i data-lucide="car"></i><span class="val">0.0</span></div>
-                    <span class="node-tag">EV CHARGE</span>
+                    <span class="node-tag">EV CHARGER</span>
                 </div>
                 <div class="node-box pos-n6">
                     <div class="node-circle" id="n-hp"><i data-lucide="thermometer"></i><span class="val">0.6</span></div>
@@ -194,19 +208,20 @@
             </div>
         </section>
 
-        <h2 class="grp-title">Energy Storage System (ESS)</h2>
+        <h2 class="grp-title">Energy Storage System (ESS) Metrics</h2>
         <div class="ess-block">
             <ul class="ess-list">
                 <li>92% Charge</li>
                 <li>DC Voltage 54.21 V</li>
                 <li>Internal Temp 24.5 °C</li>
+                <li>Cycle Count 122</li>
             </ul>
         </div>
 
         <h2 class="grp-title">24h Accumulation</h2>
         <div class="acc-grid">
-            <div class="acc-box"><span class="acc-num">14.22</span><div class="acc-lbl">SOLAR kWh</div></div>
-            <div class="acc-box"><span class="acc-num">8.45</span><div class="acc-lbl">HOME kWh</div></div>
+            <div class="acc-box"><span class="acc-num">14.22</span><div class="acc-lbl">SOLAR GENERATION</div></div>
+            <div class="acc-box"><span class="acc-num">8.45</span><div class="acc-lbl">HOME DEMAND</div></div>
         </div>
     </div>
 
