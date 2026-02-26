@@ -2,74 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | PeakShaving Pro</title>
+    <title>Master Hub | PeakShaving Pro</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <button class="mobile-toggle" id="menuBtn"><i data-lucide="menu"></i></button>
     <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="nav-brand">PeakShaving <span class="green-text">PRO</span></div>
+        <aside class="sidebar">
+            <div class="nav-brand">PeakShaving <span class="green">PRO</span></div>
             <nav class="nav-menu">
-                <a href="#" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+                <a href="index.html" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
                 <a href="#" class="nav-link"><i data-lucide="banknote"></i> Savings</a>
                 <a href="#" class="nav-link"><i data-lucide="bar-chart-3"></i> Analytics</a>
             </nav>
             <div class="status-container">
-                <div class="status-pill"><div class="indicator-dot"></div> System Online</div>
-                <div id="sync-stat" style="font-size:0.55rem; color:var(--tx-m); margin-top:5px; font-weight: 600;">BANGOR CLOUD SYNC: ACTIVE</div>
+                <div class="status-pill"><div class="indicator-dot"></div> System Live</div>
+                <div id="sync-msg" style="font-size:0.55rem; color:var(--tx-m); margin-top:5px;">BANGOR_UK: CONNECTED</div>
             </div>
         </aside>
 
         <main class="main-content">
             <div class="weather-bar">
-                <div><i data-lucide="map-pin" style="width:14px"></i> Bangor, UK</div>
-                <div id="live-temp"><i data-lucide="thermometer" style="width:14px"></i> --°C</div>
-                <div id="live-wind"><i data-lucide="wind" style="width:14px"></i> -- mph</div>
+                <div id="w-loc"><i data-lucide="map-pin" size="14"></i> Bangor, UK</div>
+                <div id="w-temp"><i data-lucide="thermometer" size="14"></i> --°C</div>
+                <div id="w-wind"><i data-lucide="wind" size="14"></i> -- mph</div>
             </div>
 
             <section class="radial-container">
                 <svg class="connections-layer" viewBox="0 0 400 400">
-                    <line id="line-solar" x1="200" y1="200" x2="200" y2="50" class="dash-line flow-in" />
-                    <line id="line-wind" x1="200" y1="200" x2="330" y2="100" class="dash-line flow-in" />
-                    <line id="line-batt" x1="200" y1="200" x2="350" y2="220" class="dash-line flow-in" />
-                    <line id="line-home" x1="200" y1="200" x2="280" y2="340" class="dash-line flow-out" />
-                    <line id="line-ev" x1="200" y1="200" x2="120" y2="340" class="dash-line" />
-                    <line id="line-hp" x1="200" y1="200" x2="50" y2="220" class="dash-line flow-out" />
-                    <line id="line-grid" x1="200" y1="200" x2="70" y2="100" class="dash-line flow-grid" />
+                    <line id="l-solar" x1="200" y1="200" x2="200" y2="40" class="dash-line fwd" style="stroke:var(--green)"/>
+                    <line id="l-wind" x1="200" y1="200" x2="340" y2="100" class="dash-line fwd" style="stroke:var(--green)"/>
+                    <line id="l-batt" x1="200" y1="200" x2="360" y2="280" class="dash-line fwd" style="stroke:var(--green)"/>
+                    <line id="l-home" x1="200" y1="200" x2="200" y2="360" class="dash-line rev" style="stroke:var(--blue)"/>
+                    <line id="l-ev" x1="200" y1="200" x2="40" y2="280" class="dash-line" style="stroke:var(--red); opacity:0.3"/>
+                    <line id="l-grid" x1="200" y1="200" x2="60" y2="100" class="dash-line fwd" style="stroke:var(--red)"/>
                 </svg>
 
-                <div class="node-wrapper center-pos"><div class="node" style="width:90px;height:90px;border-color:#222"><i data-lucide="zap" class="blue-text"></i></div><span class="external-label">Hub</span></div>
-                <div class="node-wrapper solar-pos"><div class="node"><i data-lucide="sun" class="gold-text"></i><span class="v" id="val-solar">2.4</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
-                <div class="node-wrapper wind-pos"><div class="node"><i data-lucide="wind" class="blue-text"></i><span class="v" id="val-wind">0.8</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
-                <div class="node-wrapper battery-pos"><div class="node"><i data-lucide="battery-charging" class="green-text"></i><span class="v">92</span><span class="u">% SOC</span></div><span class="external-label">Storage</span></div>
-                <div class="node-wrapper home-pos"><div class="node"><i data-lucide="home" class="blue-text"></i><span class="v" id="val-home">1.2</span><span class="u">kW</span></div><span class="external-label">Home</span></div>
-                <div class="node-wrapper charger-pos"><div id="node-ev" class="node"><i data-lucide="car"></i><span class="v" id="val-ev">0.0</span><span class="u">kW</span></div><span class="external-label">EV Charger</span></div>
-                <div class="node-wrapper heatpump-pos"><div class="node"><i data-lucide="snowflake" class="blue-text"></i><span class="v">0.6</span><span class="u">kW</span></div><span class="external-label">Heat Pump</span></div>
-                <div class="node-wrapper grid-pos"><div id="node-grid" class="node"><i data-lucide="utility-pole" id="icon-grid" class="red-text"></i><span class="v" id="val-grid">1.1</span><span class="u">kW</span></div><span class="external-label" id="lbl-grid">Grid Import</span></div>
+                <div class="node-wrapper p-center"><div class="node hub"><i data-lucide="zap" class="blue"></i></div><span class="external-label">Master Hub</span></div>
+                
+                <div class="node-wrapper p-n"><div class="node"><i data-lucide="sun" class="gold"></i><span class="v" id="v-solar">2.8</span><span class="u">kW</span></div><span class="external-label">Solar</span></div>
+                
+                <div class="node-wrapper p-ne"><div class="node"><i data-lucide="wind" class="blue"></i><span class="v" id="v-wind">0.4</span><span class="u">kW</span></div><span class="external-label">Wind</span></div>
+                
+                <div class="node-wrapper p-se"><div class="node node-active-green"><i data-lucide="battery-charging" class="green"></i><span class="v">88</span><span class="u">% SOC</span></div><span class="external-label">Storage</span></div>
+                
+                <div class="node-wrapper p-s"><div class="node node-active-blue"><i data-lucide="home" class="blue"></i><span class="v" id="v-home">1.4</span><span class="u">kW</span></div><span class="external-label">Home Load</span></div>
+                
+                <div class="node-wrapper p-sw"><div id="n-ev" class="node node-idle"><i data-lucide="car" class="red"></i><span class="v" id="v-ev">0.0</span><span class="u">kW</span></div><span class="external-label">EV Charger</span></div>
+                
+                <div class="node-wrapper p-nw"><div id="n-grid" class="node"><i data-lucide="utility-pole" id="i-grid" class="red"></i><span class="v" id="v-grid">0.9</span><span class="u">kW</span></div><span class="external-label" id="l-grid-txt">Grid Import</span></div>
             </section>
 
             <section class="sim-lab">
-                <div class="sim-header"><i data-lucide="flask-conical" style="width:16px"></i> Simulation Lab</div>
+                <div style="font-size:0.7rem; font-weight:900; color:var(--blue); text-transform:uppercase; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                    <i data-lucide="flask-conical" size="14"></i> Lab Controls
+                </div>
                 <div class="sim-controls">
                     <div class="sim-group">
-                        <label>Solar Generation (kW)</label>
-                        <input type="range" id="sim-solar" min="0" max="8" step="0.1" value="2.4" oninput="runSim()">
+                        <label>Solar Generation</label>
+                        <input type="range" id="s-solar" min="0" max="10" step="0.1" value="2.8" oninput="sim()">
                     </div>
                     <div class="sim-group">
-                        <label>EV Charging Load (kW)</label>
-                        <input type="range" id="sim-ev" min="0" max="11" step="0.1" value="0" oninput="runSim()">
+                        <label>EV Charger Load</label>
+                        <input type="range" id="s-ev" min="0" max="11" step="0.5" value="0" oninput="sim()">
                     </div>
                     <div class="sim-group">
-                        <label>Grid Status</label>
-                        <select id="sim-grid" onchange="runSim()">
-                            <option value="clean">Clean (Normal Import)</option>
-                            <option value="dirty">Dirty (Peak Shave Active)</option>
+                        <label>Grid Mode</label>
+                        <select id="s-grid" onchange="sim()" style="width:100%; background:var(--b); color:#fff; border:1px solid var(--bd); padding:5px; border-radius:4px;">
+                            <option value="import">Normal (Import)</option>
+                            <option value="peak">Peak Shave (Battery)</option>
                         </select>
-                    </div>
-                    <div class="sim-group" style="display:flex; align-items:flex-end;">
-                        <button onclick="location.reload()" style="width:100%; padding:8px; background:var(--bd); border:none; color:var(--tx-m); border-radius:6px; font-size:0.7rem; font-weight:800; cursor:pointer;">RESET TO LIVE DATA</button>
                     </div>
                 </div>
             </section>
@@ -78,96 +80,69 @@
 
     <script>
         lucide.createIcons();
-        let isSimulating = false;
+        let isSim = false;
 
-        async function fetchLiveData() {
-            if (isSimulating) return;
+        async function getLive() {
+            if(isSim) return;
             try {
-                // Weather API (Bangor)
-                const wRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2274&longitude=-4.1293&current=temperature_2m,wind_speed_10m');
-                const wData = await wRes.json();
-                document.getElementById('live-temp').innerHTML = `<i data-lucide="thermometer" style="width:14px"></i> ${wData.current.temperature_2m}°C`;
-                document.getElementById('live-wind').innerHTML = `<i data-lucide="wind" style="width:14px"></i> ${wData.current.wind_speed_10m} mph`;
-
-                // Carbon Intensity API
-                const cRes = await fetch('https://api.carbonintensity.org.uk/intensity');
-                const cData = await cRes.json();
-                const intensity = cData.data[0].intensity.index;
-                
-                if (intensity === 'high' || intensity === 'very high') {
-                    updateGridUI(true);
-                } else {
-                    updateGridUI(false);
-                }
+                const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=53.2274&longitude=-4.1293&current=temperature_2m,wind_speed_10m');
+                const d = await r.json();
+                document.getElementById('w-temp').innerHTML = `<i data-lucide="thermometer" size="14"></i> ${d.current.temperature_2m}°C`;
+                document.getElementById('w-wind').innerHTML = `<i data-lucide="wind" size="14"></i> ${d.current.wind_speed_10m} mph`;
                 lucide.createIcons();
-            } catch (e) { console.error("API Error", e); }
+            } catch(e) {}
         }
 
-        function updateGridUI(isDirty) {
-            const node = document.getElementById('node-grid');
-            const icon = document.getElementById('icon-grid');
-            const label = document.getElementById('lbl-grid');
-            const line = document.getElementById('line-grid');
-            const val = document.getElementById('val-grid');
+        function sim() {
+            isSim = true;
+            document.getElementById('sync-msg').innerText = "SIMULATION_MODE: ACTIVE";
+            document.getElementById('sync-msg').style.color = "var(--gold)";
 
-            if (isDirty) {
-                node.style.borderColor = "var(--blue)";
-                icon.className = "blue-text";
-                label.innerText = "Peak Shaving";
-                line.style.stroke = "var(--blue)";
-                val.innerText = "0.1";
+            // Solar
+            const sol = document.getElementById('s-solar').value;
+            document.getElementById('v-solar').innerText = sol;
+            document.getElementById('l-solar').style.opacity = sol > 0 ? "1" : "0.1";
+
+            // EV Logic
+            const ev = parseFloat(document.getElementById('s-ev').value);
+            const nEv = document.getElementById('n-ev');
+            const lEv = document.getElementById('l-ev');
+            document.getElementById('v-ev').innerText = ev.toFixed(1);
+            if(ev > 0) {
+                nEv.className = "node node-active-green";
+                nEv.querySelector('i').className = "green";
+                lEv.className = "dash-line rev";
+                lEv.style.stroke = "var(--green)";
+                lEv.style.opacity = "1";
             } else {
-                node.style.borderColor = "var(--red)";
-                icon.className = "red-text";
-                label.innerText = "Grid Import";
-                line.style.stroke = "var(--red)";
-                val.innerText = "1.1";
-            }
-        }
-
-        function runSim() {
-            isSimulating = true;
-            document.getElementById('sync-stat').innerText = "MANUAL SIMULATION ACTIVE";
-            document.getElementById('sync-stat').style.color = "var(--gold)";
-
-            // Update Solar
-            const sVal = document.getElementById('sim-solar').value;
-            document.getElementById('val-solar').innerText = sVal;
-            document.getElementById('line-solar').style.opacity = sVal > 0 ? "0.8" : "0.1";
-
-            // Update EV
-            const eVal = parseFloat(document.getElementById('sim-ev').value);
-            const evNode = document.getElementById('node-ev');
-            const evLine = document.getElementById('line-ev');
-            document.getElementById('val-ev').innerText = eVal.toFixed(1);
-
-            if (eVal > 0) {
-                evNode.className = "node node-charging";
-                evNode.querySelector('i').className = "green-text";
-                evLine.className = "dash-line flow-rev";
-                evLine.style.stroke = "var(--green)";
-                evLine.style.opacity = "1";
-            } else {
-                evNode.className = "node node-idle";
-                evNode.querySelector('i').className = "red-text";
-                evLine.className = "dash-line";
-                evLine.style.stroke = "var(--red)";
-                evLine.style.opacity = "0.3";
+                nEv.className = "node node-idle";
+                nEv.querySelector('i').className = "red";
+                lEv.className = "dash-line";
+                lEv.style.stroke = "var(--red)";
+                lEv.style.opacity = "0.3";
             }
 
-            // Update Grid
-            updateGridUI(document.getElementById('sim-grid').value === 'dirty');
+            // Grid Logic
+            const gMode = document.getElementById('s-grid').value;
+            const nG = document.getElementById('n-grid');
+            const lG = document.getElementById('l-grid');
+            if(gMode === 'peak') {
+                nG.style.borderColor = "var(--blue)";
+                document.getElementById('i-grid').className = "blue";
+                document.getElementById('l-grid-txt').innerText = "Peak Shaving";
+                lG.style.stroke = "var(--blue)";
+                document.getElementById('v-grid').innerText = "0.1";
+            } else {
+                nG.style.borderColor = "var(--red)";
+                document.getElementById('i-grid').className = "red";
+                document.getElementById('l-grid-txt').innerText = "Grid Import";
+                lG.style.stroke = "var(--red)";
+                document.getElementById('v-grid').innerText = "1.1";
+            }
             lucide.createIcons();
         }
 
-        const btn = document.getElementById('menuBtn');
-        btn.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('open');
-            lucide.createIcons();
-        });
-
-        fetchLiveData();
-        setInterval(fetchLiveData, 30000);
+        getLive(); setInterval(getLive, 60000);
     </script>
 </body>
 </html>
